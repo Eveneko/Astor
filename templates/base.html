@@ -1,5 +1,7 @@
 {% extends 'base_foot.html' %}
 
+{% block head %}{% endblock head %}
+
 {% block body %}
 
     <div class="header_con">
@@ -35,13 +37,12 @@
 		</div>
 	</div>
 
-
     <div class="search_bar clearfix">
-		<a href="/" class="logo fl"><img src="/static/images/logo.png" style="height:60px;position: relative; right: 20px;"></a>
+        <a href="/" class="logo fl"><img src="/static/images/logo.png" style="height:60px;position: relative; right: 20px;"></a>
         {% if page_name == 1 %}
             <div class="sub_page_name fl" style="height:60px;position: relative; left: 30px;">|&nbsp;&nbsp;&nbsp;{{ title }}</div>
         {% endif %}
-		<div class="search_con fl">
+        <div class="search_con fl">
              <script>
                 $(function () {
                     $('.input_btn').click(function () {
@@ -56,9 +57,9 @@
                 })
 
             </script>
-			<input type="text" class="input_text fl" name="q" placeholder="搜索算法">
-			<input type="button" class="input_btn fr" name="" value="搜索">
-		</div>
+            <input type="text" class="input_text fl" name="q" placeholder="搜索算法">
+            <input type="button" class="input_btn fr" name="" value="搜索">
+        </div>
 
         {% if guest_cart == 1 %}
             <div class="guest_cart fr">
@@ -66,9 +67,7 @@
                 <div class="goods_count fl" id="show_count">{{ cart_num }}</div>
             </div>
         {% endif %}
-	</div>
-
-
+    </div>
 
 
 {% block content %}
