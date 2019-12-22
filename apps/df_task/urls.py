@@ -4,7 +4,7 @@ from django.conf.urls import url
 
 from .views import *
 
-app_name = 'code-runer'
+app_name = 'df_task'
 
 urlpatterns = [
     url(r'^$', index, name="index"),
