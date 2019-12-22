@@ -20,6 +20,4 @@ urlpatterns = [
     url(r'^publish/$', publish, name="publish"),
     url(r'^publish_handle/$', publish_handle, name="publish_handle"),  # 发布算法
     url(r'^published/(\d+)$', published, name="published"),  # 已发布算法
-    url(r'^code_runner/$', code_runner, name="code_runner"),
-    url(r'^creat_task/$', creat_task, name="creat_task"),
 ]

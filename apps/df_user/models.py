@@ -2,8 +2,6 @@ from django.db import models
 
 from datetime import datetime
 
-
-
 import uuid
 
 
@@ -17,7 +15,9 @@ class UserInfo(models.Model):
     uphone = models.CharField(max_length=11, default="", verbose_name="手机号")
     # default,blank是python层面的约束，不影响数据库表结构，修改时不需要迁移 python manage.py makemigrations
 
-    user_payment_account = models.CharField(max_length=20, default=uuid.uuid1, verbose_name="user payment account",unique=True)
+    user_payment_account = models.CharField(max_length=20, default=uuid.uuid1, verbose_name="user payment account",
+                                            unique=True)
+
     # user_algorihtm_bought = models.ManyToManyField(GoodsInfo)  # 用户已购买的算法，是多对多的关系
 
     class Meta:
@@ -26,6 +26,7 @@ class UserInfo(models.Model):
 
     def __str__(self):
         return self.uname
+
 
 # class SellerInfo(models.Model):
 #     user = models.ForeignKey(UserInfo, on_delete=models.CASCADE, verbose_name="用户ID")
@@ -40,6 +41,8 @@ class UserInfo(models.Model):
 #         return "{0}创建算法商品{1}".format(self.user.uname, self.good.gtitle)
 
 from df_goods.models import GoodsInfo
+
+
 class GoodsBrowser(models.Model):
     user = models.ForeignKey(UserInfo, on_delete=models.CASCADE, verbose_name="用户ID")
     good = models.ForeignKey(GoodsInfo, on_delete=models.CASCADE, verbose_name="商品ID")

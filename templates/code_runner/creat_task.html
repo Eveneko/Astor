@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <title>ASTOR - Algorithm Store</title>
+        <meta content="Easy coding, Easy running" name="description" />
+        <meta content="Eveneko" name="author" />
+        <link rel="shortcut icon" href="../../static/assets/images/favicon.ico">
+
+        <!-- Dropzone css -->
+        <link href="../../static/plugins/dropzone/dist/dropzone.css" rel="stylesheet" type="text/css">
+
+        <!--Jquery steps CSS -->
+        <link rel="stylesheet" href="../../static/plugins/jquery-steps/jquery.steps.css">
+
+        <!-- summernote -->
+        <link rel="stylesheet" href="../../static/plugins/summernote/summernote-bs4.css">
+
+        <link href="http://cdn.bootstrapmb.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="../../static/assets/css/metismenu.min.css" rel="stylesheet" type="text/css">
+        <link href="../../static/assets/css/icons.css" rel="stylesheet" type="text/css">
+        <link href="../../static/assets/css/style.css" rel="stylesheet" type="text/css">
+    </head>
+
+    <body>
+
+        <div class="fr">
+{#                判断是否已经登录#}
+                {% if request.session.user_name|default:'' != '' %}
+{#                    default过滤器进行判断如果request.session.user_name不等于空字符串则用户登陆状态为true#}
+{#                    也就是说当用户为已登陆状态时则显示用户名#}
+
+{#                    class="login_info fl"#}
+                {% endif %}
+        </div>
+
+        <!-- Begin page -->
+        <div id="wrapper">
+
+            <!-- Top Bar Start -->
+            <div class="topbar">
+
+                <!-- LOGO -->
+                <div class="topbar-left">
+                    <a href="{% url "code-runner:index" %}" class="logo">
+                        <span class="logo-light">
+                            <img src="../../static/assets/images/logo-light.png" alt="" height="48">
+                        </span>
+                        <span class="logo-sm">
+                            <img src="../../static/assets/images/logo-sm.png" alt="" height="22">
+                        </span>
+                    </a>
+                </div>
+
+                <nav class="navbar-custom">
+                    <ul class="navbar-right list-inline float-right mb-0">
+                        <!-- search -->
+                        <li class="dropdown notification-list list-inline-item d-none d-md-inline-block">
+                            <form role="search" class="app-search">
+                                <div class="form-group mb-0">
+                                    <input type="text" class="form-control" placeholder="Search..">
+                                    <button type="submit"><i class="fa fa-search"></i></button>
+                                </div>
+                            </form>
+                        </li>
+
+                        <!-- full screen -->
+                        <li class="dropdown notification-list list-inline-item d-none d-md-inline-block">
+                            <a class="nav-link waves-effect" href="#" id="btn-fullscreen">
+                                <i class="ion ion-md-qr-scanner noti-icon"></i>
+                            </a>
+                        </li>
+
+                        <!-- notification -->
+                        <li class="dropdown notification-list list-inline-item">
+                            <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                <i class="ion ion-md-notifications noti-icon"></i>
+                                <span class="badge badge-pill badge-danger noti-icon-badge" id="notification_num1">0</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg">
+                                <!-- item-->
+                                <h6 class="dropdown-item-text">
+                                    Notifications (<a id="notification_num2">0</a>)
+                                </h6>
+                                <div class="slimscroll notification-item-list">
+                                    <!-- item-->
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item active">
+                                        <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
+                                        <p class="notify-details">Your task runs finished<span class="text-muted">Chick to see the result.</span></p>
+                                    </a>
+                                </div>
+                                <!-- All-->
+                                <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-all">
+                                    View all <i class="fi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="dropdown notification-list list-inline-item">
+                                    <div class="dropdown notification-list nav-pro-img">
+                                        <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                            <img src="../../static/assets/images/users/user-4.jpg" alt="user" class="rounded-circle">
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                                            <!-- item-->
+                                            <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle"></i> Welcome {{ request.session.user_name }}</a>
+                                            <a class="dropdown-item d-block" href="#"><i class="mdi mdi-home"></i> Profile</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item text-danger" href="{% url "df_user:logout" %}"><i class="mdi mdi-power text-danger"></i> Logout</a>
+                                        </div>
+                                    </div>
+                                </li>
+
+                    </ul>
+
+                    <ul class="list-inline menu-left mb-0">
+                        <li class="float-left">
+                            <button class="button-menu-mobile open-left waves-effect">
+                                <i class="mdi mdi-menu"></i>
+                            </button>
+                        </li>
+                        <!--
+                        <li class="d-none d-sm-block">
+                            <div class="dropdown pt-3 d-inline-block">
+                                <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Create
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Separated link</a>
+                                </div>
+                            </div>
+                        </li>
+                        -->
+                    </ul>
+
+                </nav>
+
+            </div>
+            <!-- Top Bar End -->
+
+            <!-- ========== Left Sidebar Start ========== -->
+            <div class="left side-menu">
+                <div class="slimscroll-menu" id="remove-scroll">
+
+                    <!--- Sidemenu -->
+                    <div id="sidebar-menu">
+                        <!-- Left Menu Start -->
+                        <ul class="metismenu" id="side-menu">
+                            <li class="menu-title">Overview</li>
+                            <li>
+                                <a href="{% url 'code-runner:index' %}" class="waves-effect">
+                                    <i class="ion ion-md-speedometer"></i><span class="badge badge-success badge-pill float-right">0</span> <span> Dashboard </span>
+                                </a>
+                            </li>
+
+                            <li class="menu-title">Task</li>
+
+                            <li>
+                                <a href="{% url 'code-runner:creat_task' %}" class="waves-effect waves-light"><i class="ion ion-md-clipboard"></i><span> Creat Task </span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'code-runner:task_record' %}" class="waves-effect waves-light"><i class="ion ion-md-list"></i><span> Task Record </span></a>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                    <!-- Sidebar -->
+                    <div class="clearfix"></div>
+
+                </div>
+                <!-- Sidebar -left -->
+
+            </div>
+            <!-- Left Sidebar End -->
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container-fluid">
+
+                        <div class="page-title-box">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <h4 class="page-title">Form Wizard</h4>
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Task</a></li>
+                                        <li class="breadcrumb-item active">Creat Task</li>
+                                    </ol>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="float-right d-none d-md-block">
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle arrow-none waves-effect waves-light" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="mdi mdi-settings mr-2"></i> Settings
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="#">Action</a>
+                                                <a class="dropdown-item" href="#">Another action</a>
+                                                <a class="dropdown-item" href="#">Something else here</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">Separated link</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- end row -->
+                        </div>
+                        <!-- end page-title -->
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="mt-0 header-title">Jquery Steps Wizard</h4>
+                                        <p class="text-muted mb-4">A powerful jQuery wizard plugin that
+                                            supports accessibility and HTML5</p>
+
+                                        <form id="form-horizontal" class="form-horizontal form-wizard-wrapper">
+                                            <h3>Algorithm Details</h3>
+                                            <fieldset>
+                                                <div class="form-group row">
+                                                    <label class="col-md-1 col-form-label">Select</label>
+                                                    <div class="col-md-11">
+                                                        <select class="form-control">
+                                                            <option>a + b</option>
+                                                            <option>a + b + c</option>
+                                                            <option>a * b</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="col-md-1 col-form-label">Para1</label>
+                                                    <div class="col-md-5">
+                                                        <select class="form-control">
+                                                            <option>null</option>
+                                                        </select>
+                                                    </div>
+                                                    <label class="col-md-1 col-form-label">Para2</label>
+                                                    <div class="col-md-5">
+                                                        <select class="form-control">
+                                                            <option>null</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <h3>Envirnment</h3>
+                                            <fieldset>
+                                                <div class="row">
+                                                    <label class="col-md-1 col-form-label">CPU</label>
+                                                    <div class="col-md-5">
+                                                        <select class="form-control">
+                                                            <option>1 core</option>
+                                                        </select>
+                                                    </div>
+                                                    <label class="col-md-1 col-form-label">Mem</label>
+                                                    <div class="col-md-5">
+                                                        <select class="form-control">
+                                                            <option>1024 M</option>
+                                                            <option>2048 M</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                            </fieldset>
+                                            <h3>Choose Data File</h3>
+                                            <fieldset>
+
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="card">
+                                                            <div class="card-body">
+
+                                                                <h4 class="mt-0 header-title">Upload</h4>
+                                                                <p class="text-muted mb-4">Upload a correctly formatted data file</p>
+
+                                                                <input type="file" multiple="multiple">
+
+                                                                <div class="text-center mt-4">
+                                                                    <button type="button" class="btn btn-primary waves-effect waves-light">Send Files</button>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                                </div> <!-- end row -->
+
+                                            </fieldset>
+                                            <h3>Confirm Detail and Notes</h3>
+                                            <fieldset>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="card">
+                                                            <div class="card-body">
+
+                                                                <h4 class="mt-0 header-title">Note</h4>
+                                                                <p class="text-muted mb-4">Fill in your additional requirements and notes below.</p>
+                                                                <div class="summernote">Hello ASTOR! </div>
+                                                            </div>
+                                                        </div>
+                                                    </div> <!-- end col -->
+                                                </div> <!-- end row -->
+                                                <div class="p-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                        <label class="custom-control-label" for="customCheck1">I agree with the Terms and Conditions.</label>
+                                                    </div>
+                                                </div>
+
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
+                    </div>
+                    <!-- container-fluid -->
+                </div>
+                <!-- End content -->
+
+                <footer class="footer">
+                    © 2019 ASTOR <span class="d-none d-sm-inline-block"> - builded with <i class="mdi mdi-heart text-danger"></i> by <a href="http://www.github.com/Eveneko/">Eveneko</a></span>.
+                </footer>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+
+
+
+
+
+
+
+
+        </div>
+        <!-- END wrapper -->
+
+        <!-- jQuery  -->
+        <script src="../../static/assets/js/jquery.min.js"></script>
+        <script src="http://cdn.bootstrapmb.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="../../static/assets/js/metismenu.min.js"></script>
+        <script src="../../static/assets/js/jquery.slimscroll.js"></script>
+        <script src="../../static/assets/js/waves.min.js"></script>
+
+        <!-- Dropzone js -->
+        <script src="../../static/plugins/dropzone/dist/dropzone.js"></script>
+
+         <!--Summernote js-->
+        <script src="../../static/plugins/summernote/summernote-bs4.min.js"></script>
+
+        <!-- form editors init -->
+        <script src="../../static/assets/pages/form-editors.int.js"></script>
+
+        <!-- form wizard -->
+        <script src="../../static/plugins/jquery-steps/jquery.steps.min.js"></script>
+
+        <!-- form wizard init -->
+        <script src="../../static/assets/pages/form-wizard.init.js"></script>
+
+        <!-- App js -->
+        <script src="../../static/assets/js/app.js"></script>
+        
+    </body>
+
+</html>

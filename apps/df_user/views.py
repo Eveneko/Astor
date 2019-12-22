@@ -216,23 +216,3 @@ def published(request, index):
     for goodinfo in page:
         print(goodinfo.id)
     return render(request, 'df_user/user_center_published.html', context)
-
-
-@user_decorator.login
-def code_runner(request):
-    user_id = request.session['user_id']
-    context = {
-        'title': '用户中心',
-        'uid': user_id,
-    }
-    return render(request, 'df_user/code_runner.html', context)
-
-
-@user_decorator.login
-def creat_task(request):
-    user_id = request.session['user_id']
-    context = {
-        'title': '用户中心',
-        'uid': user_id,
-    }
-    return render(request, 'df_user/creat_task.html', context)
