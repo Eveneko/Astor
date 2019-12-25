@@ -6,7 +6,7 @@ from hashlib import sha1
 from apps.df_user import user_decorator
 from django import forms
 
-from df_user.models import GoodsBrowser, UserInfo
+from df_user.models import GoodsBrowser, UserInfo,UserBuyAlgorithm
 from df_order.models import OrderDetailInfo, OrderInfo
 from df_goods.models import GoodsInfo, TypeInfo
 
@@ -37,7 +37,12 @@ def logout(request):
 def creat_task(request):
     user_id = request.session['user_id']
     user = UserInfo.objects.get(id=request.session['user_id'])
-    algorithm_info = GoodsInfo.objects.all()
+    user_buy_algorithm = UserBuyAlgorithm.objects.filter(user_id=user_id)
+    ua_set = set()
+    for ua in user_buy_algorithm:
+        ua_set.add(GoodsInfo.objects.get(id=ua.algorithm_id))
+    algorithm_info = ua_set
+    # algorithm_info = GoodsInfo.objects.all()
     context = {
         'title': 'creat_task',
         'uid': user_id,

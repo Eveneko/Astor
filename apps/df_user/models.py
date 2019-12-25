@@ -54,3 +54,15 @@ class GoodsBrowser(models.Model):
 
     def __str__(self):
         return "{0}浏览记录{1}".format(self.user.uname, self.good.gtitle)
+
+
+class UserBuyAlgorithm(models.Model):
+    user = models.ForeignKey(UserInfo, on_delete=models.CASCADE, verbose_name="用户ID")
+    algorithm = models.ForeignKey(GoodsInfo, on_delete=models.CASCADE, verbose_name="商品ID")
+
+    class Meta:
+        verbose_name = "用户购买的算法"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return "{0}购买的算法{1}".format(self.user.uname, self.algorithm.gtitle)

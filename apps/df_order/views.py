@@ -7,7 +7,7 @@ from decimal import Decimal
 
 from .models import OrderInfo, OrderDetailInfo
 from df_cart.models import CartInfo
-from df_user.models import UserInfo
+from df_user.models import UserInfo,UserBuyAlgorithm
 from df_user import user_decorator
 
 
@@ -52,6 +52,8 @@ def order(request):
 @user_decorator.login
 @transaction.atomic()  # 事务
 def order_handle(request):
+    uid = request.session['user_id']
+    user = UserInfo.objects.get(id=uid)
     tran_id = transaction.savepoint()  # 保存事务发生点
     cart_ids = request.POST.get('cart_ids')  # 用户提交的订单购物车，此时cart_ids为字符串，例如'1,2,3,'
     user_id = request.session['user_id']  # 获取当前用户的id
@@ -70,6 +72,7 @@ def order_handle(request):
             order_detail = OrderDetailInfo()  # 大订单中的每一个小商品订单
             order_detail.order = order_info  # 外键关联，小订单与大订单绑定
             goods = cart.goods  # 具体商品
+            user_buy_algorithm = UserBuyAlgorithm()
             if cart.count <= goods.gkucun:  # 判断库存是否满足订单，如果满足，修改数据库
                 goods.gkucun = goods.gkucun - cart.count
                 goods.save()
@@ -77,6 +80,9 @@ def order_handle(request):
                 order_detail.price = goods.gprice
                 order_detail.count = cart.count
                 order_detail.save()
+                user_buy_algorithm.algorithm = goods
+                user_buy_algorithm.user = user
+                user_buy_algorithm.save()
                 cart.delete()  # 并删除当前购物车
             else:  # 否则，则事务回滚，订单取消
                 transaction.savepoint_rollback(tran_id)
