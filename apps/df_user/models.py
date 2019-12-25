@@ -66,3 +66,16 @@ class UserBuyAlgorithm(models.Model):
 
     def __str__(self):
         return "{0}购买的算法{1}".format(self.user.uname, self.algorithm.gtitle)
+
+
+class UserFile(models.Model):
+    user = models.ForeignKey(UserInfo, on_delete=models.CASCADE, verbose_name="用户ID")
+    file_name = models.CharField(max_length=50, verbose_name="用户文件名")
+    file_uuid = models.CharField(max_length=100, verbose_name="文件uuid")
+
+    class Meta:
+        verbose_name = "用户文件"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return "{}".format(self.file_name)
