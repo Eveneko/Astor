@@ -2,12 +2,13 @@
 <div class="card">
     <a href="/good-{{ goods.id }}/">
     <script type="text/javascript">
-        document.write("<img src=" + getImageFromID({{ goods.id }}) + " class=\"card-img-top\" alt=\"...\">")
+        {% comment %} document.write("<img src=" + getImageFromID({{ goods.id }}) + " class=\"card-img-top\" alt=\"...\">") {% endcomment %}
+        document.write("<img src= /static/" + "{{ goods.gpic }}" + " class=\"card-img-top\" alt=\"...\">")
     </script>
     </a>
     <div class="card-body">
         <h5 class="card-title" style="font-weight:700"> 
-            <a href="/good-{{ goods.id }}/"> {{ goods.gtitle }}</a>
+            <a href="/good-{{ goods.id }}/"> {{ goods.gtitle }}{{ goods.gpic }}</a>
         </h5>
         <p class="card-text" href="/good-{{ goods.id }}/">{{ goods.gtitle }}</p>
     </div>

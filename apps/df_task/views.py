@@ -116,3 +116,24 @@ def upload_file(request):
             print('未完成数据上传')
             transaction.savepoint_rollback(tran_id)  # 事务任何一个环节出错，则事务全部取消
             return HttpResponse("Upload Fail!")
+
+
+def upload_task_config(request):
+    if request.method == "POST":  # 请求方法为POST时，进行处理
+        tran_id = transaction.savepoint()  # 保存事务发生点
+        user_id = request.session['user_id']
+        user = UserInfo.objects.get(id=request.session['user_id'])
+        context = {
+            'title': '用户中心',
+            'uid': user_id,
+            'user': user,
+        }
+        try:
+            algorithm = request.POST.get("algorithm")
+            cpu = request.POST.get("cpu")
+            mem = request.POST.get("mem")
+            dataset = request.POST.get("dataset")
+            return render(request, 'df_task/task_record.html', context)
+        except Exception as e:
+            transaction.savepoint_rollback(tran_id)  # 事务任何一个环节出错，则事务全部取消
+            return render(request, 'df_task/task_record.html', context)
