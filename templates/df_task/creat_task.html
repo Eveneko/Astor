@@ -59,13 +59,13 @@
                                 <p class="text-muted mb-4">A powerful jQuery wizard plugin that
                                     supports accessibility and HTML5</p>
 
-                                <form id="form-horizontal" class="form-horizontal form-wizard-wrapper" method="post">
+                                <form id="form-horizontal" class="form-horizontal form-wizard-wrapper" method="post" action={% url "df_task:upload_task_config" %}>
                                     <h3>Algorithm Details</h3>
                                     <fieldset>
                                         <div class="form-group row">
                                             <label class="col-md-1 col-form-label">Select</label>
                                             <div class="col-md-11">
-                                                <select class="form-control" id="algorithm_select">
+                                                <select class="form-control" name="algorithm">
                                                    {% for i in algorithm_info %}
                                                        <option value={{ i }}> {{ i }} </option>
                                                    {% endfor %}
@@ -78,13 +78,13 @@
                                         <div class="row">
                                             <label class="col-md-1 col-form-label">CPU</label>
                                             <div class="col-md-5">
-                                                <select class="form-control" id="cpu">
+                                                <select class="form-control" name="cpu">
                                                     <option>1 core</option>
                                                 </select>
                                             </div>
                                             <label class="col-md-1 col-form-label">Mem</label>
                                             <div class="col-md-5">
-                                                <select class="form-control" id="mem">
+                                                <select class="form-control" name="mem">
                                                     <option>1024 M</option>
                                                     <option>2048 M</option>
                                                 </select>
@@ -98,7 +98,7 @@
                                         <div class="row">
                                             <label class="col-md-2 col-form-label">Dataset Choose</label>
                                             <div class="col-md-10">
-                                                <select class="form-control" id="dataset">
+                                                <select class="form-control" name="dataset">
                                                     {% for i in user_files %}
                                                        <option value={{ i }}> {{ i }} </option>
                                                    {% endfor %}
@@ -128,7 +128,7 @@
                                             </div>
                                         </div>
                                         <div class="text-center mt-4">
-                                            <button type="button" class="btn btn-primary waves-effect waves-light" onclick="submit_task()" id="submit_task_btn">Submit Task</button>
+                                            <input type="submit" name="Submit Task" class="btn btn-primary waves-effect waves-light" onclick="submit_task()" id="submit_task_btn">
                                         </div>
                                     </fieldset>
                                 </form>
@@ -148,23 +148,6 @@
 
     </div>
 
-    <script type="text/javascript">
-		function submit_task() {
-            let algorithm = document.getElementById("algorithm_select");
-            let algorithm_index = algorithm.selectedIndex;
-            let algorithm_value = algorithm.options[algorithm_index].value;
-            let cpu = document.getElementById("cpu");
-            let cpu_index = cpu.selectedIndex;
-            let cpu_value = cpu.options[cpu_index].value;
-            let mem = document.getElementById("mem");
-            let mem_index = mem.selectedIndex;
-            let mem_value = mem.options[mem_index].value;
-
-            console.log(algorithm_value);
-            console.log(cpu_value);
-            console.log(mem_value);
-		}
-	</script>
 
 {% endblock right %}
 
