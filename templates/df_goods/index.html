@@ -21,7 +21,6 @@
 	</div>
 	<div class="center_con clearfix">
 		<ul class="subnav fl">
-			{# 首页左侧分类 #}
 			<li><a href="#model02" class="main_category_1">字符串</a></li>
 			<li><a href="#model02" class="main_category_2">算法</a></li>
 			<li><a href="#model03" class="main_category_3">数据结构</a></li>
@@ -56,11 +55,6 @@
 				<a href="#">ac自动机</a>
 				<a href="#">字符串哈希</a>
 				<a href="#">kmp</a>
-{#                {% for g in type01 % #}
-{#                   } <a href="/{{ g.id }}/">{{  g.gtitle|slice:'10' }}</a>#}
-{#                    这里建立一个点击量前四位的商品的链接#}
-{#                    模板过滤器slice, 取变量前 N 个字符，可用于中文 #}
-{#                {%  endfor %}#}
 			</div>
 			<a href="/list1_1_1/" class="goods_more fr" id="fruit_more">查看更多 ></a>
 		</div>
@@ -69,7 +63,6 @@
 			<div class="goods_banner fl"><img src="/static/images/banner01.jpg"></div>
 			<ul class="goods_list fl">
                 {% for goods in type0 %}
-{#                    按照商品的最新上穿建立显示#}
                 <li>
                     {% include "partial/_item_card.html" %}
                 </li>
@@ -83,12 +76,9 @@
 			<h3 class="fl" id="model02">算法</h3>
 			<div class="subtitle fl">
 				<span>|</span>
-				<a href="#">动态规划</a>#}
+				<a href="#">动态规划</a>
 				<a href="#">排序</a>	
 				<a href="#">搜索</a>			
-{#                {% for g in type1 %}#}
-{#                    <a href="/{{ g.id }}/">{{ g.gtitle|slice:'10' }}</a>#}
-{#                {% endfor %}#}
 			</div>
 			<a href="/list2_1_1/" class="goods_more fr">查看更多 ></a>
 		</div>
@@ -121,7 +111,6 @@
 			<div class="goods_banner fl"><img src="/static/images/banner03.jpg"></div>
 			<ul class="goods_list fl">
 				{% for goods in type21 %}
-{#                    按照商品的最新上穿建立显示#}
                 <li>
                     {% include "partial/_item_card.html" %}
                 </li>
@@ -147,7 +136,6 @@
 			<div class="goods_banner fl"><img src="/static/images/banner04.jpg"></div>
 			<ul class="goods_list fl">
 				{% for goods in type31 %}
-{#                    按照商品的最新上穿建立显示#}
                 <li>
                     {% include "partial/_item_card.html" %}
                 </li>
