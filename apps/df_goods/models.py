@@ -40,6 +40,7 @@ class GoodsInfo(models.Model):
     algorithm_market_time = models.DateTimeField(default=datetime.now)  # 此算法上市时间
     guser = models.ForeignKey(UserInfo, on_delete=models.CASCADE, verbose_name="用户ID")
     gmdf_time = models.DateTimeField(default=datetime.now, verbose_name="修改时间")
+
     class Meta:
         verbose_name = "商品"
         verbose_name_plural = verbose_name

@@ -1,433 +1,280 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base_ui.html' %}
 
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-        <title>ASTOR - Algorithm Store</title>
-        <meta content="Easy coding, Easy running" name="description" />
-        <meta content="Eveneko" name="author" />
-        <link rel="shortcut icon" href="../../static/assets/images/favicon.ico">
+{% block css %}
 
-        <!-- datepicker -->
+    <!-- datepicker -->
         <link href="../../static/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
-        <!-- jvectormap -->
-        <link href="../../static/plugins/jvectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet">
+    <!-- jvectormap -->
+    <link href="../../static/plugins/jvectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet">
 
-        <link href="http://cdn.bootstrapmb.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-        <link href="../../static/assets/css/metismenu.min.css" rel="stylesheet" type="text/css">
-        <link href="../../static/assets/css/icons.css" rel="stylesheet" type="text/css">
-        <link href="../../static/assets/css/style.css" rel="stylesheet" type="text/css">
-    </head>
+{% endblock css %}
 
-    <body>
 
-        <div class="fr">
-{#                判断是否已经登录#}
-                {% if request.session.user_name|default:'' != '' %}
-{#                    default过滤器进行判断如果request.session.user_name不等于空字符串则用户登陆状态为true#}
-{#                    也就是说当用户为已登陆状态时则显示用户名#}
+{% block right %}
 
-{#                    class="login_info fl"#}
-                {% endif %}
-        </div>
-
-        <!-- Begin page -->
-        <div id="wrapper">
-
-            <!-- Top Bar Start -->
-            <div class="topbar">
-
-                <!-- LOGO -->
-                <div class="topbar-left">
-                    <a href="{% url "df_task:index" %}" class="logo">
-                        <span class="logo-light">
-                            <img src="../../static/assets/images/logo-light.png" alt="" height="48">
-                        </span>
-                        <span class="logo-sm">
-                            <img src="../../static/assets/images/logo-sm.png" alt="" height="22">
-                        </span>
-                    </a>
-                </div>
-
-                <nav class="navbar-custom">
-                    <ul class="navbar-right list-inline float-right mb-0">
-                        <!-- search -->
-                        <li class="dropdown notification-list list-inline-item d-none d-md-inline-block">
-                            <form role="search" class="app-search">
-                                <div class="form-group mb-0">
-                                    <input type="text" class="form-control" placeholder="Search..">
-                                    <button type="submit"><i class="fa fa-search"></i></button>
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content dasboard-content">
+            <div class="container-fluid">
+                <div class="page-title-box">
+                    <div class="row align-items-center">
+                        <div class="col-sm-6">
+                            <h4 class="page-title">Dashboard</h4>
+                            <ol class="breadcrumb">
+                                <!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+                                <li class="breadcrumb-item active">Welcome to ASTOR Dashboard</li>
+                            </ol>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="float-right d-none d-md-block">
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle arrow-none waves-effect waves-light" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="mdi mdi-settings mr-2"></i> Settings
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Separated link</a>
+                                    </div>
                                 </div>
-                            </form>
-                        </li>
-
-                        <!-- full screen -->
-                        <li class="dropdown notification-list list-inline-item d-none d-md-inline-block">
-                            <a class="nav-link waves-effect" href="#" id="btn-fullscreen">
-                                <i class="ion ion-md-qr-scanner noti-icon"></i>
-                            </a>
-                        </li>
-
-                        <!-- notification -->
-                        <li class="dropdown notification-list list-inline-item">
-                            <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                <i class="ion ion-md-notifications noti-icon"></i>
-                                <span class="badge badge-pill badge-danger noti-icon-badge" id="notification_num1">0</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg">
-                                <!-- item-->
-                                <h6 class="dropdown-item-text">
-                                    Notifications (<a id="notification_num2">0</a>)
-                                </h6>
-                                <div class="slimscroll notification-item-list">
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item active">
-                                        <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
-                                        <p class="notify-details">Your task runs finished<span class="text-muted">Chick to see the result.</span></p>
-                                    </a>
-                                </div>
-                                <!-- All-->
-                                <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-all">
-                                    View all <i class="fi-arrow-right"></i>
-                                </a>
                             </div>
-                        </li>
+                        </div>
+                    </div> <!-- end row -->
+                </div>
+                <!-- end page-title -->
 
-                        <li class="dropdown notification-list list-inline-item">
-                                    <div class="dropdown notification-list nav-pro-img">
-                                        <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                            <img src="../../static/assets/images/users/user-4.jpg" alt="user" class="rounded-circle">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card mini-stat bg-pattern">
+                            <div class="card-body mini-stat-img">
+                                <div class="mini-stat-icon">
+                                    <i class="dripicons-question bg-soft-primary text-primary float-right h4"></i>
+                                </div>
+                                <h6 class="text-uppercase mb-3 mt-0">Alhorithm num</h6>
+                                <h5 class="mb-3">{{ algorithm_num }}</h5>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card mini-stat bg-pattern">
+                            <div class="card-body mini-stat-img">
+                                <div class="mini-stat-icon">
+                                    <i class="dripicons-question bg-soft-primary text-primary float-right h4"></i>
+                                </div>
+                                <h6 class="text-uppercase mb-3 mt-0">User num</h6>
+                                <h5 class="mb-3">{{ user_num }}</h5>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card mini-stat bg-pattern">
+                            <div class="card-body mini-stat-img">
+                                <div class="mini-stat-icon">
+                                    <i class="dripicons-question bg-soft-primary text-primary float-right h4"></i>
+                                </div>
+                                <h6 class="text-uppercase mb-3 mt-0">Task Running</h6>
+                                <h5 class="mb-3">0</h5>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card mini-stat bg-pattern">
+                            <div class="card-body mini-stat-img">
+                                <div class="mini-stat-icon">
+                                    <i class="dripicons-reply-all bg-soft-primary text-primary float-right h4"></i>
+                                </div>
+                                <h6 class="text-uppercase mb-3 mt-0">Task Finish</h6>
+                                <h5 class="mb-3">0</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card mini-stat bg-pattern">
+                            <div class="card-body mini-stat-img">
+                                <div class="mini-stat-icon">
+                                    <i class="dripicons-box bg-soft-primary text-primary float-right h4"></i>
+                                </div>
+                                <h6 class="text-uppercase mb-3 mt-0">Task All</h6>
+                                <h5 class="mb-3">0</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+
+                <div class="row">
+                    <div class="col-xl-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="mt-0 header-title mb-4">Latest Task</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-nowrap mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width: 60px;">
+                                                    <img src="../../static/assets/images/users/user-2.jpg" alt="" class="thumb-sm rounded-circle">
+                                                </td>
+                                                <td>User name
+                                                    <p class="m-0 text-muted">On 22 Dec, 2019</p>
+                                                </td>
+                                                <td>Task Name</td>
+                                                <td>
+                                                    <i class="mdi mdi-checkbox-blank-circle text-success mr-1"></i> Finish
+                                                </td>
+
+                                                <td>
+                                                    <div>
+                                                        <a href="#" class="btn btn-primary btn-sm">Detail</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-xl-4">
+                        <div class="card messages">
+                            <div class="card-body">
+                                <h4 class="mt-0 header-title mb-4">Latest Messages</h4>
+                                <nav>
+                                    <div class="nav nav-tabs messages-tabs tab-wid nav-justified" role="tablist">
+                                        <a class="nav-item nav-link active" id="nav-first-tab" data-toggle="tab" href="#nav-first" role="tab" aria-controls="nav-first" aria-selected="true">
+                                            <h5 class="mt-0 date">Friend</h5>
                                         </a>
-                                        <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
-                                            <!-- item-->
-                                            <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle"></i> Welcome {{ request.session.user_name }}</a>
-                                            <a class="dropdown-item d-block" href="{% url "df_user:info" %}"><i class="mdi mdi-home"></i> Profile</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item text-danger" href="{% url "df_user:logout" %}"><i class="mdi mdi-power text-danger"></i> Logout</a>
-                                        </div>
+                                        <a class="nav-item nav-link" id="nav-second-tab" data-toggle="tab" href="#nav-second" role="tab" aria-controls="nav-second" aria-selected="false">
+                                            <h5 class="mt-0 date">System</h5>
+                                        </a>
                                     </div>
-                                </li>
-
-                    </ul>
-
-                    <ul class="list-inline menu-left mb-0">
-                        <li class="float-left">
-                            <button class="button-menu-mobile open-left waves-effect">
-                                <i class="mdi mdi-menu"></i>
-                            </button>
-                        </li>
-                        <!--
-                        <li class="d-none d-sm-block">
-                            <div class="dropdown pt-3 d-inline-block">
-                                <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Create
-                                </a>
-
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Separated link</a>
-                                </div>
-                            </div>
-                        </li>
-                        -->
-                    </ul>
-
-                </nav>
-
-            </div>
-            <!-- Top Bar End -->
-
-            <!-- ========== Left Sidebar Start ========== -->
-            <div class="left side-menu">
-                <div class="slimscroll-menu" id="remove-scroll">
-
-                    <!--- Sidemenu -->
-                    <div id="sidebar-menu">
-                        <!-- Left Menu Start -->
-                        <ul class="metismenu" id="side-menu">
-                            <li class="menu-title">Overview</li>
-                            <li>
-                                <a href="{% url 'df_task:index' %}" class="waves-effect">
-                                    <i class="ion ion-md-speedometer"></i><span class="badge badge-success badge-pill float-right">0</span> <span> Dashboard </span>
-                                </a>
-                            </li>
-
-                            <li class="menu-title">Task</li>
-
-                            <li>
-                                <a href="{% url 'df_task:creat_task' %}" class="waves-effect waves-light"><i class="ion ion-md-clipboard"></i><span> Creat Task </span></a>
-                            </li>
-                            <li>
-                                <a href="{% url 'df_task:task_record' %}" class="waves-effect waves-light"><i class="ion ion-md-list"></i><span> Task Record </span></a>
-                            </li>
-
-                        </ul>
-
-                    </div>
-                    <!-- Sidebar -->
-                    <div class="clearfix"></div>
-
-                </div>
-                <!-- Sidebar -left -->
-
-            </div>
-            <!-- Left Sidebar End -->
-
-            <!-- ============================================================== -->
-            <!-- Start right Content here -->
-            <!-- ============================================================== -->
-            <div class="content-page">
-                <!-- Start content -->
-                <div class="content dasboard-content">
-                    <div class="container-fluid">
-                        <div class="page-title-box">
-                            <div class="row align-items-center">
-                                <div class="col-sm-6">
-                                    <h4 class="page-title">Dashboard</h4>
-                                    <ol class="breadcrumb">
-                                        <!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
-                                        <li class="breadcrumb-item active">Welcome to ASTOR Dashboard</li>
-                                    </ol>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="float-right d-none d-md-block">
-                                        <div class="dropdown">
-                                            <button class="btn btn-primary dropdown-toggle arrow-none waves-effect waves-light" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="mdi mdi-settings mr-2"></i> Settings
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#">Action</a>
-                                                <a class="dropdown-item" href="#">Another action</a>
-                                                <a class="dropdown-item" href="#">Something else here</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Separated link</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> <!-- end row -->
-                        </div>
-                        <!-- end page-title -->
-
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="card mini-stat bg-pattern">
-                                    <div class="card-body mini-stat-img">
-                                        <div class="mini-stat-icon">
-                                            <i class="dripicons-question bg-soft-primary text-primary float-right h4"></i>
-                                        </div>
-                                        <h6 class="text-uppercase mb-3 mt-0">Task Running</h6>
-                                        <h5 class="mb-3">0</h5>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="card mini-stat bg-pattern">
-                                    <div class="card-body mini-stat-img">
-                                        <div class="mini-stat-icon">
-                                            <i class="dripicons-reply-all bg-soft-primary text-primary float-right h4"></i>
-                                        </div>
-                                        <h6 class="text-uppercase mb-3 mt-0">Task Finish</h6>
-                                        <h5 class="mb-3">0</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="card mini-stat bg-pattern">
-                                    <div class="card-body mini-stat-img">
-                                        <div class="mini-stat-icon">
-                                            <i class="dripicons-box bg-soft-primary text-primary float-right h4"></i>
-                                        </div>
-                                        <h6 class="text-uppercase mb-3 mt-0">Task All</h6>
-                                        <h5 class="mb-3">0</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end row -->
-                        
-                        <div class="row">
-                            <div class="col-xl-8">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="mt-0 header-title mb-4">Latest Task</h4>
-                                        <div class="table-responsive">
-                                            <table class="table table-nowrap mb-0">
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="width: 60px;">
-                                                            <img src="../../static/assets/images/users/user-2.jpg" alt="" class="thumb-sm rounded-circle">
-                                                        </td>
-                                                        <td>User name
-                                                            <p class="m-0 text-muted">On 22 Dec, 2019</p>
-                                                        </td>
-                                                        <td>Task Name</td>
-                                                        <td>
-                                                            <i class="mdi mdi-checkbox-blank-circle text-success mr-1"></i> Finish
-                                                        </td>
-                                                        
-                                                        <td>
-                                                            <div>
-                                                                <a href="#" class="btn btn-primary btn-sm">Detail</a>
+                                </nav>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="nav-first" role="tabpanel" aria-labelledby="nav-first-tab">
+                                        <div class="p-2 mt-2">
+                                            <ul class="list-unstyled latest-message-list mb-0">
+                                                <li class="message-list-item">
+                                                    <a href="#">
+                                                        <div class="media">
+                                                            <img class="mr-3 thumb-md rounded-circle" src="../../static/assets/images/users/user-2.jpg" alt="">
+                                                            <div class="media-body">
+                                                                <p class="float-right font-12 text-muted">Just Now</p>
+                                                                <h6 class="mt-0">Mary Frye</h6>
+                                                                <p class="text-muted mb-0">Hey! I'm a SUSTech students...</p>
                                                             </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
                                         </div>
-    
+                                        <div class="text-center">
+                                            <a href="#" class="btn btn-primary btn-sm">Load more</a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="nav-second" role="tabpanel" aria-labelledby="nav-second-tab">
+                                        <div class="p-2 mt-2">
+                                            <ul class="list-unstyled latest-message-list mb-0">
+                                                <li class="message-list-item">
+                                                    <a href="#">
+                                                        <div class="media">
+                                                            <img class="mr-3 thumb-md rounded-circle" src="../../static/assets/images/users/user-5.jpg" alt="">
+                                                            <div class="media-body">
+                                                                <p class="float-right font-12 text-muted">12:01am</p>
+                                                                <h6 class="mt-0">Admin</h6>
+                                                                <p class="text-muted mb-0">System call...</p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="text-center">
+                                            <a href="#" class="btn btn-primary btn-sm">Load more</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- end col -->
-                            <div class="col-xl-4">
-                                <div class="card messages">
-                                    <div class="card-body">
-                                        <h4 class="mt-0 header-title mb-4">Latest Messages</h4>
-                                        <nav>
-                                            <div class="nav nav-tabs messages-tabs tab-wid nav-justified" role="tablist">
-                                                <a class="nav-item nav-link active" id="nav-first-tab" data-toggle="tab" href="#nav-first" role="tab" aria-controls="nav-first" aria-selected="true">
-                                                    <h5 class="mt-0 date">Friend</h5>
-                                                </a>
-                                                <a class="nav-item nav-link" id="nav-second-tab" data-toggle="tab" href="#nav-second" role="tab" aria-controls="nav-second" aria-selected="false">
-                                                    <h5 class="mt-0 date">System</h5>
-                                                </a>
-                                            </div>
-                                        </nav>
-                                        <div class="tab-content">
-                                            <div class="tab-pane fade show active" id="nav-first" role="tabpanel" aria-labelledby="nav-first-tab">
-                                                <div class="p-2 mt-2">
-                                                    <ul class="list-unstyled latest-message-list mb-0">
-                                                        <li class="message-list-item">
-                                                            <a href="#">
-                                                                <div class="media">
-                                                                    <img class="mr-3 thumb-md rounded-circle" src="../../static/assets/images/users/user-2.jpg" alt="">
-                                                                    <div class="media-body">
-                                                                        <p class="float-right font-12 text-muted">Just Now</p>
-                                                                        <h6 class="mt-0">Mary Frye</h6>
-                                                                        <p class="text-muted mb-0">Hey! I'm a SUSTech students...</p>
-                                                                    </div>
-                                                                </div>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="text-center">
-                                                    <a href="#" class="btn btn-primary btn-sm">Load more</a>
-                                                </div>
-                                            </div>
-                                            <div class="tab-pane fade" id="nav-second" role="tabpanel" aria-labelledby="nav-second-tab">
-                                                <div class="p-2 mt-2">
-                                                    <ul class="list-unstyled latest-message-list mb-0">
-                                                        <li class="message-list-item">
-                                                            <a href="#">
-                                                                <div class="media">
-                                                                    <img class="mr-3 thumb-md rounded-circle" src="../../static/assets/images/users/user-5.jpg" alt="">
-                                                                    <div class="media-body">
-                                                                        <p class="float-right font-12 text-muted">12:01am</p>
-                                                                        <h6 class="mt-0">Admin</h6>
-                                                                        <p class="text-muted mb-0">System call...</p>
-                                                                    </div>
-                                                                </div>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="text-center">
-                                                    <a href="#" class="btn btn-primary btn-sm">Load more</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- end tab-content -->
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end col -->
-
-                        </div>
-                        <!-- end row -->
-                        
-                    </div>
-                    <!-- container-fluid -->
-
-                </div>
-                <!-- content -->
-
-                <footer class="footer">
-                    © 2019 ASTOR <span class="d-none d-sm-inline-block"> - builded with <i class="mdi mdi-heart text-danger"></i> by <a href="http://www.github.com/Eveneko/">Eveneko</a></span>.
-                </footer>
-
-            </div>
-            <!-- ============================================================== -->
-            <!-- End Right content here -->
-            <!-- ============================================================== -->
-
-        </div>
-        <!-- END wrapper -->
-
-        <div class="right-sidebar d-none d-xl-block">
-            <div class="slimscroll-menu">
-                <div class="px-4 pt-4">
-                    <div class="card user-wid text-center overflow-hidden">
-                        <div class="p-4 bg-lighten-danger"></div>
-                        <div class="mx-3">
-                            <div class="bg-white user-wid-content p-1 rounded">
-                                <div class="user-img">
-                                    <img src="../../static/assets/images/users/user-1.jpg" alt="user-img" title="" class="rounded-circle thumb-md img-fluid">
-                                </div>
-                                <h5 class="font-14 mb-1"><a href="javascript: void(0);">Eveneko</a> </h5>
-                                <p class="text-muted mb-2"><small>Admin Head</small></p>
+                                <!-- end tab-content -->
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="mb-4">
-                        <h5 class="font-14">Calender</h5>
-
-                        <div class="dashboard-date-pick" id="date-pick-widget" data-provide="datepicker-inline"></div>
-                    </div>
-
-                    <div>
-                        <h5 class="font-14">Clients</h5>
-
-                        <div id="world-map-markers" class="dashboard-map-wid"></div>
-                    </div>
+                    <!-- end col -->
 
                 </div>
+                <!-- end row -->
+
             </div>
+            <!-- container-fluid -->
+
         </div>
+        <!-- content -->
 
-        <!-- jQuery  -->
-        <script src="../../static/assets/js/jquery.min.js"></script>
-        <script src="http://cdn.bootstrapmb.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <script src="../../static/assets/js/metismenu.min.js"></script>
-        <script src="../../static/assets/js/jquery.slimscroll.js"></script>
-        <script src="../../static/assets/js/waves.min.js"></script>
+        <footer class="footer">
+            © 2019 ASTOR <span class="d-none d-sm-inline-block"> - builded with <i class="mdi mdi-heart text-danger"></i> by <a href="http://www.github.com/Eveneko/">Eveneko</a></span>.
+        </footer>
 
-        <!-- datepicker -->
-        <script src="../../static/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-        <!-- vector map  -->
-        <script src="../../static/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js"></script>
-        <script src="../../static/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    </div>
 
-        <!-- apexcharts -->
-        <script src="../../static/plugins/apexcharts/apexcharts.min.js"></script>
+{% endblock right %}
 
-        <!-- Peity JS -->
-        <script src="../../static/plugins/peity-chart/jquery.peity.min.js"></script>
 
-        <script src="../../static/assets/pages/dashboard.js"></script>
+{% block rightside %}
 
-        <!-- App js -->
-        <script src="../../static/assets/js/app.js"></script>
-        
-    </body>
+    <div class="right-sidebar d-none d-xl-block">
+    <div class="slimscroll-menu">
+        <div class="px-4 pt-4">
+            <div class="card user-wid text-center overflow-hidden">
+                <div class="p-4 bg-lighten-danger"></div>
+                <div class="mx-3">
+                    <div class="bg-white user-wid-content p-1 rounded">
+                        <div class="user-img">
+                            <img src="../../static/assets/images/users/user-1.jpg" alt="user-img" title="" class="rounded-circle thumb-md img-fluid">
+                        </div>
+                        <h5 class="font-14 mb-1"><a href="javascript: void(0);">{{ request.session.user_name }}</a> </h5>
+                        <p class="text-muted mb-2"><small>Admin Head</small></p>
+                    </div>
+                </div>
+            </div>
 
-</html>
+            <div class="mb-4">
+                <h5 class="font-14">Calender</h5>
+
+                <div class="dashboard-date-pick" id="date-pick-widget" data-provide="datepicker-inline"></div>
+            </div>
+
+            <div>
+                <h5 class="font-14">Clients</h5>
+
+                <div id="world-map-markers" class="dashboard-map-wid"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock rightside %}
+
+
+{% block js %}
+
+    <!-- datepicker -->
+    <script src="../../static/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <!-- vector map  -->
+    <script src="../../static/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js"></script>
+    <script src="../../static/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+
+    <!-- apexcharts -->
+    <script src="../../static/plugins/apexcharts/apexcharts.min.js"></script>
+
+    <!-- Peity JS -->
+    <script src="../../static/plugins/peity-chart/jquery.peity.min.js"></script>
+
+    <script src="../../static/assets/pages/dashboard.js"></script>
+
+{% endblock js %}

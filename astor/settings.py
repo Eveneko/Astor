@@ -36,7 +36,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'daily_fresh_demo.urls'
+ROOT_URLCONF = 'astor.urls'
 
 TEMPLATES = [
     {
@@ -55,7 +55,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'daily_fresh_demo.wsgi.application'
+WSGI_APPLICATION = 'astor.wsgi.application'
 
 DATABASES = {
     'default': {
