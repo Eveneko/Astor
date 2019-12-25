@@ -1,6 +1,6 @@
 ## ASTOR
 
-**Astor**：基于<code>Python3.x</code>和<code>Django2.x</code>
+**Astor**：基于`Python3.x`和`Django2.x`
 
 项目尽量使用Django内部提供的API，后台管理为Django自带的管理系统django-admin。适合Django的小型实战项目。
 
@@ -31,11 +31,11 @@
 
 下载文件进入项目目录之后，使用pip安装依赖包
 
-<code>pip3 install -r requirements.txt</code>
+`pip3 install -r requirements.txt`
 
 ### 数据库配置
 
-数据库默认使用<code>Django</code>项目生成时自动创建的小型数据库<code>sqlite</code>
+数据库默认使用`Django`项目生成时自动创建的小型数据库`sqlite`
 
 也可自行配置连接使用MySQL
 
@@ -43,7 +43,7 @@
 
 终端下执行:
 
-<code>./python manage.py createsuperuser</code>
+`./python manage.py createsuperuser`
 
 然后输入相应的超级用户名以及密码，邮箱即可。
 
@@ -51,11 +51,11 @@
 
 终端下执行:
 
-<code>./python manage.py runserver</code>
+`./python manage.py runserver`
 
-浏览器打开: <code>http://127.0.0.1/</code> 即可进入普通用户入口
+浏览器打开: `http://127.0.0.1/` 即可进入普通用户入口
 
-浏览器打开: <code>http://127.0.0.1/admin</code> 即可进入超级用户入口
+浏览器打开: `http://127.0.0.1/admin` 即可进入超级用户入口
 
 
 ## 补充：

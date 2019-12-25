@@ -1,5 +1,3 @@
 venv/*
-<<<<<<< HEAD
-=======
-*.pyc
->>>>>>> turn
+# python
+*.py[cod]
