@@ -113,7 +113,9 @@
                                             <label class="col-md-2 col-form-label">Dataset Choose</label>
                                             <div class="col-md-10">
                                                 <select class="form-control" id="dataset">
-                                                    <option value="../../Data/file1.txt">file1.txt</option>
+                                                    {% for i in user_files %}
+                                                       <option value={{ i }}> {{ i }} </option>
+                                                   {% endfor %}
                                                 </select>
                                             </div>
                                         </div>

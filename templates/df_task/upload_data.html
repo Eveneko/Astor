@@ -50,8 +50,8 @@
                             <div class="card-body">
                                 <div class="row">
                                     <label class="col-md-2 col-form-label">Dataset Choose</label>
-                                    <form enctype="multipart/form-data" action="/uploadFile/" method="post" class="col-md-5">
-                                       <input type="file" name="myfile"/>
+                                    <form enctype="multipart/form-data" action={% url "df_task:upload_file" %} method="post" class="col-md-5">
+                                       <input type="file" name="file"/>
                                        <br/><br/><br/>
                                        <input type="submit" value="upload" class="btn btn-primary dropdown-toggle arrow-none waves-effect waves-light"/>
                                     </form>
