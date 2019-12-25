@@ -37,10 +37,7 @@
     </script>
 	<div class="breadcrumb">
 		全部分类
-{#        {{ title }}#}
-{#		{% if id|default:' ' != ' ' %}#}
         > 商品详情
-{#		{% endif %}#}
 	</div>
 
     <div class="main_wrap clearfix">
@@ -48,7 +45,6 @@
             {%  for item in page %}
             <li>
                 <a href="/{{ item.id }}/">
-                    <!-- <img src="{{ MEDIA_URL }}{{ item.gpic }}"> -->
                     <script type="text/javascript">
                         document.write("<img src=" + randomImage() + ">");
                     </script>
@@ -57,9 +53,7 @@
                 <h4><a href="/{{ item.id }}/">{{ item.gtitle }}</a></h4>
                 <div class="operate">
                     <span class="prize">￥{{ item.gprice }}</span>
-                    <!-- <span class="unit">{{ item.gunit }}</span> -->
                     <a href="/cart/add{{ item.id }}_1/" class="add_goods" title="加入购物车"></a>
-{#						<a href="javasript:;/" class="add_goods" title="加入购物车"></a>#}
                 </div>
             </li>
             {% endfor %}
