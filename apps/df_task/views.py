@@ -6,6 +6,7 @@ from django.http import JsonResponse, HttpResponse
 from hashlib import sha1
 from apps.df_user import user_decorator
 from django import forms
+from . import run_docker
 
 from df_user.models import GoodsBrowser, UserInfo, UserBuyAlgorithm, UserFile
 from df_order.models import OrderDetailInfo, OrderInfo
@@ -13,6 +14,7 @@ from df_goods.models import GoodsInfo, TypeInfo
 
 import os
 import uuid
+import datetime
 
 
 @user_decorator.login
@@ -47,9 +49,6 @@ def creat_task(request):
     algorithm_info = ua_set
 
     user_files = UserFile.objects.filter(user_id=user_id)
-    # ufile_set = set()
-    # for uf in user_files:
-    #     ufile_set.add(GoodsInfo.objects.get(id=uf.))
 
     context = {
         'title': 'creat_task',
@@ -133,6 +132,8 @@ def upload_task_config(request):
             cpu = request.POST.get("cpu")
             mem = request.POST.get("mem")
             dataset = request.POST.get("dataset")
+            dataset_path = 'media/Data/{0}/{1}'.format(user_id, dataset.split(',')[1])
+            time = datetime.time()
             return render(request, 'df_task/task_record.html', context)
         except Exception as e:
             transaction.savepoint_rollback(tran_id)  # 事务任何一个环节出错，则事务全部取消
