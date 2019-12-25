@@ -1,4 +1,4 @@
 venv/*
 # python
 *.py[cod]
-*/.gitignore
+./db.sqlite3
