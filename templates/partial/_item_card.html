@@ -1,8 +1,8 @@
-{%block item_card%}
+{% block item_card %}
 <div class="card">
     <a href="/good-{{ goods.id }}/">
     <script type="text/javascript">
-        document.write("<img src=" + randomImage() + " class=\"card-img-top\" alt=\"...\">")
+        document.write("<img src=" + getImageFromID({{ goods.id }}) + " class=\"card-img-top\" alt=\"...\">")
     </script>
     </a>
     <div class="card-body">
@@ -15,4 +15,4 @@
         <small class="text-muted">Last updated 1 mins ago</small>
     </div>
 </div>
-{%endblock item_card%}
+{% endblock item_card %}
