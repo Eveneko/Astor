@@ -45,6 +45,11 @@
                 <!-- end page-title -->
 
                 <table class="table table-striped">
+                    {% if task_set_num == 0 %}
+                        <div class="text-center mt-4">
+                            <h1>No Data</h1>
+                        </div>
+                    {% else%}
                     <thead>
                         <tr>
                             <th>Algorithm</th>
@@ -55,6 +60,7 @@
                             <th>Result</th>
                         </tr>
                     </thead>
+
                     {% for task in task_set %}
                         <tbody>
                             <tr>
@@ -67,6 +73,7 @@
                             </tr>
                         </tbody>
                     {% endfor %}
+                {% endif %}
                 </table>
 
 

@@ -75,7 +75,8 @@ def task_record(request):
         'title': '用户中心',
         'uid': user_id,
         'user': user,
-        'task_set': task_set
+        'task_set': task_set,
+        'task_set_num': len(task_set)
     }
     return render(request, 'df_task/task_record.html', context)
 

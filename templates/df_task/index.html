@@ -115,6 +115,11 @@
                                 <h4 class="mt-0 header-title mb-4">Latest Task</h4>
                                 <div class="table-responsive">
                                     <table class="table table-nowrap mb-0">
+                                        {% if task_set_num == 0 %}
+                                            <div class="text-center mt-4">
+                                                <h3>No Data</h3>
+                                            </div>
+                                        {% else%}
                                         <tbody>
                                             {% for task in task_set %}
                                             <tr>
@@ -138,6 +143,7 @@
                                                 </tr>
                                             {% endfor %}
                                         </tbody>
+                                    {% endif %}
                                     </table>
                                 </div>
 
