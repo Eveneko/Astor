@@ -78,4 +78,4 @@ class UserFile(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return "{}".format(self.file_name)
+        return "{0},{1}".format(self.file_name, self.file_uuid)
