@@ -154,7 +154,7 @@
 		<li class="col01"><input type="checkbox" name="" id="check_goods" checked="checked"></li>
         <!-- <li class="col02"><img src="{{ MEDIA_URL }}{{ cart.goods.gpic }}"></li> -->
         <script type="text/javascript">
-            document.write("<li class=\"col02\"><img src=" + randomImage() + " style=\"width=50px;\"></li>");
+            document.write("<li class=\"col02\"><img src= /media/" + "{{ cart.goods.gpic }}" + " style=\"width=50px;\"></li>");
         </script>
 		<li class="col03">{{ cart.goods.gtitle }}<br><em>{{ cart.goods.gprice }}元/小时</em><br><em>库存：<span id="goods_kucun">{{ cart.goods.gkucun }}</span></em></li>
 		<li class="col04">小时</li>

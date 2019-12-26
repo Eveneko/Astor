@@ -58,7 +58,7 @@
 			<li class="col01">{{ forloop.counter }}</li>
 			<!-- <li class="col02"><img src="{{ MEDIA_URL }}{{ cart.goods.gpic }}"></li> -->
 			<script type="text/javascript">
-				document.write("<li class=\"col02\"><img src=" + randomImage() + " style=\"width=50px;\"></li>");
+				document.write("<li class=\"col02\"><img src= /media/" + "{{ cart.goods.gpic }}" + " style=\"width=50px;\"></li>");
 			</script>
 			<li class="col03">{{ cart.goods.gtitle }}</li>
 			{% comment %} <li class="col04">{{ cart.goods.gunit }}</li> {% endcomment %}
