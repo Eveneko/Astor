@@ -3,12 +3,12 @@ import datetime
 import os
 
 IMAGE_NAME = 'eveneko/code-runner'
-SELF_DIR = '/Users/eveneko/Documents/Astor/media'
+SELF_DIR = '/Users/eveneko/Documents/Astor/static'
 # SELF_DIR = 'media'
 SANDBOX_DIR = '/workspace'
 
 
-def run(user_id, algorithm, dataset, cpu, mem):
+def drun(user_id, algorithm, dataset, cpu, mem):
     # main_path = 'media/Algorithm/{0}/main.py'.format(algorithm)
     # print(main_path)
 
@@ -20,10 +20,10 @@ def run(user_id, algorithm, dataset, cpu, mem):
     #     program=os.path.join(SANDBOX_DIR, 'Algorithm', algorithm, 'main.py'),
     #     parameters=os.path.join(SANDBOX_DIR, 'Data', str(user_id), dataset)
     # )
-    # command = 'python3 {program}'.format(
-    #     program=os.path.join(SANDBOX_DIR, 'Algorithm', algorithm, 'test.py')
-    # )
-    command = 'pip3 list'
+    command = 'python3 {program}'.format(
+        program=os.path.join(SANDBOX_DIR, 'test', 'b.py')
+    )
+    # command = 'pip3 list'
 
     container = client.containers.run(IMAGE_NAME,
                                       command=command,
@@ -67,4 +67,4 @@ def run(user_id, algorithm, dataset, cpu, mem):
 
 
 if __name__ == '__main__':
-    run('36', 'a_multi_b', '0cb4febb-73f5-4ec6-a290-e997352d0f8c', '1 core', '512 m')
+    drun('36', 'a_multi_b', '0cb4febb-73f5-4ec6-a290-e997352d0f8c', '1 core', '512 m')
