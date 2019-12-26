@@ -90,7 +90,7 @@
                                     <i class="dripicons-reply-all bg-soft-primary text-primary float-right h4"></i>
                                 </div>
                                 <h6 class="text-uppercase mb-3 mt-0">Task Finish</h6>
-                                <h5 class="mb-3">0</h5>
+                                <h5 class="mb-3">{{ task_set_num }}</h5>
                             </div>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
                                     <i class="dripicons-box bg-soft-primary text-primary float-right h4"></i>
                                 </div>
                                 <h6 class="text-uppercase mb-3 mt-0">Task All</h6>
-                                <h5 class="mb-3">0</h5>
+                                <h5 class="mb-3">{{ task_set_num }}</h5>
                             </div>
                         </div>
                     </div>
@@ -116,24 +116,27 @@
                                 <div class="table-responsive">
                                     <table class="table table-nowrap mb-0">
                                         <tbody>
+                                            {% for task in task_set %}
                                             <tr>
                                                 <td style="width: 60px;">
                                                     <img src="../../static/assets/images/users/user-2.jpg" alt="" class="thumb-sm rounded-circle">
                                                 </td>
-                                                <td>User name
-                                                    <p class="m-0 text-muted">On 22 Dec, 2019</p>
-                                                </td>
-                                                <td>Task Name</td>
-                                                <td>
-                                                    <i class="mdi mdi-checkbox-blank-circle text-success mr-1"></i> Finish
-                                                </td>
 
-                                                <td>
-                                                    <div>
-                                                        <a href="#" class="btn btn-primary btn-sm">Detail</a>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                    <td>{{ user }}
+                                                        <p class="m-0 text-muted">{{ task.task_start_time }}</p>
+                                                    </td>
+                                                    <td>{{ task.task_algorithm }}</td>
+                                                    <td>
+                                                        <i class="mdi mdi-checkbox-blank-circle text-success mr-1"></i> {{ task.task_status }}
+                                                    </td>
+
+                                                    <td>
+                                                        <div>
+                                                            <a href="{% url  'df_task:task_record' %}" class="btn btn-primary btn-sm">Detail</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>

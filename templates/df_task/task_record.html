@@ -49,22 +49,24 @@
                         <tr>
                             <th>Algorithm</th>
                             <th>CPU</th>
-                            <th>MEE</th>
+                            <th>MEM</th>
                             <th>Start Time</th>
                             <th>Dataset</th>
                             <th>Result</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><button class="btn-primary"><a href="#" download="dataset">Download</button></td>
-                            <td><button class="btn-warning"><a href="#" download="result">Download</button></td>
-                        </tr>
-                    </tbody>
+                    {% for task in task_set %}
+                        <tbody>
+                            <tr>
+                                <td>{{ task.task_algorithm }}</td>
+                                <td>{{ task.cpu }}</td>
+                                <td>{{ task.memory }}</td>
+                                <td>{{ task.task_start_time }}</td>
+                                <td><button class="btn-primary"><a href="/static/Data/{{ uid }}/{{ task.task_data_url }}" download=dataset>Download</a></button></td>
+                                <td><button class="btn-warning"><a href="/static/Out/{{ uid }}/{{ task.output }}" download="result">Download</a></button></td>
+                            </tr>
+                        </tbody>
+                    {% endfor %}
                 </table>
 
 

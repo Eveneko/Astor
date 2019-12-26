@@ -104,6 +104,7 @@ def detail(request, gid):
         'goods': goods,
         'news': news,
         'id': good_id,
+        'pic': goods.gpic,
     }
     response = render(request, 'df_goods/detail.html', context)
 

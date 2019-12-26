@@ -2,7 +2,8 @@
 <div class="card">
     <a href="/good-{{ goods.id }}/">
     <script type="text/javascript">
-        document.write("<img src=" + getImageFromID({{ goods.id }}) + " class=\"card-img-top\" alt=\"...\">")
+        {% comment %} document.write("<img src=" + getImageFromID({{ goods.id }}) + " class=\"card-img-top\" alt=\"...\">") {% endcomment %}
+        document.write("<img src= /media/" + "{{ goods.gpic }}" + " class=\"card-img-top\" alt=\"...\">")
     </script>
     </a>
     <div class="card-body">

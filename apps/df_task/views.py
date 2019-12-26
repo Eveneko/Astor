@@ -24,11 +24,15 @@ def index(request):
     user = UserInfo.objects.get(id=request.session['user_id'])
     algorithm_num = len(GoodsInfo.objects.all())
     user_num = len(UserInfo.objects.all())
+    task_set = Task.objects.all().filter(task_user=user).order_by("-task_start_time")
     context = {
         'title': '用户中心',
         'uid': user_id,
+        'user': user,
         'algorithm_num': algorithm_num,
-        'user_num': user_num
+        'user_num': user_num,
+        'task_set': task_set,
+        'task_set_num': len(task_set)
     }
     return render(request, 'df_task/index.html', context)
 
@@ -66,9 +70,7 @@ def creat_task(request):
 def task_record(request):
     user_id = request.session['user_id']
     user = UserInfo.objects.get(id=request.session['user_id'])
-    task_set = Task.objects.all().filter(task_user=user)
-    for i in task_set:
-        i.task_algorithm, i.cpu, i.memory, i.task_start_time, i.task_data_url, i.output
+    task_set = Task.objects.all().filter(task_user=user).order_by("-task_start_time")
     context = {
         'title': '用户中心',
         'uid': user_id,
@@ -99,7 +101,7 @@ def upload_file(request):
             File = request.FILES.get("file", None)  # 获取上传的文件，如果没有文件，则默认为None
             if not File:
                 return HttpResponse("No files for upload!")
-            path = "media/Data/" + str(user_id)
+            path = "static/Data/" + str(user_id)
             file_uuid = str(uuid.uuid4())
             if not os.path.exists(path):
                 os.mkdir(path)
@@ -134,10 +136,8 @@ def upload_task_config(request):
         }
         try:
             algorithm = request.POST.get("algorithm")
-            # cpu = request.POST.get("cpu").split(' ')[0]
-            # mem = request.POST.get("mem").split(' ')[0]
-            cpu = '1 c'
-            mem = "128 m"
+            cpu = request.POST.get("cpu").split(' ')[0]
+            mem = request.POST.get("mem").split(' ')[0]
             dataset = request.POST.get("dataset").split(',')[1]
             time = datetime.time()
             out_uuid = run_sh.run(user_id, algorithm, dataset, cpu, mem)
@@ -145,10 +145,11 @@ def upload_task_config(request):
             task = Task()
             task.task_user = user
             task.task_algorithm = GoodsInfo.objects.get(gtitle=algorithm)
-            # task.cpu = str(
-            # task.memory = str(mem)
-            task.task_start_time = time
+            task.cpu = cpu
+            task.memory = mem
+            # task.task_start_time = time
             task.output = out_uuid
+            task.task_data_url = dataset
             task.save()
 
             return render(request, 'df_task/task_record.html', context)
