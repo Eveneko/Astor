@@ -7,10 +7,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
     data_path = args.data_path
 
-    # if not check():
-    #     print("The input is invalid,please submit again!")
-    # else:
-    with open(data_path, 'r') as fw:
-        result = fw.readline().strip()
-        a, b = result.split(' ')
-        print(int(a) * int(b))
+    if not check(data_path):
+        print("The input is invalid,please submit again!")
+    else:
+        with open(data_path, 'r') as fw:
+            result = fw.readline().strip()
+            a, b = result.split(' ')
+            print(int(a) * int(b))
+

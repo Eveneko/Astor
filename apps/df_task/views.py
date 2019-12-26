@@ -6,11 +6,12 @@ from django.http import JsonResponse, HttpResponse
 from hashlib import sha1
 from apps.df_user import user_decorator
 from django import forms
-from . import run_docker
-
+from . import run_docker, run_sh
+from .models import Task
 from df_user.models import GoodsBrowser, UserInfo, UserBuyAlgorithm, UserFile
 from df_order.models import OrderDetailInfo, OrderInfo
 from df_goods.models import GoodsInfo, TypeInfo
+
 
 import os
 import uuid
@@ -65,10 +66,14 @@ def creat_task(request):
 def task_record(request):
     user_id = request.session['user_id']
     user = UserInfo.objects.get(id=request.session['user_id'])
+    task_set = Task.objects.all().filter(task_user=user)
+    for i in task_set:
+        i.task_algorithm, i.cpu, i.memory, i.task_start_time, i.task_data_url, i.output
     context = {
         'title': '用户中心',
         'uid': user_id,
         'user': user,
+        'task_set': task_set
     }
     return render(request, 'df_task/task_record.html', context)
 
@@ -129,12 +134,24 @@ def upload_task_config(request):
         }
         try:
             algorithm = request.POST.get("algorithm")
-            cpu = request.POST.get("cpu")
-            mem = request.POST.get("mem")
-            dataset = request.POST.get("dataset")
-            dataset_path = 'media/Data/{0}/{1}'.format(user_id, dataset.split(',')[1])
+            # cpu = request.POST.get("cpu").split(' ')[0]
+            # mem = request.POST.get("mem").split(' ')[0]
+            cpu = '1 c'
+            mem = "128 m"
+            dataset = request.POST.get("dataset").split(',')[1]
             time = datetime.time()
+            out_uuid = run_sh.run(user_id, algorithm, dataset, cpu, mem)
+
+            task = Task()
+            task.task_user = user
+            task.task_algorithm = GoodsInfo.objects.get(gtitle=algorithm)
+            # task.cpu = str(
+            # task.memory = str(mem)
+            task.task_start_time = time
+            task.output = out_uuid
+            task.save()
+
             return render(request, 'df_task/task_record.html', context)
         except Exception as e:
             transaction.savepoint_rollback(tran_id)  # 事务任何一个环节出错，则事务全部取消
-            return render(request, 'df_task/task_record.html', context)
+            return HttpResponse(e)

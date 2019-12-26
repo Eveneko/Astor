@@ -1,5 +1,5 @@
-def check():
-    with open('data.txt', 'r') as fw:
+def check(data_path):
+    with open(data_path, 'r') as fw:
         result = fw.readline().strip()
         if len(result) != 3:
             # print()

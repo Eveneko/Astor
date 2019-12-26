@@ -9,6 +9,63 @@
 
 {% block right %}
 
+ <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="page-title-box">
+                    <div class="row align-items-center">
+                        <div class="col-sm-6">
+                            <h4 class="page-title">Form Wizard</h4>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'df_task:index' %}"><i class="mdi mdi-home-outline"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'df_task:creat_task' %}">Task</a></li>
+                                <li class="breadcrumb-item active">Task Record</li>
+                            </ol>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="float-right d-none d-md-block">
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle arrow-none waves-effect waves-light" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="mdi mdi-settings mr-2"></i> Settings
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Separated link</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end row -->
+                </div>
+                <!-- end page-title -->
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Algorithm</th>
+                            <th>CPU</th>
+                            <th>MEE</th>
+                            <th>Start Time</th>
+                            <th>Dataset</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><button class="btn-primary"><a href="#" download="dataset">Download</button></td>
+                            <td><button class="btn-warning"><a href="#" download="result">Download</button></td>
+                        </tr>
+                    </tbody>
+                </table>
 
 
 {% endblock right %}
