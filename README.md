@@ -58,6 +58,3 @@
 浏览器打开: `http://127.0.0.1/` 即可进入普通用户入口
 
 浏览器打开: `http://127.0.0.1/admin` 即可进入超级用户入口
-
-
-[]: http://share.eveneko.com/db.sqlite3
