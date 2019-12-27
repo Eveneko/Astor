@@ -25,6 +25,9 @@ def index(request):
     algorithm_num = len(GoodsInfo.objects.all())
     user_num = len(UserInfo.objects.all())
     task_set = Task.objects.all().filter(task_user=user).order_by("-task_start_time")
+    task_set_num = len(task_set)
+    if task_set_num > 5:
+        task_set = task_set[:4]
     context = {
         'title': '用户中心',
         'uid': user_id,
@@ -32,7 +35,7 @@ def index(request):
         'algorithm_num': algorithm_num,
         'user_num': user_num,
         'task_set': task_set,
-        'task_set_num': len(task_set)
+        'task_set_num': task_set_num
     }
     return render(request, 'df_task/index.html', context)
 
