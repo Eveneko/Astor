@@ -25,12 +25,10 @@ if __name__ == '__main__':
             result = fw.readline().strip()
             a = result.split(' ')
             a = list(filter(None, a))
-            print(a)
             arr = []
-            for te in a:
-                arr.append(int(te))
+            for sub in a:
+                arr.append(int(sub))
 
             insertionSort(arr)
-            print("排序后的数组:")
-            for i in range(len(arr)):
-                print("%d" % arr[i])
+            for i in arr:
+                print(i, end=" ")

@@ -13,7 +13,7 @@
                             <a href="/{{ goods.id }}">
                                 <!-- <img src="{{ MEDIA_URL }}{{ goods.gpic }}"> -->
                                 <script type="text/javascript">
-                                    document.write("<img src=" + randomImage() + ">");
+                                    document.write("<img src=/media/" + "{{ goods.gpic }}" +  ">");
                                 </script>
                             </a>
     						<h4><a href="/{{ goods.id }}">{{ goods.gtitle }}</a></h4>
@@ -50,7 +50,7 @@
                     <a href="/{{ g.id }}/">
                         <!-- <img src="{{ MEDIA_URL }}{{ g.gpic }}"> -->
                         <script type="text/javascript">
-                            document.write("<img src=" + randomImage() + ">");
+                            document.write("<img src=/media/" + "{{ g.gpic }}" + ">");
                         </script>
                     </a>
 					<h4><a href="/{{ g.id }}/">{{ g.gtitle }}</a></h4>

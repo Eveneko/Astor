@@ -2,7 +2,7 @@
 
 **Astor**：基于`Python3.x`和`Django2.x`
 
-项目尽量使用Django内部提供的API，后台管理为Django自带的管理系统django-admin。适合Django的小型实战项目。
+项目尽量使用Django内部提供的API，后台管理为Django自带的管理系统django-admin。
 
 ## 在线样例：
 
@@ -18,7 +18,7 @@
 
 [http://astor.eveneko.com/admin](http://astor.eveneko.com/admin)
 
-账号：root
+账号：eveneko
 
 密码：rootroot
 
@@ -56,10 +56,3 @@
 浏览器打开: `http://127.0.0.1/` 即可进入普通用户入口
 
 浏览器打开: `http://127.0.0.1/admin` 即可进入超级用户入口
-
-
-## 补充：
-
-### 功能：
-
-## 感谢：
