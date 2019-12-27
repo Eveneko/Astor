@@ -24,7 +24,7 @@ def order(request):
         total_price = total_price + float(cart.count) * float(cart.goods.gprice)
 
     total_price = float('%0.2f' % total_price)
-    trans_cost = 10  # 运费
+    trans_cost = 0  # 运费
     total_trans_price = trans_cost + total_price
     context = {
         'title': '提交订单',
@@ -73,20 +73,20 @@ def order_handle(request):
             order_detail.order = order_info  # 外键关联，小订单与大订单绑定
             goods = cart.goods  # 具体商品
             user_buy_algorithm = UserBuyAlgorithm()
-            if cart.count <= goods.gkucun:  # 判断库存是否满足订单，如果满足，修改数据库
-                goods.gkucun = goods.gkucun - cart.count
-                goods.save()
-                order_detail.goods = goods
-                order_detail.price = goods.gprice
-                order_detail.count = cart.count
-                order_detail.save()
-                user_buy_algorithm.algorithm = goods
-                user_buy_algorithm.user = user
-                user_buy_algorithm.save()
-                cart.delete()  # 并删除当前购物车
-            else:  # 否则，则事务回滚，订单取消
-                transaction.savepoint_rollback(tran_id)
-                return HttpResponse('库存不足')
+            # if cart.count <= goods.gkucun:  # 判断库存是否满足订单，如果满足，修改数据库
+            # goods.gkucun = goods.gkucun - cart.counte
+            goods.save()
+            order_detail.goods = goods
+            order_detail.price = goods.gprice
+            order_detail.count = cart.count
+            order_detail.save()
+            user_buy_algorithm.algorithm = goods
+            user_buy_algorithm.user = user
+            user_buy_algorithm.save()
+            cart.delete()  # 并删除当前购物车
+            # else:  # 否则，则事务回滚，订单取消
+            #     transaction.savepoint_rollback(tran_id)
+            #     return HttpResponse('库存不足')
         data['ok'] = 1
         transaction.savepoint_commit(tran_id)
     except Exception as e:

@@ -77,7 +77,7 @@
 	<div class="common_list_con clearfix">
 		<div class="settle_con">
 			<div class="total_goods_count">共<em>{{ carts|length }}</em>件商品，总金额<b>{{ total_price }}</b></div>
-			<div class="transit">运费：<b>{{ trans_cost }}元</b></div>
+{#			<div class="transit">运费：<b>{{ trans_cost }}元</b></div>#}
 			<div class="total_pay">实付款：<b>{{ total_trans_price }}</b></div>
 		</div>
 	</div>
@@ -123,7 +123,7 @@
 		    //先发请求
             $.post('/order/push/',data,function (data) {
                 //成功
-
+                console.log(data);
                 if (data.ok == 1){
                     localStorage.setItem('order_finish',2);
                     $('.popup_con').fadeIn('fast', function() {

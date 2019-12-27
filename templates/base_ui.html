@@ -40,7 +40,7 @@
 
                 <!-- LOGO -->
                 <div class="topbar-left">
-                    <a href="{% url "df_task:index" %}" class="logo">
+                    <a href="{% url "df_goods:index" %}" class="logo">
                         <span class="logo-light">
                             <img src="../../static/assets/images/logo-light.png" alt="" height="48">
                         </span>
@@ -166,6 +166,16 @@
                             </li>
                             <li>
                                 <a href="{% url 'df_task:task_record' %}" class="waves-effect waves-light"><i class="ion ion-md-list"></i><span> Task Record </span></a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" class="waves-effect waves-light"><i class="ion ion-md-person"></i><span> 用户中心 <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                                <ul class="submenu">
+                                    <li><a href="{% url 'df_user:info' %}">个人信息</a></li>
+                                    <li><a href="/user/order/1">全部订单</a></li>
+                                    <li><a href="{% url 'df_user:site' %}">修改信息</a></li>
+                                    <li><a href="{% url 'df_user:publish_handle' %}">发布算法</a></li>
+                                    <li><a href="{% url 'df_user:published' 1%}">已发布</a></li>
+                                </ul>
                             </li>
 
                         </ul>

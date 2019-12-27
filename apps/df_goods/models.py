@@ -30,7 +30,7 @@ class GoodsInfo(models.Model):
     gclick = models.IntegerField(verbose_name="点击量", default=0, null=False)
     gjianjie = models.CharField(max_length=200, verbose_name="简介")
     # gkucun = models.IntegerField(verbose_name="库存", default=0)
-    gcontent = HTMLField(max_length=1000, verbose_name="详情")
+    gcontent = HTMLField(max_length=5000, verbose_name="详情")
     gtype = models.ForeignKey(TypeInfo, on_delete=models.CASCADE, verbose_name="分类")  # 外键关联TypeInfo表
     # gadv = models.BooleanField(default=False) #商品是否推荐
     gsale = models.IntegerField(verbose_name="销售量", default=0)  # 算法销售量

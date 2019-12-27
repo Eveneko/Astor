@@ -28,13 +28,12 @@
 						<tr>
 							<td width="55%">
 								<ul class="order_goods_list clearfix">					
-									<!-- <li class="col01"><img src="{{ MEDIA_URL }}{{ order_detail.goods.gpic }}"></li> -->
 									<script type="text/javascript">
-										document.write("<li class=\"col01\"><img src=" + randomImage() + " style=\"width=50px;\"></li>");
+										document.write("<li class=\"col01\"><img src= /media/" + "{{ order_detail.goods.gpic }}" + " style=\"width=50px;\"></li>");
 									</script>
-                                    <li class="col02">{{ order_detail.goods.gtitle }}<em class="good_price">{{ order_detail.goods.gprice }}</em>元/小时</li>
-									<!-- <li class="col03">{{ order_detail.count }}件</li> -->
-									<!-- <li class="col04">11.80元</li>	 -->
+                                    <li class="col02">{{ order_detail.goods.gtitle }}
+{#                                        <em class="good_price">{{ order_detail.goods.gprice }}</em>元/小时#}
+                                    </li>
 								</ul>
 							</td>
 							<td width="15%">{{ orderinfo.ototal }}元</td>
