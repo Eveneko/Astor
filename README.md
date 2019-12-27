@@ -39,7 +39,7 @@
 
 也可自行配置连接使用MySQL
 
-现成数据库地址：[db.sqlite][http://share.eveneko.com/db.sqlite3]
+现成数据库地址：[db.sqlite](http://share.eveneko.com/db.sqlite3)
 
 ### 创建超级用户
 
