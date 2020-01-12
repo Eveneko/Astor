@@ -64,6 +64,7 @@ def login_handle(request):  # 没有利用ajax提交表单
     upwd = request.POST.get('pwd')
     jizhu = request.POST.get('jizhu', 0)
     users = UserInfo.objects.filter(uname=uname)
+    print(uname, upwd)
     if len(users) == 1:  # 判断用户密码并跳转
         s1 = sha1()
         s1.update(upwd.encode('utf8'))

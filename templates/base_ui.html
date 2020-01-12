@@ -27,7 +27,6 @@
                 {% if request.session.user_name|default:'' != '' %}
 {#                    default过滤器进行判断如果request.session.user_name不等于空字符串则用户登陆状态为true#}
 {#                    也就是说当用户为已登陆状态时则显示用户名#}
-
 {#                    class="login_info fl"#}
                 {% endif %}
         </div>
