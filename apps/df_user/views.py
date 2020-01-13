@@ -20,8 +20,10 @@ def register(request):
 def register_handle(request):
     username = request.POST.get('user_name')
     password = request.POST.get('pwd')
-    confirm_pwd = request.POST.get('confirm_pwd')
+    confirm_pwd = request.POST.get('cpwd')
     email = request.POST.get('email')
+
+    print(username, password, confirm_pwd, email)
 
     # 判断两次密码一致性
     if password != confirm_pwd:

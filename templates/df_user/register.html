@@ -116,11 +116,14 @@
             }
 
             $("#reg_form").submit(function(){
-                alert('ok');
                 check_user_name();
                 check_pwd();
                 check_cpwd();
                 check_email();
+                alert(error_name);
+                alert(error_password);
+                alert(error_check_password);
+                alert(error_email);
                 if(error_name == false && error_password == false && error_check_password == false && error_email == false)
                 {
                     return true;
@@ -166,7 +169,7 @@
 
                                             <div class="form-group">
                                                 <label for="userpassword">Confirm Password</label>
-                                                <input type="password" class="form-control" name="confirm_pwd" id="confirm_pwd" placeholder="Enter password again">
+                                                <input type="password" class="form-control" name="cpwd" id="cpwd" placeholder="Enter password again">
                                                 <span class="error" style="display: none">Tip</span>
                                             </div>
 
