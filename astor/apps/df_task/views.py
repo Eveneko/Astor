@@ -1,15 +1,11 @@
 from django.db import transaction
-from django.shortcuts import render, redirect, HttpResponseRedirect, reverse
-from django.core.paginator import Paginator
+from django.shortcuts import render, redirect, reverse
 from django.http import JsonResponse, HttpResponse
 
-from hashlib import sha1
 from apps.df_user import user_decorator
-from django import forms
 from . import run_docker, run_sh
 from .models import Task
 from df_user.models import UserInfo, UserBuyAlgorithm
-from df_order.models import OrderDetailInfo, OrderInfo
 from df_goods.models import GoodsInfo, TypeInfo
 
 
@@ -56,14 +52,11 @@ def creat_task(request):
         ua_set.add(GoodsInfo.objects.get(id=ua.algorithm_id))
     algorithm_info = ua_set
 
-    user_files = UserFile.objects.filter(user_id=user_id)
-
     context = {
         'title': 'creat_task',
         'uid': user_id,
         'user': user,
         'algorithm_info': algorithm_info,
-        'user_files': user_files,
     }
     print(algorithm_info)
     return render(request, 'df_task/creat_task.html', context)
@@ -113,12 +106,6 @@ def upload_file(request):
             for chunk in File.chunks():  # 分块写入文件
                 destination.write(chunk)
             destination.close()
-
-            user_file = UserFile()
-            user_file.user = user
-            user_file.file_name = File.name
-            user_file.file_uuid = file_uuid
-            user_file.save()
 
             return HttpResponse("Upload over!")
         except Exception as e:
