@@ -16,41 +16,10 @@
         <link href="../../static/assets/css/style.css" rel="stylesheet" type="text/css">
 
         <script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
-        <script>
-            $(function () {
-                name_error = false;
-                pwd_error = false;
-
-                if({{ error_name }}==1){
-                    $('#username').next().html('用户名错误').show();
-                }
-                if({{ error_pwd }}==1){
-                    $('#pwd').next().html('密码错误').show();
-                }
-                $('#username').blur(function () {
-                    if($('#username').val().length=0){
-                        $('#username').next().html('请填写用户名').show();
-                        name_error = false;
-                    }else{
-                        $('#username').next().hide();
-                        name_error = true;
-                    }
-                });
-                $('#pwd').blur(function () {
-                    if($('#pwd').val().length=0){
-                        $('#pwd').next().html('请输入密码').show();
-                        pwd_error = false;
-                    }else{
-                        $('#pwd').next().hide();
-                        pwd_error = true;
-                    }
-                })
-            })
-        </script>
 
     </head>
 
-    <body>
+    <body>s
 
         <div class="account-page-full-height bg-primary">
             <div class="container-fluid">
@@ -66,24 +35,28 @@
                                         <h4 class="font-18 text-center">Welcome Back !</h4>
                                         <p class="text-muted text-center">Sign in to continue to Astor.</p>
                 
-                                        <form class="form-horizontal mt-5" action="{% url "df_user:login_handle" %}" method="post">
+                                        <form class="form-horizontal mt-5" action="{% url "df_user:login" %}" method="post">
                                             {% csrf_token %}
                                             <div class="form-group">
-                                                <label for="username">Username</label>
+                                                <label for="username">Username {{ context }}</label>
                                                 <input type="text" class="form-control" id="username" name="username" value="{{ username }}" placeholder="Enter username">
-                                                <span class="error" style="display: none">Tip</span>
+                                                {% if username_error_msg == 'USER_NOT_FOUND' %}
+                                                  <span class="error">USERNAME ERROR</span>
+                                                {% endif %}
                                             </div>
                 
                                             <div class="form-group">
                                                 <label for="userpassword">Password</label>
-                                                <input type="password" class="form-control" id="pwd" name="pwd" value="{{ password }}" placeholder="Enter password">
-                                                <span class="error" style="display: none">Tip</span>
+                                                <input type="password" class="form-control" id="pwd" name="password" value="{{ password }}" placeholder="Enter password">
+                                                {% if password_error_msg == 'PASSWORD_ERROR' %}
+                                                <span class="error">PASSWORD ERROR</span>
+                                                {% endif %}
                                             </div>
                 
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="customControlInline">
+                                                        <input type="checkbox" class="custom-control-input" value="True" name="remember_password" id="customControlInline">
                                                         <label class="custom-control-label" for="customControlInline">Remember me</label>
                                                     </div>
                                                 </div>

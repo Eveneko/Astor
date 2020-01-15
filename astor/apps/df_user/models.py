@@ -1,6 +1,4 @@
 from django.db import models
-# from apps.df_goods.models import GoodsInfo
-from df_goods.models import GoodsInfo
 
 
 class UserInfo(models.Model):
@@ -19,7 +17,7 @@ class UserInfo(models.Model):
 class UserBuyAlgorithm(models.Model):
     user = models.ForeignKey(UserInfo, on_delete=models.CASCADE,
                              verbose_name="用户ID")
-    algorithm = models.ForeignKey(GoodsInfo, on_delete=models.CASCADE,
+    algorithm = models.ForeignKey('df_goods.GoodsInfo', on_delete=models.CASCADE,
                                   verbose_name="商品ID")
 
     class Meta:

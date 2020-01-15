@@ -1,32 +1,29 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect, reverse
 from django.core.paginator import Paginator
-from django.http import JsonResponse
 
 from hashlib import sha1
 
 from .models import UserInfo
-from .forms import RegisterForm
+from .forms import RegisterForm, LoginForm
 from . import user_decorator
-
 
 def register(request):
     """
-    ^/user/register
+    ^/user/register/
     注册页面请求
     :param request: 请求对象
     :return: 渲染注册页面
     """
     if request.method == 'GET':
         # Get请求，初始化登录表单供用户填写
-        print('GET: user:register')
+        # print('GET: user:register')
         context = {
             'title': '用户注册',
         }
         register_form = RegisterForm()
         return render(request, 'system/register.html', locals())
     elif request.method == 'POST' and request.POST:
-        print('POST: user:register' + '\n%s' % request.POST)
-
+        # print('POST: user:register' + '\n%s' % request.POST)
         register_form = RegisterForm(data=request.POST)
         # 满足条件则将输入内容传递给form对象
         if register_form.is_valid():
@@ -55,86 +52,92 @@ def register(request):
         raise Exception("Unhandled Request")
 
 
-def register_handle(request):
-    username = request.POST.get('user_name')
-    password = request.POST.get('pwd')
-    confirm_pwd = request.POST.get('confirm_pwd')
-    email = request.POST.get('email')
+# def register_handle(request):
+#     username = request.POST.get('user_name')
+#     password = request.POST.get('pwd')
+#     confirm_pwd = request.POST.get('confirm_pwd')
+#     email = request.POST.get('email')
+#
+#     # 判断两次密码一致性
+#     if password != confirm_pwd:
+#         return redirect('/user/register/')
+#     # 密码加密
+#     s1 = sha1()
+#     s1.update(password.encode('utf8'))
+#     encrypted_pwd = s1.hexdigest()
+#
+#     # 创建对象
+#     UserInfo.objects.create(uname=username, upwd=encrypted_pwd, uemail=email)
+#     # 注册成功
+#     context = {
+#         'title': '用户登陆',
+#         'username': username,
+#     }
+#     return render(request, 'df_user/login.html', context)
 
-    # 判断两次密码一致性
-    if password != confirm_pwd:
-        return redirect('/user/register/')
-    # 密码加密
-    s1 = sha1()
-    s1.update(password.encode('utf8'))
-    encrypted_pwd = s1.hexdigest()
 
-    # 创建对象
-    UserInfo.objects.create(uname=username, upwd=encrypted_pwd, uemail=email)
-    # 注册成功
-    context = {
-        'title': '用户登陆',
-        'username': username,
-    }
-    return render(request, 'df_user/login.html', context)
-
-
-def register_exist(request):
-    username = request.GET.get('uname')
-    count = UserInfo.objects.filter(uname=username).count()
-    return JsonResponse({'count': count})
+# def register_exist(request):
+#     username = request.GET.get('uname')
+#     count = UserInfo.objects.filter(uname=username).count()
+#     return JsonResponse({'count': count})
 
 
 def login(request):
-    uname = request.COOKIES.get('uname', '')
-    context = {
-        'title': '用户登陆',
-        'error_name': 0,
-        'error_pwd': 0,
-        'uname': uname,
-    }
-    return render(request, 'df_user/login.html', context)
-
-
-def login_handle(request):  # 没有利用ajax提交表单
-    # 接受请求信息
-    uname = request.POST.get('username')
-    upwd = request.POST.get('pwd')
-    jizhu = request.POST.get('jizhu', 0)
-    users = UserInfo.objects.filter(uname=uname)
-    if len(users) == 1:  # 判断用户密码并跳转
-        s1 = sha1()
-        s1.update(upwd.encode('utf8'))
-        if s1.hexdigest() == users[0].upwd:
-            url = request.COOKIES.get('url', '/')
-            red = HttpResponseRedirect(
-                url)  # 继承与HttpResponse 在跳转的同时 设置一个cookie值
-            # 是否勾选记住用户名，设置cookie
-            if jizhu != 0:
-                red.set_cookie('uname', uname)
+    """
+    登录界面请求
+    请求页面：GET:  ^/user/register/
+    请求登录：POST: ^/user/register/csrfmiddlewaretoken={% csrf_token %}&username={% username %}&password={% password %}
+    :param request: 请求对象
+    :return: 渲染注册页面
+    """
+    context = {'title': 'USER_LOGIN', 'status': 'SUCCESS'}
+    if request.method == 'GET':
+        print('GET: user:login')
+        uname = request.COOKIES.get('uname', '')
+        login_form = LoginForm()
+        return render(request, 'system/login.html', locals())
+    elif request.method == 'POST' and request.POST:
+        print('POST: user:login')
+        login_form = LoginForm(data=request.POST)
+        # 满足条件则将输入内容传递给form对象
+        if login_form.is_valid():
+            print('Form Valid')
+            username = login_form.clean_username()
+            password = login_form.clean_password()
+            remember_password = login_form.clean_remember_password()
+            # 验证用户
+            users = UserInfo.objects.filter(uname=username)
+            if len(users) > 1:
+                raise Exception('出现多个同名用户')
+            elif len(users) == 0:
+                context['status'] = 'FAIL'
+                context['username_error_msg'] = 'USER_NOT_FOUND'
             else:
-                red.set_cookie('uname', '', max_age=-1)  # 设置过期cookie时间，立刻过期
-            request.session['user_id'] = users[0].id
-            request.session['user_name'] = uname
-            return red
+                # 验证密码
+                s1 = sha1()
+                s1.update(password.encode('utf8'))
+                if s1.hexdigest() != users[0].upwd:
+                    print('PASSWORD_ERROR')
+                    context['status'] = 'FAIL'
+                    context['password_error_msg'] = 'PASSWORD_ERROR'
+                else:
+                    print('LOGIN_SUCCESS')
+                    # 验证成功，添加Cookie完成跳转
+                    url = request.COOKIES.get('url', '/')
+                    red = HttpResponseRedirect(url)
+                    if remember_password:
+                        red.set_cookie('uname', username)
+                    else:
+                        red.set_cookie('uname', '', max_age=-1)
+                    request.session['user_id'] = users[0].id
+                    request.session['user_name'] = username
+                    return red
+            return render(request, 'system/login.html', context)
         else:
-            context = {
-                'title': '用户名登陆',
-                'error_name': 0,
-                'error_pwd': 1,
-                'uname': uname,
-                'upwd': upwd,
-            }
-            return render(request, 'df_user/login.html', context)
+            # 表单错误
+            raise Exception('表单解析异常')
     else:
-        context = {
-            'title': '用户名登陆',
-            'error_name': 1,
-            'error_pwd': 0,
-            'uname': uname,
-            'upwd': upwd,
-        }
-        return render(request, 'df_user/login.html', context)
+        raise Exception("Unhandled Request")
 
 
 def logout(request):  # 用户登出

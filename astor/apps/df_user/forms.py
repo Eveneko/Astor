@@ -36,3 +36,34 @@ class RegisterForm(forms.Form):
         # print('clean_email', self.cleaned_data)
         email = self.cleaned_data["email"]
         return email
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=32, label='Username')
+    password = forms.CharField(max_length=32, label='Password')
+    # remember_passwd = forms.CheckboxInput(attrs='x')
+    remember_password = forms.ChoiceField(choices=(
+                                            ('True', 1),
+                                            ('False', 0),
+                                        ),
+                                        label="Remember me",
+                                        initial="True",
+                                        widget=forms.widgets.CheckboxInput())
+
+    def clean_username(self):
+        # print('cleaned_data:', self.cleaned_data)
+        username = self.cleaned_data["username"]
+        return username
+
+    def clean_password(self):
+        # print('clean_password', self.cleaned_data)
+        password = self.cleaned_data["password"]
+        return password
+
+    def clean_remember_password(self):
+        remember_password = str(self.cleaned_data['remember_password'])
+        if remember_password == 'False':
+            return False
+        elif remember_password == 'True':
+            return True
+        raise Exception('未知复选结果')
