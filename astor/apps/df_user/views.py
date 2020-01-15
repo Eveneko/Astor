@@ -14,12 +14,10 @@ def register(request):
     :param request: 请求对象
     :return: 渲染注册页面
     """
+    context = {'title': '用户注册'}
     if request.method == 'GET':
         # Get请求，初始化登录表单供用户填写
         # print('GET: user:register')
-        context = {
-            'title': '用户注册',
-        }
         register_form = RegisterForm()
         return render(request, 'system/register.html', locals())
     elif request.method == 'POST' and request.POST:
@@ -39,47 +37,25 @@ def register(request):
             UserInfo.objects.create(uname=username, upwd=encrypted_pwd,
                                     uemail=email)
             # 注册成功
-            context = {
-                'title': '用户登陆',
-                'username': username,
-                'status': 'SUCCESS'
-            }
-            return render(request, 'df_user/login.html', locals())
+            context['title'] = '用户登陆'
+            context['status'] = 'SUCCESS'
+            context['username'] = username
+            return render(request, 'system/login.html', context)
         else:
+            context['status'] = 'FAIL'
+            error_msg = eval(register_form.errors.as_json())
+            if 'username' in error_msg.keys():
+                context['username_error_msg'] = error_msg['username'][0]['message']
+            if 'email' in error_msg.keys():
+                context['email_error_msg'] = error_msg['email'][0]['message']
+            if 'password' in error_msg.keys():
+                context['password_error_msg'] = error_msg['password'][0]['message']
+            if 'confirm_pwd' in error_msg.keys():
+                context['confirm_pwd_error_msg'] = error_msg['confirm_pwd'][0]['message']
             # 返回错误信息并重新注册
-            return render(request, 'system/register.html', locals())
+            return render(request, 'system/register.html', context)
     else:
         raise Exception("Unhandled Request")
-
-
-# def register_handle(request):
-#     username = request.POST.get('user_name')
-#     password = request.POST.get('pwd')
-#     confirm_pwd = request.POST.get('confirm_pwd')
-#     email = request.POST.get('email')
-#
-#     # 判断两次密码一致性
-#     if password != confirm_pwd:
-#         return redirect('/user/register/')
-#     # 密码加密
-#     s1 = sha1()
-#     s1.update(password.encode('utf8'))
-#     encrypted_pwd = s1.hexdigest()
-#
-#     # 创建对象
-#     UserInfo.objects.create(uname=username, upwd=encrypted_pwd, uemail=email)
-#     # 注册成功
-#     context = {
-#         'title': '用户登陆',
-#         'username': username,
-#     }
-#     return render(request, 'df_user/login.html', context)
-
-
-# def register_exist(request):
-#     username = request.GET.get('uname')
-#     count = UserInfo.objects.filter(uname=username).count()
-#     return JsonResponse({'count': count})
 
 
 def login(request):
@@ -135,7 +111,16 @@ def login(request):
             return render(request, 'system/login.html', context)
         else:
             # 表单错误
-            raise Exception('表单解析异常')
+            print(login_form.errors)
+            context['status'] = 'FAIL'
+            error_msg = eval(login_form.errors.as_json())
+            if 'username' in error_msg.keys():
+                context['username_error_msg'] = error_msg['username'][0]['message']
+            if 'password' in error_msg.keys():
+                context['password_error_msg'] = error_msg['password'][0]['message']
+            print(context)
+            return render(request, 'system/login.html', context)
+            # raise Exception('表单解析异常')
     else:
         raise Exception("Unhandled Request")
 
@@ -192,10 +177,10 @@ def order(request, index):
 def site(request):
     user = UserInfo.objects.get(id=request.session['user_id'])
     if request.method == "POST":
-        user.ushou = request.POST.get('ushou')
-        user.uaddress = request.POST.get('uaddress')
-        user.uyoubian = request.POST.get('uyoubian')
-        user.uphone = request.POST.get('uphone')
+        # user.ushou = request.POST.get('ushou')
+        # user.uaddress = request.POST.get('uaddress')
+        # user.uyoubian = request.POST.get('uyoubian')
+        # user.uphone = request.POST.get('uphone')
         user.save()
     context = {
         'page_name': 1,

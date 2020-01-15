@@ -38,18 +38,18 @@
                                         <form class="form-horizontal mt-5" action="{% url "df_user:login" %}" method="post">
                                             {% csrf_token %}
                                             <div class="form-group">
-                                                <label for="username">Username {{ context }}</label>
+                                                <label for="username">Username</label>
                                                 <input type="text" class="form-control" id="username" name="username" value="{{ username }}" placeholder="Enter username">
-                                                {% if username_error_msg == 'USER_NOT_FOUND' %}
-                                                  <span class="error">USERNAME ERROR</span>
+                                                {% if username_error_msg %}
+                                                  <span class="error">{{ username_error_msg }}</span>
                                                 {% endif %}
                                             </div>
                 
                                             <div class="form-group">
                                                 <label for="userpassword">Password</label>
                                                 <input type="password" class="form-control" id="pwd" name="password" value="{{ password }}" placeholder="Enter password">
-                                                {% if password_error_msg == 'PASSWORD_ERROR' %}
-                                                <span class="error">PASSWORD ERROR</span>
+                                                {% if password_error_msg %}
+                                                <span class="error">{{ password_error_msg }}</span>
                                                 {% endif %}
                                             </div>
                 

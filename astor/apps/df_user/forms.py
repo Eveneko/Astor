@@ -35,13 +35,14 @@ class RegisterForm(forms.Form):
     def clean_email(self):
         # print('clean_email', self.cleaned_data)
         email = self.cleaned_data["email"]
+        if UserInfo.objects.filter(uemail=email).count() > 0:
+            raise forms.ValidationError("Email has already been used")
         return email
 
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=32, label='Username')
     password = forms.CharField(max_length=32, label='Password')
-    # remember_passwd = forms.CheckboxInput(attrs='x')
     remember_password = forms.ChoiceField(choices=(
                                             ('True', 1),
                                             ('False', 0),
