@@ -14,8 +14,8 @@ class UserInfoAdmin(admin.ModelAdmin):
 class UserBuyAlgorithmAdmin(admin.ModelAdmin):
     list_display = ["user", "algorithm"]
     list_per_page = 50
-    list_filter = ["user__uname", "algorithm__gtitle"]
-    search_fields = ["user__uname", "algorithm__gtitle"]
+    list_filter = ["user__uname", "algorithm__name"]
+    search_fields = ["user__uname", "algorithm__name"]
     # readonly_fields = ["user", "algorithm"]
     refresh_times = [3, 5]
 
