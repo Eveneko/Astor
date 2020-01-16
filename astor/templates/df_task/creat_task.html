@@ -1,0 +1,172 @@
+{% extends 'base_ui.html' %}
+
+{% block css %}
+
+    <!-- Dropzone css -->
+    <link href="../../static/plugins/dropzone/dist/dropzone.css" rel="stylesheet" type="text/css">
+
+    <!--Jquery steps CSS -->
+    <link rel="stylesheet" href="../../static/plugins/jquery-steps/jquery.steps.css">
+
+    <!-- summernote -->
+    <link rel="stylesheet" href="../../static/plugins/summernote/summernote-bs4.css">
+
+{% endblock css %}
+
+
+{% block right %}
+
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="page-title-box">
+                    <div class="row align-items-center">
+                        <div class="col-sm-6">
+                            <h4 class="page-title">Menu</h4>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'df_task:index' %}"><i class="mdi mdi-home-outline"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'df_task:creat_task' %}">Task</a></li>
+                                <li class="breadcrumb-item active">Creat Task</li>
+                            </ol>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="float-right d-none d-md-block">
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle arrow-none waves-effect waves-light" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="mdi mdi-settings mr-2"></i> Settings
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Separated link</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end row -->
+                </div>
+                <!-- end page-title -->
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="mt-0 header-title">Jquery Steps Wizard</h4>
+                                <p class="text-muted mb-4">A powerful jQuery wizard plugin that
+                                    supports accessibility and HTML5</p>
+
+                                <form id="form-horizontal" class="form-horizontal form-wizard-wrapper" method="post" action={% url "df_task:upload_task_config" %}>
+                                    <h3>Algorithm Details</h3>
+                                    <fieldset>
+                                        <div class="form-group row">
+                                            <label class="col-md-1 col-form-label">Select</label>
+                                            <div class="col-md-11">
+                                                <select class="form-control" name="algorithm">
+                                                   {% for i in algorithm_info %}
+                                                       <option value={{ i }}> {{ i }} </option>
+                                                   {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <h3>Environment</h3>
+                                    <fieldset>
+                                        <div class="row">
+                                            <label class="col-md-1 col-form-label">CPU</label>
+                                            <div class="col-md-5">
+                                                <select class="form-control" name="cpu">
+                                                    <option>1 core</option>
+                                                </select>
+                                            </div>
+                                            <label class="col-md-1 col-form-label">Mem</label>
+                                            <div class="col-md-5">
+                                                <select class="form-control" name="mem">
+                                                    <option>128 m</option>
+                                                    <option>256 m</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+                                    <h3>Choose Data File</h3>
+                                    <fieldset>
+
+                                        <div class="row">
+                                            <label class="col-md-2 col-form-label">Dataset Choose</label>
+                                            <div class="col-md-10">
+                                                <select class="form-control" name="dataset">
+                                                    {% for i in user_files %}
+                                                       <option value={{ i }}> {{ i }} </option>
+                                                   {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+                                    <h3>Confirm Detail</h3>
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+
+                                                        <h4 class="mt-0 header-title">Note</h4>
+                                                        <p class="text-muted mb-4">Fill in your additional requirements and notes below.</p>
+                                                        <div class="summernote">Hello ASTOR! </div>
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end col -->
+                                        </div> <!-- end row -->
+                                        <div class="p-3">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                <label class="custom-control-label" for="customCheck1">I agree with the Terms and Conditions.</label>
+                                            </div>
+                                        </div>
+                                        <div class="text-center mt-4">
+                                            <input type="submit" name="Submit Task" class="btn btn-primary waves-effect waves-light" id="submit_task_btn">
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End content -->
+
+        <footer class="footer">
+            © 2019 ASTOR <span class="d-none d-sm-inline-block"> - builded with <i class="mdi mdi-heart text-danger"></i> by <a href="http://www.github.com/Eveneko/">Eveneko</a></span>.
+        </footer>
+
+    </div>
+
+
+{% endblock right %}
+
+
+{% block js %}
+
+    <!-- Dropzone js -->
+    <script src="../../static/plugins/dropzone/dist/dropzone.js"></script>
+
+     <!--Summernote js-->
+    <script src="../../static/plugins/summernote/summernote-bs4.min.js"></script>
+
+    <!-- form editors init -->
+    <script src="../../static/assets/pages/form-editors.int.js"></script>
+
+    <!-- form wizard -->
+    <script src="../../static/plugins/jquery-steps/jquery.steps.min.js"></script>
+
+    <!-- form wizard init -->
+    <script src="../../static/assets/pages/form-wizard.init.js"></script>
+
+{% endblock js %}

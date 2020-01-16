@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <title>ASTOR - Algorithm Store</title>
+        <meta content="Easy coding, Easy running" name="description" />
+        <meta content="Eveneko" name="author" />
+        <link rel="shortcut icon" href="../../static/assets/images/favicon.ico">
+
+        {% block css %}
+
+        {% endblock css %}
+
+        <link href="http://cdn.bootstrapmb.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="../../static/assets/css/metismenu.min.css" rel="stylesheet" type="text/css">
+        <link href="../../static/assets/css/icons.css" rel="stylesheet" type="text/css">
+        <link href="../../static/assets/css/style.css" rel="stylesheet" type="text/css">
+    </head>
+
+    <body>
+
+        <div class="fr">
+{#                判断是否已经登录#}
+                {% if request.session.user_name|default:'' != '' %}
+{#                    default过滤器进行判断如果request.session.user_name不等于空字符串则用户登陆状态为true#}
+{#                    也就是说当用户为已登陆状态时则显示用户名#}
+{#                    class="login_info fl"#}
+                {% endif %}
+        </div>
+
+        <!-- Begin page -->
+        <div id="wrapper">
+
+            <!-- Top Bar Start -->
+            <div class="topbar">
+
+                <!-- LOGO -->
+                <div class="topbar-left">
+                    <a href="{% url "df_goods:index" %}" class="logo">
+                        <span class="logo-light">
+                            <img src="../../static/assets/images/logo-light.png" alt="" height="48">
+                        </span>
+                        <span class="logo-sm">
+                            <img src="../../static/assets/images/logo-sm.png" alt="" height="22">
+                        </span>
+                    </a>
+                </div>
+
+                <nav class="navbar-custom">
+                    <ul class="navbar-right list-inline float-right mb-0">
+                        <!-- search -->
+                        <li class="dropdown notification-list list-inline-item d-none d-md-inline-block">
+                            <form role="search" class="app-search">
+                                <div class="form-group mb-0">
+                                    <input type="text" class="form-control" placeholder="Search..">
+                                    <button type="submit"><i class="fa fa-search"></i></button>
+                                </div>
+                            </form>
+                        </li>
+
+                        <!-- full screen -->
+                        <li class="dropdown notification-list list-inline-item d-none d-md-inline-block">
+                            <a class="nav-link waves-effect" href="#" id="btn-fullscreen">
+                                <i class="ion ion-md-qr-scanner noti-icon"></i>
+                            </a>
+                        </li>
+
+                        <!-- notification -->
+                        <li class="dropdown notification-list list-inline-item">
+                            <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                <i class="ion ion-md-notifications noti-icon"></i>
+                                <span class="badge badge-pill badge-danger noti-icon-badge" id="notification_num1">0</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg">
+                                <!-- item-->
+                                <h6 class="dropdown-item-text">
+                                    Notifications (<a id="notification_num2">0</a>)
+                                </h6>
+                                <div class="slimscroll notification-item-list">
+                                    <!-- item-->
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item active">
+                                        <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
+                                        <p class="notify-details">Your task runs finished<span class="text-muted">Chick to see the result.</span></p>
+                                    </a>
+                                </div>
+                                <!-- All-->
+                                <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-all">
+                                    View all <i class="fi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="dropdown notification-list list-inline-item">
+                                    <div class="dropdown notification-list nav-pro-img">
+                                        <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                            <img src="../../static/assets/images/users/user-4.jpg" alt="user" class="rounded-circle">
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                                            <!-- item-->
+                                            <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle"></i> Welcome {{ request.session.user_name }}</a>
+                                            <a class="dropdown-item d-block" href="{% url "df_user:info" %}"><i class="mdi mdi-home"></i> Profile</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item text-danger" href="{% url "df_user:logout" %}"><i class="mdi mdi-power text-danger"></i> Logout</a>
+                                        </div>
+                                    </div>
+                                </li>
+
+                    </ul>
+
+                    <ul class="list-inline menu-left mb-0">
+                        <li class="float-left">
+                            <button class="button-menu-mobile open-left waves-effect">
+                                <i class="mdi mdi-menu"></i>
+                            </button>
+                        </li>
+                        <!--
+                        <li class="d-none d-sm-block">
+                            <div class="dropdown pt-3 d-inline-block">
+                                <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Create
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Separated link</a>
+                                </div>
+                            </div>
+                        </li>
+                        -->
+                    </ul>
+
+                </nav>
+
+            </div>
+            <!-- Top Bar End -->
+
+            <!-- ========== Left Sidebar Start ========== -->
+            <div class="left side-menu">
+                <div class="slimscroll-menu" id="remove-scroll">
+
+                    <!--- Sidemenu -->
+                    <div id="sidebar-menu">
+                        <!-- Left Menu Start -->
+                        <ul class="metismenu" id="side-menu">
+                            <li class="menu-title">Overview</li>
+                            <li>
+                                <a href="{% url 'df_task:index' %}" class="waves-effect">
+                                    <i class="ion ion-md-speedometer"></i><span class="badge badge-success badge-pill float-right">0</span> <span> Dashboard </span>
+                                </a>
+                            </li>
+
+                            <li class="menu-title">Task</li>
+
+                            <li>
+                                <a href="{% url 'df_task:creat_task' %}" class="waves-effect waves-light"><i class="ion ion-md-clipboard"></i><span> Creat Task </span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'df_task:upload_data' %}" class="waves-effect waves-light"><i class="ion ion-md-book"></i><span> Upload Data </span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'df_task:task_record' %}" class="waves-effect waves-light"><i class="ion ion-md-list"></i><span> Task Record </span></a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" class="waves-effect waves-light"><i class="ion ion-md-person"></i><span> 用户中心 <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                                <ul class="submenu">
+                                    <li><a href="{% url 'df_user:info' %}">个人信息</a></li>
+                                    <li><a href="/user/order/1">全部订单</a></li>
+                                    <li><a href="{% url 'df_user:site' %}">修改信息</a></li>
+                                    <li><a href="{% url 'df_user:publish' %}">发布算法</a></li>
+{#                                    <li><a href="{% url 'df_user:published' 1%}">已发布</a></li>#}
+                                </ul>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                    <!-- Sidebar -->
+                    <div class="clearfix"></div>
+
+                </div>
+                <!-- Sidebar -left -->
+
+            </div>
+            <!-- Left Sidebar End -->
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            {% block right %}
+
+            {% endblock right %}
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+
+        </div>
+        <!-- END wrapper -->
+
+        {% block rightside %}
+
+        {% endblock rightside %}
+
+        <!-- jQuery  -->
+        <script src="../../static/assets/js/jquery.min.js"></script>
+        <script src="http://cdn.bootstrapmb.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="../../static/assets/js/metismenu.min.js"></script>
+        <script src="../../static/assets/js/jquery.slimscroll.js"></script>
+        <script src="../../static/assets/js/waves.min.js"></script>
+
+        {% block js %}
+
+        {% endblock js %}
+
+        <!-- App js -->
+        <script src="../../static/assets/js/app.js"></script>
+
+    </body>
+
+</html>

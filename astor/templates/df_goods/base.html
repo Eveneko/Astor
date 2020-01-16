@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block center_body %}
+
+    <div class="navbar_con">
+		<div class="navbar clearfix">
+			<div class="subnav_con fl">
+				<h1>全部商品分类</h1>
+				<span></span>
+				<ul class="subnav">
+					<li><a href="/good/list1_1_1" class="fruit">字符串</a></li>
+					<li><a href="/good/list2_1_1" class="seafood">算法</a></li>
+					<li><a href="#" class="meet">数据结构</a></li>
+					<li><a href="#" class="egg">图论</a></li>
+					<li><a href="#" class="vegetables">数学</a></li>
+					<li><a href="#" class="ice">其他</a></li>
+				</ul>
+			</div>
+			<div>
+				<ul class="navlist fl">
+					<li><a href="{% url "df_goods:index" %}">首页</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="breadcrumb">
+		全部分类 > {{ title }}
+		{% if id|default:' ' != ' ' %}
+        > 商品详情
+		{% endif %}
+	</div>
+
+{% block center_content %}
+
+{% endblock center_content %}
+
+
+
+{% endblock center_body %}
