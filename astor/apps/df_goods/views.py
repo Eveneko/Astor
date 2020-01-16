@@ -58,10 +58,11 @@ def detail(request, good_id):
     """
     context = {'title': '商品详情'}
     if request.method == 'GET':
-        good = GoodsInfo.objects.all().values(
-            'id', 'name', 'description', 'detail', 'cpu_price',
-            'gpu_price', 'pic_path', 'cfg_template', 'modify_time',
-            'type__name').get(pk=int(good_id))
+        good = GoodsInfo.objects.all()\
+            .values('id', 'name', 'description', 'detail', 'cpu_price',
+                    'gpu_price', 'pic_path', 'cfg_template',
+                    'modify_time','type__name')\
+            .get(pk=int(good_id))
         context['good'] = good
         return JsonResponse(context)
     elif request.method == 'POST':
