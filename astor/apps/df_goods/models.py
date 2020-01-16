@@ -32,8 +32,8 @@ class GoodsInfo(models.Model):
                                        null=True, blank=True)
     create_time = models.DateTimeField(verbose_name='算法上市时间',
                                        default=datetime.now)
-    modify_time = models.DateTimeField(default=datetime.now,
-                                       verbose_name="最近更新时间")
+    modify_time = models.DateTimeField(verbose_name="最近更新时间",
+                                       default=datetime.now)
     type = models.ForeignKey(TypeInfo, on_delete=models.CASCADE,
                              verbose_name="分类")
 
