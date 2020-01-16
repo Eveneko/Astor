@@ -1,4 +1,0 @@
-venv/*
-# python
-*.py[cod]
-db.sqlite3
