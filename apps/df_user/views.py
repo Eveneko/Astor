@@ -123,6 +123,7 @@ def info(request):  # 用户中心
         'page_name': 1,
         'user_phone': user.uphone,
         'user_address': user.uaddress,
+        'user_email': user.uemail,
         'user_name': username,
         'goods_list': goods_list,
         'explain': explain,
@@ -161,6 +162,21 @@ def site(request):
         'user': user,
     }
     return render(request, 'df_user/user_center_site.html', context)
+
+@user_decorator.login
+def revise_info_handle(request):
+    user = UserInfo.objects.get(id=request.session['user_id'])
+    if request.method == "POST":
+        user.uname = request.POST.get('name')
+        user.uemail = request.POST.get('uemail')
+        user.uphone = request.POST.get('phone')
+        user.save()
+    context = {
+        'page_name': 1,
+        'title': '用户中心',
+        'user': user,
+    }
+    return render(request, 'df_user/user_center_info.html', context)
 
 
 @user_decorator.login
