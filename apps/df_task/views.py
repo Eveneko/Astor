@@ -6,7 +6,7 @@ from django.http import JsonResponse, HttpResponse
 from hashlib import sha1
 from apps.df_user import user_decorator
 from django import forms
-from . import run_docker, run_sh
+# from . import run_docker, run_sh
 from .models import Task
 from df_user.models import GoodsBrowser, UserInfo, UserBuyAlgorithm, UserFile
 from df_order.models import OrderDetailInfo, OrderInfo
