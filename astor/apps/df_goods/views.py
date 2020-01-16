@@ -1,46 +1,38 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from .models import GoodsInfo, TypeInfo
-from df_cart.models import CartInfo
+# from df_cart.models import CartInfo
+from django.http.response import JsonResponse
 
 
 def index(request):
-    # 查询各个分类的最新4条，最热4条数据
-    typelist = TypeInfo.objects.all()
-    #  _set 连表操作
-    type0 = typelist[0].goodsinfo_set.order_by('-id')[0:4]  # 按照上传顺序
-    type01 = typelist[0].goodsinfo_set.order_by('-gclick')[0:4]  # 按照点击量
-    type1 = typelist[1].goodsinfo_set.order_by('-id')[0:4]
-    type11 = typelist[1].goodsinfo_set.order_by('-gclick')[0:4]
-    type2 = typelist[2].goodsinfo_set.order_by('-id')[0:4]
-    type21 = typelist[2].goodsinfo_set.order_by('-gclick')[0:4]
-    type3 = typelist[3].goodsinfo_set.order_by('-id')[0:4]
-    type31 = typelist[3].goodsinfo_set.order_by('-gclick')[0:4]
-    type4 = typelist[4].goodsinfo_set.order_by('-id')[0:4]
-    type41 = typelist[4].goodsinfo_set.order_by('-gclick')[0:4]
-    type5 = typelist[5].goodsinfo_set.order_by('-id')[0:4]
-    type51 = typelist[5].goodsinfo_set.order_by('-gclick')[0:4]
-
-    cart_num = 0
-    # 判断是否存在登录状态
-    # if request.session.has_key('user_id'):
-    if 'user_id' in request.session:
-        user_id = request.session['user_id']
-        cart_num = CartInfo.objects.filter(user_id=int(user_id)).count()
-
-    context = {
-        'title': '首页',
-        'cart_num': cart_num,
-        'guest_cart': 1,
-        'type0': type0, 'type01': type01,
-        'type1': type1, 'type11': type11,
-        'type2': type2, 'type21': type21,
-        'type3': type3, 'type31': type31,
-        'type4': type4, 'type41': type41,
-        'type5': type5, 'type51': type51,
-    }
-
-    return render(request, 'df_goods/index.html', context)
+    """
+    商品主页信息，可以获取在售商品信息
+    API:
+    GET ^good/{?{page_num=?}&{type_id=?}}
+    :param request: 请求对象
+    :return: 渲染页面
+    """
+    if request.method == 'GET':
+        good_num_per_page = 4
+        context = {'title': 'Astor'}
+        page_num = request.GET['page_num'] if 'page' in request.GET.keys() else None
+        type_id = request.GET['type_id'] if 'type_id' in request.GET.keys() else None
+        goods_list = GoodsInfo.objects.all().values('name', 'type', 'description')
+        if type_id is not None:
+            good_type = TypeInfo.objects.filter(id=type_id)[0]
+            goods_list = list(GoodsInfo.objects.filter(type=good_type))
+        # return JsonResponse(context)
+        paginator = Paginator(goods_list, good_num_per_page)
+        page = paginator.page(1 if page_num is None else int(page_num))
+        context['type_list'] = TypeInfo.objects.values('id', 'name')
+        context['paginator'] = paginator
+        context['page'] = page
+        return render(request, 'df_goods/index.html', context)
+    elif request.method == 'POST':
+        raise Exception('UNSUPPORTED HTTP METHOD')
+    else:
+        raise Exception('UNSUPPORTED HTTP METHOD')
 
 
 def good_list(request, tid, pindex, sort):
