@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 
 class UserInfo(models.Model):
@@ -32,11 +33,16 @@ class UserBuyAlgorithm(models.Model):
 class UserCreateTask(models.Model):
     user = models.ForeignKey(UserInfo, on_delete=models.CASCADE,
                              verbose_name="用户ID")
+    algorithm = models.ForeignKey('df_goods.GoodsInfo',
+                                  on_delete=models.CASCADE)
+    # 此处依赖容器后端对任务名及状态的保存
     task_name = models.CharField(max_length=50, verbose_name="创建任务名")
     config_context = models.TextField(verbose_name='用户创建的任务配置信息')
     # TODO: 使用枚举类型
-    task_status = models.CharField(max_length=50, verbose_name="任务状态")
-    last_update = models.TimeField(verbose_name='算法状态更新时间')
+    status = models.CharField(max_length=20, verbose_name="任务状态",
+                              default='NOT_STARTED')
+    last_update = models.TimeField(verbose_name='算法状态更新时间',
+                                   default=datetime.now)
 
     class Meta:
         verbose_name = "用户创建的算法任务"

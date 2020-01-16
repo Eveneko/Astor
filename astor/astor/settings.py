@@ -17,10 +17,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'df_cart',
+    # 'df_cart',
     'df_goods',
     'df_user',
-    'df_order',
+    # 'df_order',
     "df_task",
     'tinymce',  # 使用富文本编辑框要在settings文件中安装
 ]
