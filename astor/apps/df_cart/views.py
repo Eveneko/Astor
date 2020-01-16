@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, reverse
 
 from .models import *
 from apps.df_user import user_decorator
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, RequestAborted
 
 
 @user_decorator.login
@@ -21,7 +21,7 @@ def index(request):
     if request.method == 'GET':
         uid = request.session['user_id']
         try:
-            carts = CartInfo.objects.all() \
+            carts = CartInfo.objects.all()\
                 .values('user__uname', 'goods__id', 'goods__name',
                         'goods__type', 'goods__description',
                         'goods__pic_path')\
@@ -30,12 +30,15 @@ def index(request):
             carts = []
         context['count'] = len(carts)
         context['carts'] = carts
-        return JsonResponse(context)
-        # return render(request, 'df_cart/cart.html', context)
+        if request.is_ajax():
+            return JsonResponse(context)
+        else:
+            return JsonResponse(context)
+            # return render(request, 'df_cart/cart.html', context)
     elif request.method == 'POST':
-        raise Exception('UNSUPPORTED HTTP METHOD')
+        raise RequestAborted('UNSUPPORTED HTTP METHOD')
     else:
-        raise Exception('UNSUPPORTED HTTP METHOD')
+        raise RequestAborted('UNSUPPORTED HTTP METHOD')
 
 
 @user_decorator.login
