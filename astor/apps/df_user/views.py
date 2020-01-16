@@ -7,6 +7,7 @@ from .models import UserInfo
 from .forms import RegisterForm, LoginForm
 from . import user_decorator
 
+
 def register(request):
     """
     ^/user/register/
