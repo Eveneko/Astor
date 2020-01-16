@@ -1,45 +1,22 @@
-from df_goods.models import GoodsInfo
 from django.db import models
-from df_user.models import UserInfo
-
-import datetime
-
+from datetime import datetime
 
 class Task(models.Model):
-    task_user = models.ForeignKey(UserInfo, on_delete=models.CASCADE,
-                                  verbose_name="task user")  # One task only have one user
-    task_algorithm = models.ForeignKey(GoodsInfo, on_delete=models.CASCADE)
-    task_data_url = models.CharField(max_length=200, verbose_name="task_data_url")
-    task_start_time = models.DateTimeField("task start time", auto_now=True)
-    task_end_time = models.DateTimeField("task end time", auto_now=True)
-    task_status = models.IntegerField(verbose_name="task_status", default=0)  # 0未开始，1进行中，2成功，-1失败
-    cpu = models.CharField(max_length=100, verbose_name="cpu", default='1')
-    memory = models.CharField(max_length=100, verbose_name="mem", default='128')
-    output = models.CharField(max_length=100, verbose_name="out", default='0')
-
+    creator = models.ForeignKey('df_user.UserInfo',
+                                  on_delete=models.CASCADE)
+    algorithm = models.ForeignKey('df_goods.GoodsInfo',
+                                       on_delete=models.CASCADE)
+    # TODO: 使用枚举类型
+    status = models.CharField(verbose_name="task_status",
+                              max_length=20, default='')
+    update_time = models.TimeField(verbose_name='上次修改时间',
+                                   default=datetime.now)
+    cfg_file = models.FileField(verbose_name='配置模板地址',
+                                    upload_to='task/%Y-%m',
+                                    null=True, blank=True)
     class Meta:
-        verbose_name = "task"
+        verbose_name = "任务信息表"
         verbose_name_plural = verbose_name
 
     def __str__(self):
         return "{}".format(self.task_user.uname)
-
-
-'''""
-BEGIN;
---
--- Create model Task
---
-CREATE TABLE "df_task_task" (
-    "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, 
-    "task_data_url" varchar(200) NOT NULL,
-    "task_start_time" datetime NOT NULL,
-    "task_end_time" datetime NOT NULL, 
-    "task_status" integer NOT NULL, 
-    "task_algorithm_id" integer NOT NULL REFERENCES "df_goods_goodsinfo" ("id") DEFERRABLE INITIALLY DEFERRED, 
-    "task_user_id" integer NOT NULL REFERENCES "df_user_userinfo" ("id") DEFERRABLE INITIALLY DEFERRED);
-
-CREATE INDEX "df_task_task_task_algorithm_id_ce80cf86" ON "df_task_task" ("task_algorithm_id");
-CREATE INDEX "df_task_task_task_user_id_d3524eda" ON "df_task_task" ("task_user_id");
-COMMIT;
-'''

@@ -3,11 +3,12 @@ from .models import Task
 
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ["task_user", "task_algorithm", "task_start_time", "task_end_time", "task_data_url"]
+    list_display = ["creator", "algorithm", 'status', 'update_time']
     list_per_page = 50
-    list_filter = ["task_user__uname", "task_algorithm__name"]
-    search_fields = ["task_user__uname", "task_algorithm__name"]
+    list_filter = ["creator__uname", "algorithm__name"]
+    search_fields = ["creator__uname", "algorithm__name"]
     refresh_times = [3, 5]
+    readonly_fields = ['cfg_file']
 
 
 # Register your models here.

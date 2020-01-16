@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect, reverse
 from django.http import JsonResponse, HttpResponse
 
 from apps.df_user import user_decorator
-from . import run_docker, run_sh
 from .models import Task
 from df_user.models import UserInfo, UserBuyAlgorithm
 from df_goods.models import GoodsInfo, TypeInfo
@@ -16,6 +15,14 @@ import datetime
 
 @user_decorator.login
 def index(request):
+    """
+    算法任务管理主页
+    API:
+    - GET
+        - ^/task/
+    :param request: 请求对象
+    :return: 渲染网页
+    """
     user_id = request.session['user_id']
     user = UserInfo.objects.get(id=request.session['user_id'])
     algorithm_num = len(GoodsInfo.objects.all())
@@ -34,11 +41,6 @@ def index(request):
         'task_set_num': task_set_num
     }
     return render(request, 'df_task/index.html', context)
-
-
-def logout(request):
-    request.session.flush()  # 清空当前用户所有session
-    return redirect(reverse("df_goods:index"))
 
 
 @user_decorator.login
@@ -131,7 +133,7 @@ def upload_task_config(request):
             mem = request.POST.get("mem").split(' ')[0]
             dataset = request.POST.get("dataset").split(',')[1]
             time = datetime.time()
-            out_uuid = run_sh.run(user_id, algorithm, dataset, cpu, mem)
+            # out_uuid = run_sh.run(user_id, algorithm, dataset, cpu, mem)
 
             task = Task()
             task.task_user = user
