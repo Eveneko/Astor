@@ -8,7 +8,7 @@ class UserInfoAdmin(admin.ModelAdmin):
     list_per_page = 5
     list_filter = ["uname"]
     search_fields = ["uname", "uemail"]
-    readonly_fields = ["uname"]
+    # readonly_fields = ["uname"]
 
 
 class UserBuyAlgorithmAdmin(admin.ModelAdmin):
