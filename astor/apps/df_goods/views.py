@@ -82,7 +82,7 @@ def detail(request, good_id):
         good = GoodsInfo.objects.all()\
             .values('id', 'name', 'description', 'detail', 'cpu_price',
                     'gpu_price', 'pic_path', 'cfg_template',
-                    'modify_time','type__name')\
+                    'modify_time', 'type__name')\
             .get(pk=int(good_id))
         context['good'] = good
         # return JsonResponse(context)
@@ -106,8 +106,11 @@ def like(request):
     """
     if request.method == 'GET':
         # print(request.GET)
+        cururl = request.GET.urlencode()
+        print(cururl)
         good_id = int(request.GET['good_id'])
         like = str(request.GET['like'])
+        is_user = str(request.GET['user'])
         if like == 'True':
             like = True
         elif like == 'False':
@@ -131,7 +134,10 @@ def like(request):
             # print("User {} likes {}".format(user_id, good_id))
         context = {'title': 'Astor'}
         # return render(request, 'df_goods/index.html', context)
-        return redirect(reverse("df_goods:index"))
+        if is_user == 'True':
+            return redirect(reverse("df_user:my_algorithm"))
+        else:
+            return redirect(reverse("df_goods:index"))
 
     elif request.method == 'POST' and request.POST:
         # TODO: Using POST to finish like and dislike action

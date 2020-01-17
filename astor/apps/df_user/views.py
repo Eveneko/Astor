@@ -168,7 +168,7 @@ def revise_info_handle(request):
 
 
 # @user_decorator.login
-def algorithm(request):
+def my_algorithm(request):
     """
     获取用户收藏的算法
     API:
@@ -180,21 +180,39 @@ def algorithm(request):
     if request.method == 'GET':
         user_buy_algorithm = list(UserBuyAlgorithm.objects
                                   .all()
-                                  .values('algorithm__id', 'algorithm__name')
+                                  .values('algorithm__id', 'algorithm__name', 'algorithm__description',
+                                          'algorithm__detail', 'algorithm__cpu_price', 'algorithm__gpu_price',
+                                          'algorithm__pic_path', 'algorithm__cfg_template', 'algorithm__modify_time',
+                                          'algorithm__type__name')
                                   .filter(user_id=request.session['user_id']))
         context = {'title': 'User Like Algorithm'}
         try:
             user_like_algorithm_list = list(
                 UserBuyAlgorithm.objects
                     .all()
-                    .values('algorithm__id', 'algorithm__name')
+                    .values('algorithm__id', 'algorithm__name', 'algorithm__description', 'algorithm__detail',
+                            'algorithm__cpu_price', 'algorithm__gpu_price', 'algorithm__pic_path',
+                            'algorithm__cfg_template', 'algorithm__modify_time', 'algorithm__type__name')
                     .filter(user__id=request.session['user_id'], ))
         except ObjectDoesNotExist:
             user_like_algorithm_list = []
         context['count'] = len(user_like_algorithm_list)
         context['user_like_algorithm_list'] = user_like_algorithm_list
+        try:
+            user_like_algorithm_list_id = UserBuyAlgorithm.objects\
+                .all().values('algorithm_id').filter(
+                user__id=request.session['user_id'],
+            )
+            tmp = []
+            for a in user_like_algorithm_list_id:
+                tmp.append(int(a['algorithm_id']))
+            user_like_algorithm_list_id = tmp
+        except ObjectDoesNotExist:
+            user_like_algorithm_list_id = []
+        context['user_like_algorithm_list_id'] = user_like_algorithm_list_id
         print(user_buy_algorithm)
-        return JsonResponse(context)
+        # return JsonResponse(context)
+        return render(request, 'df_user/user_my_algorithm.html', context)
     elif request.method == 'POST' and request.POST:
         raise Exception('UNSUPPORTED HTTP METHOD')
     else:
