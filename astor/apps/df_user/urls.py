@@ -11,10 +11,10 @@ urlpatterns = [
     url(r'^login/$', login, name="login"),
     url(r'^info/$', info, name="info"),
     # url(r'^order/(\d+)$', order, name="order"),
-    url(r'^site/$', site, name="site"),
+    # url(r'^site/$', site, name="site"),
     # url(r'^place_order/$', views.place_order),
     url(r'^logout/$', logout, name="logout"),
-    url(r'^publish/$', publish, name="publish"),
-    url(r'^publish_handle/$', publish_handle, name="publish_handle"),  # 发布算法
-    url(r'^published/(\d+)$', published, name="published"),  # 已发布算法
+    # url(r'^publish/$', publish, name="publish"),
+    # url(r'^publish_handle/$', publish_handle, name="publish_handle"),  # 发布算法
+    # url(r'^published/(\d+)$', published, name="published"),  # 已发布算法
 ]

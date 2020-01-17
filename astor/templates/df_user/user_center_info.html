@@ -25,30 +25,31 @@
                 </div>
                 <div class="card mfp-hide w-50 mx-auto" id="test-form">
                   <div class="card-body">
-                    <h4 class="mt-0 mb-4">用户信息</h4>
-                    <form id='user_revise_form' action="{% url "df_user:revise_info_handle" %}"
+                    <h4 class="mt-0 mb-6">用户信息</h4>
+                    <form id='user_revise_form' action="{% url "df_user:info" %}"
                           method="post">
+                      {% csrf_token %}
                       <div class="row">
-                        <div class="col-lg-4">
-                          <div class="form-group">
-                            <label for="name">姓名</label>
-                            <input type="text" class="form-control" id="name" name="name"
-                                   placeholder="Enter Name" value={{ user_name }}>
-                          </div>
-                        </div>
-                        <div class="col-lg-4">
+{#                        <div class="col-lg-4">#}
+{#                          <div class="form-group">#}
+{#                            <label for="name">姓名</label>#}
+{#                            <input type="text" class="form-control" id="name" name="name"#}
+{#                                   placeholder="Enter Name" value={{ user_name }}>#}
+{#                          </div>#}
+{#                        </div>#}
+                        <div class="col-lg-6">
                           <div class="form-group">
                             <label for="email">邮箱</label>
                             <input type="email" class="form-control" id="uemail"
                                    name="uemail" placeholder="Enter Email"
-                                   value={{ user_email }}>
+                                   value={{ email }}>
                           </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-6">
                           <div class="form-group">
-                            <label for="phone">手机号</label>
+                            <label for="phone">手机号{{ phone }}</label>
                             <input type="text" class="form-control" id="phone" name="phone"
-                                   placeholder="Enter Phone Number" value= {{ user_phone }}>
+                                   placeholder= "Enter Phone Number" value= {{ phone }}>
                           </div>
                         </div>
                       </div>
@@ -101,26 +102,26 @@
               check_email();
           });
 
-          function check_user_name() {
-              var len = $('#name').val().length;
-
-              if (len < 5 || len > 20) {
-                  $('#name').next().html('Enter a username of 5-20 characters');
-                  $('#name').next().show();
-                  error_name = true;
-
-              } else {
-                  $.get('{% url "df_user:revise_info_handle" %}?uname=' + $('#name').val(), function (data) {
-                      if (data.count >= 1) {
-                          $('#name').next().html('Username already exists').show();
-                          error_name = true;
-                      } else {
-                          $('#name').next().hide();
-                          error_name = false;
-                      }
-                  });
-              }
-          }
+          {#function check_user_name() {#}
+          {#    var len = $('#name').val().length;#}
+          {##}
+          {#    if (len < 5 || len > 20) {#}
+          {#        $('#name').next().html('Enter a username of 5-20 characters');#}
+          {#        $('#name').next().show();#}
+          {#        error_name = true;#}
+          {##}
+          {#    } else {#}
+          {#        $.get('{% url "df_user:info" %}?uname=' + $('#name').val(), function (data) {#}
+          {#            if (data.count >= 1) {#}
+          {#                $('#name').next().html('Username already exists').show();#}
+          {#                error_name = true;#}
+          {#            } else {#}
+          {#                $('#name').next().hide();#}
+          {#                error_name = false;#}
+          {#            }#}
+          {#        });#}
+          {#    }#}
+          {#}#}
 
 
           function check_email() {
@@ -138,7 +139,7 @@
           }
 
           $("#user_revise_form").submit(function () {
-              check_user_name();
+              {#check_user_name();#}
               check_email();
 
               if (error_name == false && error_email == false) {
