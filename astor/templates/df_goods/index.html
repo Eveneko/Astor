@@ -31,6 +31,8 @@
         {{ goods_list }}
         {{ type_id }}
         {{ goods_num }}
+        <p>user_like_algorithm_list{{ user_like_algorithm_list }}</p>
+
         <div class="row">
           {% for good in goods_list %}
             <div class="col-xl-3 col-md-6">
@@ -42,9 +44,17 @@
                     <div class="product-overlay">
                       <ul class="list-inline product-links social-links mb-0">
                         <li class="list-inline-item">
-                          <a href="/good/like?good_id={{ good.id }}" data-toggle="tooltip"
-                             data-placement="top" title="Like"><i class="dripicons-heart"></i></a>
+                            {% if good.id in user_like_algorithm_list %}
+                          <a href="/good/like/?good_id={{ good.id }}&like=False" data-toggle="tooltip"
+                             data-placement="top" title="Like" style="color: red"><i class="dripicons-heart"></i></a>
+                            {% else %}
+                            <a href="/good/like/?good_id={{ good.id }}&like=True" data-toggle="tooltip"
+                               data-placement="top" title="Like"><i class="dripicons-heart"></i></a>
+                            {% endif %}
                         </li>
+
+
+
                         <!--<li class="list-inline-item">
                             <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="dripicons-shopping-bag"></i></a>
                         </li>

@@ -26,7 +26,7 @@ class UserBuyAlgorithm(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return "{0}购买的算法{1}".format(self.user.uname, self.algorithm.gtitle)
+        return "{0}购买的算法{1}".format(self.user.uname, self.algorithm.name)
 
 
 # TODO: 创建新的任务模型并以外键和用户关联
