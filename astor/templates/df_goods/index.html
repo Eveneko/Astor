@@ -26,17 +26,21 @@
                             </div> <!-- end row -->
                         </div>
                         <!-- end page-title -->
-
+                        {{ type_list }}
+                        {{ goods_list }}
+                        {{ type_id }}
+                        {{ goods_num }}
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
+                                {% for good in goods_list %}
                                 <div class="card product-box">
                                     <div class="card-body">
                                         <div class="product-img">
-                                            <img src="../../static/images/algorithm.png" class="img-fluid rounded-top mx-auto d-block" alt="work-thumbnail">
+                                            <img src="../../static/{{ good.pic_path }}" class="img-fluid rounded-top mx-auto d-block" alt="work-thumbnail">
                                             <div class="product-overlay">
                                                 <ul class="list-inline product-links social-links mb-0">
                                                     <li class="list-inline-item">
-                                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Like"><i class="dripicons-heart"></i></a>
+                                                        <a href="/good/like?good_id={{ good.id }}" data-toggle="tooltip" data-placement="top" title="Like"><i class="dripicons-heart"></i></a>
                                                     </li>
                                                     <!--<li class="list-inline-item">
                                                         <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="dripicons-shopping-bag"></i></a>
@@ -49,7 +53,7 @@
                                         </div>
 
                                         <div class="detail mt-3">
-                                            <h4 class="font-16"><a href="" class="text-dark">ALGORITHM</a> </h4>
+                                            <h4 class="font-16"><a href="/good/good-{{ good.id }}/" class="text-dark">{{ good.name }}</a> </h4>
                                             <p class="text-muted">
                                                 <i class="mdi mdi-star text-warning"></i>
                                                 <i class="mdi mdi-star text-warning"></i>
@@ -62,6 +66,7 @@
                                         </div>
                                     </div>
                                 </div>
+                              {% endfor %}
                                 <!-- end product-box -->
                             </div>
                         </div>

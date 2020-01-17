@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'df_user',
     # 'df_order',
     "df_task",
+    "astor_sys",
     'tinymce',  # 使用富文本编辑框要在settings文件中安装
 ]
 
