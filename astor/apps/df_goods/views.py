@@ -37,7 +37,8 @@ def index(request):
         context['type_id'] = -1 if type_id is None else type_id
         context['goods_num'] = len(goods_list)
         context['goods_list'] = goods_list[offset:offset+query_num]
-        # return JsonResponse(context)
+        if request.is_ajax():
+            return JsonResponse(context)
         return render(request, 'df_goods/index.html', context)
     elif request.method == 'POST':
         raise Exception('UNSUPPORTED HTTP METHOD')
@@ -65,7 +66,6 @@ def detail(request, good_id):
             .get(pk=int(good_id))
         context['good'] = good
         return JsonResponse(context)
-
     elif request.method == 'POST':
         raise Exception('UNSUPPORTED HTTP METHOD')
     else:
