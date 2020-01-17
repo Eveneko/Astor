@@ -6,10 +6,12 @@ from .views import *
 
 app_name = 'df_user'
 
+
 urlpatterns = [
     url(r'^register/$', register, name="register"),
     url(r'^login/$', login, name="login"),
     url(r'^info/$', info, name="info"),
+    url(r'^algorithm/$', algorithm, name='algorithm'),
     # url(r'^order/(\d+)$', order, name="order"),
     # url(r'^site/$', site, name="site"),
     # url(r'^place_order/$', views.place_order),

@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect, reverse
 from django.core.paginator import Paginator
 from django.db import transaction
+from django.http.response import JsonResponse
+from df_user.models import UserBuyAlgorithm
 from hashlib import sha1
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import UserInfo
 from .forms import RegisterForm, LoginForm, UserInfoForm
@@ -180,6 +183,38 @@ def info(request):  # 用户中心
     else:
         raise Exception('UNSUPPORTED HTTP METHOD')
 
+# @user_decorator.login
+def algorithm(request):
+    """
+    获取用户收藏的算法
+    API:
+    - GET:
+        - ^/user/algorithm/
+    :param request:
+    :return:
+    """
+    if request.method == 'GET':
+        user_buy_algorithm = list(UserBuyAlgorithm.objects
+                                  .all()
+                                  .values('algorithm__id', 'algorithm__name')
+                                  .filter(user_id=request.session['user_id']))
+        context = {'title': 'User Like Algorithm'}
+        try:
+            user_like_algorithm_list = list(
+                UserBuyAlgorithm.objects
+                    .all()
+                    .values('algorithm__id', 'algorithm__name')
+                    .filter(user__id=request.session['user_id'],))
+        except ObjectDoesNotExist:
+            user_like_algorithm_list = []
+        context['count'] = len(user_like_algorithm_list)
+        context['user_like_algorithm_list'] = user_like_algorithm_list
+        print(user_buy_algorithm)
+        return JsonResponse(context)
+    elif request.method == 'POST' and request.POST:
+        raise Exception('UNSUPPORTED HTTP METHOD')
+    else:
+        raise Exception('UNSUPPORTED HTTP METHOD')
 
 
 # @user_decorator.login
