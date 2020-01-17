@@ -27,12 +27,19 @@
           </div> <!-- end row -->
         </div>
         <!-- end page-title -->
+<<<<<<< HEAD
         <!-- {{ type_list }}
         {{ goods_list }}
         {{ type_id }}
         {{ goods_num }}
         <p>user_like_algorithm_list{{ user_like_algorithm_list }}</p> -->
 
+=======
+        {{ type_list }}
+        {{ goods_list }}
+        {{ type_id }}
+        {{ goods_num }}
+>>>>>>> a1e76ea2ec4b5f3e5590b46e26afac8db1029215
         <div class="row">
           {% for good in goods_list %}
             <div class="col-xl-3 col-md-6">
@@ -44,6 +51,7 @@
                     <div class="product-overlay">
                       <ul class="list-inline product-links social-links mb-0">
                         <li class="list-inline-item">
+<<<<<<< HEAD
                             {% if good.id in user_like_algorithm_list %}
                           <a href="/good/like/?good_id={{ good.id }}&like=False&user=False" data-toggle="tooltip"
                              data-placement="top" title="Like" style="color: red"><i class="dripicons-heart"></i></a>
@@ -53,6 +61,11 @@
                             {% endif %}
                         </li>
 
+=======
+                          <a href="/good/like?good_id={{ good.id }}" data-toggle="tooltip"
+                             data-placement="top" title="Like"><i class="dripicons-heart"></i></a>
+                        </li>
+>>>>>>> a1e76ea2ec4b5f3e5590b46e26afac8db1029215
                         <!--<li class="list-inline-item">
                             <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="dripicons-shopping-bag"></i></a>
                         </li>
@@ -64,7 +77,10 @@
                   </div>
 
                   <div class="detail mt-3">
+<<<<<<< HEAD
                     <p class="text-muted">{{ good.type__name }}</p>
+=======
+>>>>>>> a1e76ea2ec4b5f3e5590b46e26afac8db1029215
                     <h4 class="font-16"><a href="/good/good-{{ good.id }}/"
                                            class="text-dark">{{ good.name }}</a></h4>
                     <p class="text-muted">
