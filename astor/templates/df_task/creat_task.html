@@ -11,6 +11,27 @@
     <!-- summernote -->
     <link rel="stylesheet" href="../../static/plugins/summernote/summernote-bs4.css">
 
+    <script type="text/javascript">
+    function getConfig() {
+        var algorithm = document.getElementById('algorithm');
+        var config_path = "../../static/" + algorithm.value;
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.open('GET', config_path, true);
+        httpRequest.send();
+        httpRequest.onreadystatechange = function () {
+            if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                var json = httpRequest.responseText;
+                document.getElementById("algorithm_config").innerHTML=json;
+            }
+        };
+    }
+    function confirmConfig() {
+        var config = document.getElementById("algorithm_config").innerHTML;
+        alert(config);
+        document.getElementById("confirm_config").innerHTML = config;
+    }
+    </script>
+
 {% endblock css %}
 
 
@@ -50,14 +71,12 @@
                     </div> <!-- end row -->
                 </div>
                 <!-- end page-title -->
-
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="mt-0 header-title">Jquery Steps Wizard</h4>
-                                <p class="text-muted mb-4">A powerful jQuery wizard plugin that
-                                    supports accessibility and HTML5</p>
+                                <h4 class="mt-0 header-title">创建任务</h4>
+                                <p class="text-muted mb-4">根据config计算价格</p>
 
                                 <form id="form-horizontal" class="form-horizontal form-wizard-wrapper" method="post" action={% url "df_task:upload_task_config" %}>
                                     <h3>Algorithm Details</h3>
@@ -65,15 +84,16 @@
                                         <div class="form-group row">
                                             <label class="col-md-1 col-form-label">Select</label>
                                             <div class="col-md-11">
-                                                <select class="form-control" name="algorithm">
-                                                   {% for i in algorithm_info %}
-                                                       <option value={{ i }}> {{ i }} </option>
+                                                <select class="form-control" name="algorithm" id="algorithm" onchange="getConfig()">
+                                                    <option value="" style="display: none" selected></option>
+                                                   {% for i in user_like_algorithm_list %}
+                                                       <option value={{ i.algorithm__cfg_template }}> {{ i.algorithm__name }} </option>
                                                    {% endfor %}
                                                 </select>
                                             </div>
                                         </div>
                                     </fieldset>
-                                    <h3>Environment</h3>
+                                    <!-- <h3>Environment</h3>
                                     <fieldset>
                                         <div class="row">
                                             <label class="col-md-1 col-form-label">CPU</label>
@@ -94,7 +114,6 @@
                                     </fieldset>
                                     <h3>Choose Data File</h3>
                                     <fieldset>
-
                                         <div class="row">
                                             <label class="col-md-2 col-form-label">Dataset Choose</label>
                                             <div class="col-md-10">
@@ -105,18 +124,35 @@
                                                 </select>
                                             </div>
                                         </div>
-
-                                    </fieldset>
-                                    <h3>Confirm Detail</h3>
+                                    </fieldset> -->
+                                    <h3>Config</h3>
                                     <fieldset>
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="card">
                                                     <div class="card-body">
-
-                                                        <h4 class="mt-0 header-title">Note</h4>
-                                                        <p class="text-muted mb-4">Fill in your additional requirements and notes below.</p>
-                                                        <div class="summernote">Hello ASTOR! </div>
+                                                        <h4 class="mt-0 header-title">Config</h4>
+                                                        <p class="text-muted mb-4">Fill in the algorithm config</p>
+                                                        <!-- <div class="summernote" id="algorithm_config">Hello ASTOR! </div> -->
+                                                        <div class="col-lg-12">
+                                                            <div class="form-group">
+                                                                <textarea class="form-control" id="algorithm_config" rows="12" onchange="confirmConfig()"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end col -->
+                                        </div> <!-- end row -->
+                                    </fieldset>
+                                    <h3>Confirm Task</h3>
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h4 class="mt-0 header-title">Confirm</h4>
+                                                        <p class="text-muted mb-4">Confirm the config and the cost</p>
+                                                        <input type="text" id="confirm_config" value="" readonly="readonly">
                                                     </div>
                                                 </div>
                                             </div> <!-- end col -->

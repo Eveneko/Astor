@@ -34,7 +34,7 @@ def index(request):
         type_id = request.GET['type_id'] \
             if 'type_id' in request.GET.keys() else None
         goods_list = GoodsInfo.objects.all()\
-            .values('id', 'name', 'type', 'description', 'pic_path')
+            .values('id', 'name', 'type', 'type__name', 'description', 'pic_path')
         if type_id is not None:
             good_type = TypeInfo.objects.get(pk=int(type_id))
             goods_list = list(goods_list.filter(type=good_type))
