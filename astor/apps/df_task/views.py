@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.shortcuts import render, redirect, reverse
 from django.http import JsonResponse, HttpResponse
@@ -25,7 +26,21 @@ def index(request):
     """
     user_id = request.session['user_id']
     user = UserInfo.objects.get(id=request.session['user_id'])
-    algorithm_num = len(GoodsInfo.objects.all())
+    user_buy_algorithm = list(UserBuyAlgorithm.objects
+                              .all()
+                              .values('algorithm__id', 'algorithm__name')
+                              .filter(user_id=request.session['user_id']))
+    context = {'title': 'User Like Algorithm'}
+    try:
+        user_like_algorithm_list = list(
+            UserBuyAlgorithm.objects
+                .all()
+                .values('algorithm__id', 'algorithm__name')
+                .filter(user__id=request.session['user_id'], ))
+    except ObjectDoesNotExist:
+        user_like_algorithm_list = []
+    context['user_like_algorithm_count'] = len(user_like_algorithm_list)
+    context['user_like_algorithm_list'] = user_like_algorithm_list
     user_num = len(UserInfo.objects.all())
     task_set = Task.objects.all().filter(creator=user).order_by("-update_time")
     task_set_num = len(task_set)
@@ -35,10 +50,11 @@ def index(request):
         'title': '用户中心',
         'uid': user_id,
         'user': user,
-        'algorithm_num': algorithm_num,
         'user_num': user_num,
         'task_set': task_set,
-        'task_set_num': task_set_num
+        'task_set_num': task_set_num,
+        'user_like_algorithm_count': len(user_like_algorithm_list),
+        'user_like_algorithm_list': user_like_algorithm_list
     }
     return render(request, 'system/index.html', context)
 

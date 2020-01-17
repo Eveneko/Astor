@@ -2,13 +2,13 @@ from django.shortcuts import render, redirect, HttpResponseRedirect, reverse
 from django.core.paginator import Paginator
 from django.db import transaction
 from django.http.response import JsonResponse
-from df_user.models import UserBuyAlgorithm
 from hashlib import sha1
 from django.core.exceptions import ObjectDoesNotExist
 
-from .models import UserInfo
+from .models import UserInfo, UserBuyAlgorithm
 from .forms import RegisterForm, LoginForm, UserInfoForm
 from . import user_decorator
+
 
 def register(request):
     """
@@ -133,7 +133,6 @@ def logout(request):  # 用户登出
     return redirect(reverse("df_goods:index"))
 
 
-
 @user_decorator.login
 def info(request):  # 用户中心
     username = request.session.get('user_name')
@@ -143,16 +142,19 @@ def info(request):  # 用户中心
         'title': '用户中心',
         'page_name': 1,
         'user_name': user.uname,
-        'user_email': user.uemail
+        'user_email': user.uemail,
+        'user_phone': user.phone
 
     }
     return render(request, 'df_user/user_center_info.html', context)
 
+
 def revise_info_handle(request):
     user = UserInfo.objects.get(id=request.session['user_id'])
     if request.method == "POST":
-        user.uname = request.POST.get('name')
+        # user.uname = request.POST.get('name')
         user.uemail = request.POST.get('uemail')
+        user.phone = request.POST.get('phone')
         user.save()
     context = {
         'page_name': 1,
@@ -162,7 +164,7 @@ def revise_info_handle(request):
     # return render_to_response('df_user/user_center_info.html',
     #                           context,
     #                           context_instance=RequestContext(request))
-    return render(request, 'df_user/user_center_info.html', context)
+    return redirect(reverse('df_user:info'))
 
 
 # @user_decorator.login
@@ -186,7 +188,7 @@ def algorithm(request):
                 UserBuyAlgorithm.objects
                     .all()
                     .values('algorithm__id', 'algorithm__name')
-                    .filter(user__id=request.session['user_id'],))
+                    .filter(user__id=request.session['user_id'], ))
         except ObjectDoesNotExist:
             user_like_algorithm_list = []
         context['count'] = len(user_like_algorithm_list)
@@ -197,7 +199,6 @@ def algorithm(request):
         raise Exception('UNSUPPORTED HTTP METHOD')
     else:
         raise Exception('UNSUPPORTED HTTP METHOD')
-
 
 # @user_decorator.login
 # def order(request, index):

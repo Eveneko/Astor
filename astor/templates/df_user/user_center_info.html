@@ -20,24 +20,30 @@
                                             <h4 class="mt-0 header-title mb-4">用户信息</h4>
                                             <p class="card-text">姓名：{{ user_name }}</p>
                                             <p class="card-text">邮箱：{{ user_email }}</p>
-{#                                            <p class="card-text">手机号：{{ user_phone }} </p>#}
+                                            <p class="card-text">手机号：{{ user_phone }} </p>
                                                 <a class="popup-form btn btn-primary" href="#test-form">修改信息</a>
                                         </div>
                                         <div class="card mfp-hide w-50 mx-auto" id="test-form">
                                             <div class="card-body">
-                                                <h4 class="mt-0 mb-4">用户信息</h4>
+                                                <h4 class="mt-0 mb-6">用户信息</h4>
                                                 <form id='user_revise_form' action="{% url "df_user:revise_info_handle" %}" method="post">{% csrf_token %}
                                                     <div class="row">
-                                                        <div class="col-lg-4">
+                                                        <!--<div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="name">姓名</label>
                                                                 <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value= {{ user_name }} >
                                                             </div>
-                                                        </div>
-                                                        <div class="col-lg-4">
+                                                        </div>-->
+                                                        <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="email">邮箱</label>
                                                                 <input type="email" class="form-control" id="uemail" name="uemail" placeholder="Enter Email" value= {{ user_email }} >
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label for="phone">手机号</label>
+                                                                <input type="phone" class="form-control" id="phone" name="phone" placeholder="Enter Phone" value= {{ user_phone }} >
                                                             </div>
                                                         </div>
                                                     </div>
