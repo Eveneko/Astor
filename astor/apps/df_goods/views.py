@@ -85,7 +85,9 @@ def detail(request, good_id):
                     'modify_time','type__name')\
             .get(pk=int(good_id))
         context['good'] = good
-        return JsonResponse(context)
+        # return JsonResponse(context)
+        return render(request, 'df_goods/detail.html', context)
+
     elif request.method == 'POST':
         raise Exception('UNSUPPORTED HTTP METHOD')
     else:
