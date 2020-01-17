@@ -133,55 +133,37 @@ def logout(request):  # 用户登出
     return redirect(reverse("df_goods:index"))
 
 
+
 @user_decorator.login
-@transaction.atomic
 def info(request):  # 用户中心
-    """
-    用户中心界面
-    # TODO: 将原子性限制加到POST请求限制内
-    :param request:
-    :return:
-    """
-    context = {'title': '用户中心'}
-    if request.method == 'GET':
-        user = UserInfo.objects.get(id=request.session.get('user_id'))
-        context = {
-            'title': '用户中心',
-            'name': user.uname,
-        }
-        users = UserInfo.objects.filter(id=request.session.get('user_id'))
-        print('user.phone', user.phone)
-        context['phone'] = user.phone
-        context['email'] = user.uemail
-        print(context)
-        return render(request, 'df_user/user_center_info.html', context)
-    elif request.method == 'POST' and request.POST:
-        print(request.POST)
-        user_info_form = UserInfoForm(data=request.POST)
-        if user_info_form.is_valid():
-            print('Form Valid')
-            # TODO: 表单异常回显
-            # name = user_info_form.clean_name()
-            uemail = user_info_form.cleaned_data['uemail']
-            phone = user_info_form.cleaned_data['phone']
-            # 验证用户
-            users = UserInfo.objects.filter(id=request.session.get('user_id'))
-            if len(users) > 1:
-                raise Exception('出现多个同名用户')
-            elif len(users) == 0:
-                context['status'] = 'FAIL'
-                context['username_error_msg'] = 'USER_NOT_FOUND'
-            else:
-                UserInfo.objects.filter(id=1).update(uemail=uemail,phone=phone)
-            context['phone'] = users[0].phone
-            context['email'] = users[0].uemail
-            print(context)
-            return render(request, 'df_user/user_center_info.html', context)
-        else:
-            print(user_info_form.errors)
-            raise Exception('UNSUPPORTED HTTP METHOD')
-    else:
-        raise Exception('UNSUPPORTED HTTP METHOD')
+    username = request.session.get('user_name')
+    user = UserInfo.objects.filter(uname=username).first()
+
+    context = {
+        'title': '用户中心',
+        'page_name': 1,
+        'user_name': user.uname,
+        'user_email': user.uemail
+
+    }
+    return render(request, 'df_user/user_center_info.html', context)
+
+def revise_info_handle(request):
+    user = UserInfo.objects.get(id=request.session['user_id'])
+    if request.method == "POST":
+        user.uname = request.POST.get('name')
+        user.uemail = request.POST.get('uemail')
+        user.save()
+    context = {
+        'page_name': 1,
+        'title': '用户中心',
+        'user': user,
+    }
+    # return render_to_response('df_user/user_center_info.html',
+    #                           context,
+    #                           context_instance=RequestContext(request))
+    return render(request, 'df_user/user_center_info.html', context)
+
 
 # @user_decorator.login
 def algorithm(request):
