@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <title>Veltrix - Admin Dashboard Template | Themesbrand</title>
+        <meta content="Responsive admin theme build on top of Bootstrap 4" name="description" />
+        <meta content="Themesbrand" name="author" />
+        <link rel="shortcut icon" href="../../static/assets/images/favicon.ico">
+
+        <link href="http://cdn.bootstrapmb.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="../../static/assets/css/metismenu.min.css" rel="stylesheet" type="text/css">
+        <link href="../../static/assets/css/icons.css" rel="stylesheet" type="text/css">
+        <link href="../../static/assets/css/style.css" rel="stylesheet" type="text/css">
+
+        <script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+        <script>
+            $(function () {
+                name_error = false;
+                pwd_error = false;
+
+                if({{ error_name }}==1){
+                    $('#username').next().html('用户名错误').show();
+                }
+                if({{ error_pwd }}==1){
+                    $('#pwd').next().html('密码错误').show();
+                }
+                $('#username').blur(function () {
+                    if($('#username').val().length=0){
+                        $('#username').next().html('请填写用户名').show();
+                        name_error = false;
+                    }else{
+                        $('#username').next().hide();
+                        name_error = true;
+                    }
+                });
+                $('#pwd').blur(function () {
+                    if($('#pwd').val().length=0){
+                        $('#pwd').next().html('请输入密码').show();
+                        pwd_error = false;
+                    }else{
+                        $('#pwd').next().hide();
+                        pwd_error = true;
+                    }
+                })
+            })
+        </script>
+
+    </head>
+
+    <body>
+
+        <div class="account-page-full-height bg-primary">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-xl-3 bg-white">
+                        <div class="account-page-full-height">
+                            <div class="p-3">
+                                <div>
+                                    <div class="text-center py-4">
+                                        <a href="{% url 'df_task:index' %}" class="logo"><img src="../../static/assets/images/logo-dark.png" height="48" alt="logo"></a>
+                                    </div>
+                                    <div class="text-left p-3">
+                                        <h4 class="font-18 text-center">Welcome Back !</h4>
+                                        <p class="text-muted text-center">Sign in to continue to Astor.</p>
+                
+                                        <form class="form-horizontal mt-5" action="{% url "df_user:login_handle" %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label for="username">Username</label>
+                                                <input type="text" class="form-control" id="username" name="username" value="{{ username }}" placeholder="Enter username">
+                                                <span class="error" style="display: none">Tip</span>
+                                            </div>
+                
+                                            <div class="form-group">
+                                                <label for="userpassword">Password</label>
+                                                <input type="password" class="form-control" id="pwd" name="pwd" value="{{ password }}" placeholder="Enter password">
+                                                <span class="error" style="display: none">Tip</span>
+                                            </div>
+                
+                                            <div class="form-group row">
+                                                <div class="col-sm-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="customControlInline">
+                                                        <label class="custom-control-label" for="customControlInline">Remember me</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 text-right">
+                                                    <input class="btn btn-primary w-md waves-effect waves-light" type="submit" value="Log In">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group mt-2 mb-0 row">
+                                                <div class="col-12 mt-3">
+                                                    <a href="#"><i class="mdi mdi-lock"></i> Forgot your password?</a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="mt-5 text-center">
+                                        <p>Don't have an account ? <a href="{% url 'df_user:register' %}" class="font-500 text-primary"> Signup now </a> </p>
+                                        <p>© 2019 ASTOR <span class="d-none d-sm-inline-block"> - builded with <i class="mdi mdi-heart text-danger"></i> by <a href="http://www.github.com/Eveneko/">Eveneko</a></span>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-9">
+                        <div class="text-white">
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <div class="text-center account-process p-4">
+                                        <h5 class="mt-0 mb-5 d-inline-block p-3 bg-primary rounded-circle border border-light position-relative">01</h5>
+                                        <div class="mb-4">
+                                            <i class="ti-pencil-alt h1"></i>
+                                        </div>
+                                        <h5>Free register</h5>
+                                        <p class="text-white-50">You took the right step</p>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4">
+                                    <div class="text-center account-process p-4">
+                                        <h5 class="mt-0 mb-5 d-inline-block p-3 bg-primary rounded-circle border border-light position-relative" style="color: #fff888" >02</h5>
+                                        <div class="mb-4">
+                                            <i class="ti-user h1" style="color: #fff888"></i>
+                                        </div>
+                                        <h5 style="color: #fff888">Log in account</h5>
+                                        <p style="color: #fff888">Hurry up</p>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4">
+                                    <div class="text-center p-4">
+                                        <h5 class="mt-0 mb-5 d-inline-block p-3 bg-primary rounded-circle border border-light position-relative">03</h5>
+                                        <div class="mb-4">
+                                            <i class="ti-bookmark-alt h1"></i>
+                                        </div>
+                                        <h5>Start Coding</h5>
+                                        <p class="text-white-50">Tomorrow ia another day</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container-fluid -->
+        </div>
+
+        <!-- jQuery  -->
+        <script src="../../static/assets/js/jquery.min.js"></script>
+        <script src="http://cdn.bootstrapmb.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="../../static/assets/js/metismenu.min.js"></script>
+        <script src="../../static/assets/js/jquery.slimscroll.js"></script>
+        <script src="../../static/assets/js/waves.min.js"></script>
+
+        <!-- App js -->
+        <script src="../../static/assets/js/app.js"></script>
+        
+    </body>
+
+</html>

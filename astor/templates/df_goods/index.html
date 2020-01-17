@@ -1,210 +1,95 @@
-{% extends 'base.html' %}
+{% extends 'base_ui.html' %}
 
-{% block head %}
-    <script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="/static/js/slide.js"></script>
-{% endblock head %}
+{% block css %}
 
-{% block center_body %}
-  {{ goods_list }}
 
-	<div class="navbar_con">
-		<div class="navbar">
-			<h1 class="fl">全部商品分类</h1>
-			<ul class="navlist fl">
-				<li><a href="{% url "df_goods:index" %}">首页</a></li>
-			</ul>
-		</div>
-	</div>
-	<div class="center_con clearfix">
-		<ul class="subnav fl">
-			<li><a href="#model02" class="main_category_1">字符串</a></li>
-			<li><a href="#model02" class="main_category_2">算法</a></li>
-			<li><a href="#model03" class="main_category_3">数据结构</a></li>
-			<li><a href="#model05" class="main_category_4">图论</a></li>
-			<li><a href="#model05" class="main_category_5">数学</a></li>
-			<li><a href="#model06" class="main_category_6">其他</a></li>
-		</ul>
-		<div class="slide fl">
-			<ul class="slide_pics">
-				<li><img src="/static/images/slide/slide01.png" alt="幻灯片"></li>
-				<li><img src="/static/images/slide/slide02.png" alt="幻灯片"></li>
-				<li><img src="/static/images/slide/slide03.png" alt="幻灯片"></li>
-				<li><img src="/static/images/slide/slide04.png" alt="幻灯片"></li>
-				<li><img src="/static/images/slide/slide05.png" alt="幻灯片"></li>
-				<li><img src="/static/images/slide/slide06.png" alt="幻灯片"></li>
-			</ul>
-			<div class="prev"></div>
-			<div class="next"></div>
-			<ul class="points"></ul>
-		</div>
-		<div class="adv fl">
-			<a href="#"><img src="/static/images/adv/adv01.png"></a>
-			<a href="#"><img src="/static/images/adv/adv02.png"></a>
-		</div>
-	</div>
 
-	<div class="list_model">
-		<div class="list_title clearfix">
-			<h3 class="fl" id="model01">字符串</h3>
-			<div class="subtitle fl">
-				<span>|</span>
-				<a href="#">ac自动机</a>
-				<a href="#">字符串哈希</a>
-				<a href="#">kmp</a>
-			</div>
-			<a href="/good/list1_1_1/" class="goods_more fr" id="fruit_more">查看更多 ></a>
-		</div>
+{% endblock css %}
 
-		<div class="goods_con clearfix">
-			<div class="goods_banner fl"><img src="/static/images/String.png"></div>
-			<ul class="goods_list fl">
-                {% for goods in type0 %}
-                <li>
-                    {% include "partial/_item_card.html" %}
-                </li>
-                {% endfor %}
-			</ul>
-		</div>
-	</div>
 
-	<div class="list_model">
-		<div class="list_title clearfix">
-			<h3 class="fl" id="model02">算法</h3>
-			<div class="subtitle fl">
-				<span>|</span>
-				<a href="#">动态规划</a>
-				<a href="#">排序</a>	
-				<a href="#">搜索</a>			
-			</div>
-			<a href="/good/list2_1_1/" class="goods_more fr">查看更多 ></a>
-		</div>
+{% block right %}
 
-		<div class="goods_con clearfix">
-			<div class="goods_banner fl"><img src="/static/images/algorithm.png"></div>
-			<ul class="goods_list fl">
-                {% for goods in type11 %}
-                <li>
-                    {% include "partial/_item_card.html" %}
-                </li>
-                {% endfor %}
-			</ul>
-		</div>
-	</div>
+<div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container-fluid">
+                        <div class="page-title-box">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <h4 class="page-title">Products</h4>
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Ecommerce</a></li>
+                                        <li class="breadcrumb-item active">Products</li>
+                                    </ol>
+                                </div>
+                            </div> <!-- end row -->
+                        </div>
+                        <!-- end page-title -->
 
-	<div class="list_model">
-		<div class="list_title clearfix">
-			<h3 class="fl" id="model03">数据结构</h3>
-			<div class="subtitle fl">
-				<span>|</span>
-				<a href="#">堆</a>
-				<a href="#">栈</a>
-				<a href="#">树</a>
-			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
-		</div>
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card product-box">
+                                    <div class="card-body">
+                                        <div class="product-img">
+                                            <img src="../../static/images/algorithm.png" class="img-fluid rounded-top mx-auto d-block" alt="work-thumbnail">
+                                            <div class="product-overlay">
+                                                <ul class="list-inline product-links social-links mb-0">
+                                                    <li class="list-inline-item">
+                                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Like"><i class="dripicons-heart"></i></a>
+                                                    </li>
+                                                    <!--<li class="list-inline-item">
+                                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="dripicons-shopping-bag"></i></a>
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="dripicons-cart"></i></a>
+                                                    </li>-->
+                                                </ul>
+                                            </div>
+                                        </div>
 
-		<div class="goods_con clearfix">
-			<div class="goods_banner fl"><img src="/static/images/data%20structure.png"></div>
-			<ul class="goods_list fl">
-				{% for goods in type21 %}
-                <li>
-                    {% include "partial/_item_card.html" %}
-                </li>
-                {% endfor %}
-			</ul>
-		</div>
+                                        <div class="detail mt-3">
+                                            <h4 class="font-16"><a href="" class="text-dark">ALGORITHM</a> </h4>
+                                            <p class="text-muted">
+                                                <i class="mdi mdi-star text-warning"></i>
+                                                <i class="mdi mdi-star text-warning"></i>
+                                                <i class="mdi mdi-star text-warning"></i>
+                                                <i class="mdi mdi-star text-warning"></i>
+                                                <i class="mdi mdi-star text-warning"></i>
+                                            </p>
+                                            <!--<h5 class="my-0 font-16 float-right"><span class="text-muted mr-2"><del>$72</del></span> <b>$64</b></h5>-->
+                                            <!--<span class="badge badge-soft-primary">24 % Off</span>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end product-box -->
+                            </div>
+                        </div>
+                        <!-- end row -->
+                    </div>
+                    <!-- container-fluid -->
 
-	</div>
+                </div>
+                <!-- content -->
 
-	<div class="list_model">
-		<div class="list_title clearfix">
-			<h3 class="fl" id="model04">图论</h3>
-			<div class="subtitle fl">
-				<span>|</span>
-				<a href="#">最短路</a>
-				<a href="#">拓扑结构</a>
-				<a href="#">强连通分量</a>
-			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
-		</div>
+                <footer class="footer">
+                    © 2019 Veltrix <span class="d-none d-sm-inline-block"> - Crafted with <i class="mdi mdi-heart text-danger"></i> by <a href="http://www.bootstrapmb.com/">Themesbrand</a></span>.
+                </footer>
 
-		<div class="goods_con clearfix">
-			<div class="goods_banner fl"><img src="/static/images/graph.png"></div>
-			<ul class="goods_list fl">
-				{% for goods in type31 %}
-                <li>
-                    {% include "partial/_item_card.html" %}
-                </li>
-                {% endfor %}
-			</ul>
-		</div>
-	</div>
+            </div>
 
-	<div class="list_model">
-		<div class="list_title clearfix">
-			<h3 class="fl" id="model05">数学</h3>
-			<div class="subtitle fl">
-				<span>|</span>
-				<a href="#">多项式算法</a>
-				<a href="#">快速幂</a>
-				<a href="#">排列组合数学</a>
-			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
-		</div>
+{% endblock right %}
 
-		<div class="goods_con clearfix">
-			<div class="goods_banner fl"><img src="/static/images/Math.png"></div>
-			<ul class="goods_list fl">
-				{% for goods in type41 %}
-                <li>
-					{% include "partial/_item_card.html" %}
-                </li>
-                {% endfor %}
-			</ul>
-		</div>
-	</div>
 
-	<div class="list_model">
-		<div class="list_title clearfix">
-			<h3 class="fl" id="model06">其他</h3>
-			<div class="subtitle fl">
-				<span>|</span>
-				<a href="#">分治</a>
-				<a href="#">二分</a>
-				<a href="#">贪心</a>
-			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
-		</div>
+{% block right_side %}
 
-		<div class="goods_con clearfix">
-			<div class="goods_banner fl"><img src="/static/images/others.png"></div>
-			<ul class="goods_list fl">
-				{% for goods in type51 %}
-				<li>
-					{% include "partial/_item_card.html" %}
-				</li>
-				{% endfor %}
-			</ul>
-		</div>
-	</div>
 
-	<script type="text/javascript" src="/static/js/slide.js"></script>
-    <script type="text/javascript">
-        BCSlideshow('focuspic');
-        var oFruit = document.getElementById('fruit_more');
-        var oShownum = document.getElementById('show_count');
 
-        var hasorder = localStorage.getItem('order_finish');
+{% endblock right_side %}
 
-        if(hasorder)
-        {
-        oShownum.innerHTML = '2';
-        }
 
-        oFruit.onclick = function(){
-        window.location.href = 'list.html';
-        }
-    </script>
+{% block js %}
 
-{% endblock center_body %}
+
+
+{% endblock js %}
