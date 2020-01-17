@@ -1,11 +1,18 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import GoodsInfo, TypeInfo
+from apps.df_user import user_decorator
+from django.urls import reverse
 from django.core import serializers
 # from df_cart.models import CartInfo
+from df_user.models import UserBuyAlgorithm
 from django.http.response import JsonResponse
+from .forms import LikeForm
+from django.core.exceptions import ObjectDoesNotExist, RequestAborted
+from django.db import transaction
 
 
+@user_decorator.login
 def index(request):
     """
     商品主页信息，可以获取在售商品信息
@@ -19,10 +26,9 @@ def index(request):
     :return: 渲染页面
     """
     if request.method == 'GET':
-        good_num_per_page = 4
         context = {'title': 'Astor'}
         query_num = int(request.GET['query_num']) \
-            if 'query_num' in request.GET.keys() else 4
+            if 'query_num' in request.GET.keys() else 16
         offset = int(request.GET['offset']) \
             if 'offset' in request.GET.keys() else 0
         type_id = request.GET['type_id'] \
@@ -37,8 +43,23 @@ def index(request):
         context['type_id'] = -1 if type_id is None else type_id
         context['goods_num'] = len(goods_list)
         context['goods_list'] = goods_list[offset:offset+query_num]
-        return JsonResponse(context)
-        # return render(request, 'df_goods/index.html', context)
+        context['like_form'] = LikeForm()
+        # 添加用户收藏的算法
+        try:
+            user_like_algorithm_list = UserBuyAlgorithm.objects\
+                .all().values('algorithm_id').filter(
+                user__id=request.session['user_id'],
+            )
+            tmp = []
+            for a in user_like_algorithm_list:
+                tmp.append(int(a['algorithm_id']))
+            user_like_algorithm_list = tmp
+        except ObjectDoesNotExist:
+            user_like_algorithm_list = []
+        context['user_like_algorithm_list'] = user_like_algorithm_list
+        if request.is_ajax():
+            return JsonResponse(context)
+        return render(request, 'df_goods/index.html', context)
     elif request.method == 'POST':
         raise Exception('UNSUPPORTED HTTP METHOD')
     else:
@@ -64,12 +85,77 @@ def detail(request, good_id):
                     'modify_time','type__name')\
             .get(pk=int(good_id))
         context['good'] = good
-        return JsonResponse(context)
+        # return JsonResponse(context)
+        return render(request, 'df_goods/detail.html', context)
+
     elif request.method == 'POST':
         raise Exception('UNSUPPORTED HTTP METHOD')
     else:
         raise Exception('UNSUPPORTED HTTP METHOD')
 
+
+@user_decorator.login
+@transaction.atomic
+def like(request):
+    """
+    添加收藏，修改 UserBuyAlgorithm表单
+    API：
+    - ^/good/like/?good_id={\d}&{like={True|False}
+    :param request: 请求实体
+    :return: 渲染页面
+    """
+    if request.method == 'GET':
+        # print(request.GET)
+        good_id = int(request.GET['good_id'])
+        like = str(request.GET['like'])
+        if like == 'True':
+            like = True
+        elif like == 'False':
+            like = False
+        else:
+            raise RequestAborted('UNSUPPORTED ARGUMENT')
+        user_id = request.session['user_id']
+        user_buy_algorithm = UserBuyAlgorithm.objects.all().filter(user_id=user_id)
+        # print(user_buy_algorithm)
+        if like:
+            if user_buy_algorithm.filter(algorithm_id=good_id).count() == 0:
+                UserBuyAlgorithm.objects.create(
+                    user_id=user_id,
+                    algorithm_id=good_id)
+            # print("User {} likes {}".format(user_id, good_id))
+        else:
+            if user_buy_algorithm.filter(algorithm_id=good_id).count() == 1:
+                user_buy_algorithm.get(
+                    user_id=user_id,
+                    algorithm_id=good_id).delete()
+            # print("User {} likes {}".format(user_id, good_id))
+        context = {'title': 'Astor'}
+        # return render(request, 'df_goods/index.html', context)
+        return redirect(reverse("df_goods:index"))
+
+    elif request.method == 'POST' and request.POST:
+        # TODO: Using POST to finish like and dislike action
+        # print(request.POST)
+        # like_form = LikeForm(data=request.POST)
+        # like = like_form.clean_like()
+        # good_id = like_form.clean_good_id()
+        # # user = UserInfo.objects.get(id=request.session['user_id'])
+        # user_id = request.session['user_id']
+        # if like:
+        #     UserBuyAlgorithm.objects.create(
+        #         user__id=user_id,
+        #         algorithm__id=good_id)
+        #     print("User {} likes {}".format(user_id, good_id))
+        # else:
+        #     UserBuyAlgorithm.objects.get(
+        #         user__id=user_id,
+        #         algorithm__id=good_id
+        #     ).detete()
+        # context = {'title': 'Astor'}
+        # return render(request, 'df_goods/index.html', context)
+        raise Exception('UNSUPPORTED HTTP METHOD')
+    else:
+        raise Exception('UNSUPPORTED HTTP METHOD')
 
 # def ordinary_search(request):
 #     from django.db.models import Q

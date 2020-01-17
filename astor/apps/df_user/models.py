@@ -6,6 +6,8 @@ class UserInfo(models.Model):
     uname = models.CharField(max_length=20, verbose_name="用户名", unique=True)
     upwd = models.CharField(max_length=40, verbose_name="用户密码", blank=False)
     uemail = models.EmailField(verbose_name="邮箱", unique=True)
+    phone = models.CharField(max_length=20, verbose_name='手机号码',
+                             null=True)
 
     class Meta:
         verbose_name = "用户信息表"
@@ -26,7 +28,7 @@ class UserBuyAlgorithm(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return "{0}购买的算法{1}".format(self.user.uname, self.algorithm.gtitle)
+        return "{0}购买的算法{1}".format(self.user.uname, self.algorithm.name)
 
 
 # TODO: 创建新的任务模型并以外键和用户关联

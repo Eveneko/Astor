@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect, reverse
 from django.core.paginator import Paginator
-
+from django.db import transaction
+from django.http.response import JsonResponse
+from df_user.models import UserBuyAlgorithm
 from hashlib import sha1
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import UserInfo
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, UserInfoForm
 from . import user_decorator
 
 def register(request):
@@ -131,121 +134,179 @@ def logout(request):  # 用户登出
 
 
 @user_decorator.login
+@transaction.atomic
 def info(request):  # 用户中心
-    username = request.session.get('user_name')
-    user = UserInfo.objects.filter(uname=username).first()
-    browser_goods = GoodsBrowser.objects.filter(user=user).order_by(
-        "-browser_time")
-    goods_list = []
-    if browser_goods:
-        goods_list = [browser_good.good for browser_good in
-                      browser_goods]  # 从浏览商品记录中取出浏览商品
-        explain = '最近浏览'
+    """
+    用户中心界面
+    # TODO: 将原子性限制加到POST请求限制内
+    :param request:
+    :return:
+    """
+    context = {'title': '用户中心'}
+    if request.method == 'GET':
+        user = UserInfo.objects.get(id=request.session.get('user_id'))
+        context = {
+            'title': '用户中心',
+            'name': user.uname,
+        }
+        users = UserInfo.objects.filter(id=request.session.get('user_id'))
+        print('user.phone', user.phone)
+        context['phone'] = user.phone
+        context['email'] = user.uemail
+        print(context)
+        return render(request, 'df_user/user_center_info.html', context)
+    elif request.method == 'POST' and request.POST:
+        print(request.POST)
+        user_info_form = UserInfoForm(data=request.POST)
+        if user_info_form.is_valid():
+            print('Form Valid')
+            # TODO: 表单异常回显
+            # name = user_info_form.clean_name()
+            uemail = user_info_form.cleaned_data['uemail']
+            phone = user_info_form.cleaned_data['phone']
+            # 验证用户
+            users = UserInfo.objects.filter(id=request.session.get('user_id'))
+            if len(users) > 1:
+                raise Exception('出现多个同名用户')
+            elif len(users) == 0:
+                context['status'] = 'FAIL'
+                context['username_error_msg'] = 'USER_NOT_FOUND'
+            else:
+                UserInfo.objects.filter(id=1).update(uemail=uemail,phone=phone)
+            context['phone'] = users[0].phone
+            context['email'] = users[0].uemail
+            print(context)
+            return render(request, 'df_user/user_center_info.html', context)
+        else:
+            print(user_info_form.errors)
+            raise Exception('UNSUPPORTED HTTP METHOD')
     else:
-        explain = '无最近浏览'
+        raise Exception('UNSUPPORTED HTTP METHOD')
 
-    context = {
-        'title': '用户中心',
-        'page_name': 1,
-        'user_phone': user.uphone,
-        'user_address': user.uaddress,
-        'user_name': username,
-        'goods_list': goods_list,
-        'explain': explain,
-    }
-    return render(request, 'df_user/user_center_info.html', context)
-
-
-@user_decorator.login
-def order(request, index):
-    user_id = request.session['user_id']
-    orders_list = OrderInfo.objects.filter(user_id=int(user_id)).order_by(
-        '-odate')
-    paginator = Paginator(orders_list, 2)
-    page = paginator.page(int(index))
-    context = {
-        'paginator': paginator,
-        'page': page,
-        # 'orders_list':orders_list,
-        'title': "用户中心",
-        'page_name': 1,
-    }
-    return render(request, 'df_user/user_center_order.html', context)
-
-
-@user_decorator.login
-def site(request):
-    user = UserInfo.objects.get(id=request.session['user_id'])
-    if request.method == "POST":
-        # user.ushou = request.POST.get('ushou')
-        # user.uaddress = request.POST.get('uaddress')
-        # user.uyoubian = request.POST.get('uyoubian')
-        # user.uphone = request.POST.get('uphone')
-        user.save()
-    context = {
-        'page_name': 1,
-        'title': '用户中心',
-        'user': user,
-    }
-    return render(request, 'df_user/user_center_site.html', context)
+# @user_decorator.login
+def algorithm(request):
+    """
+    获取用户收藏的算法
+    API:
+    - GET:
+        - ^/user/algorithm/
+    :param request:
+    :return:
+    """
+    if request.method == 'GET':
+        user_buy_algorithm = list(UserBuyAlgorithm.objects
+                                  .all()
+                                  .values('algorithm__id', 'algorithm__name')
+                                  .filter(user_id=request.session['user_id']))
+        context = {'title': 'User Like Algorithm'}
+        try:
+            user_like_algorithm_list = list(
+                UserBuyAlgorithm.objects
+                    .all()
+                    .values('algorithm__id', 'algorithm__name')
+                    .filter(user__id=request.session['user_id'],))
+        except ObjectDoesNotExist:
+            user_like_algorithm_list = []
+        context['count'] = len(user_like_algorithm_list)
+        context['user_like_algorithm_list'] = user_like_algorithm_list
+        print(user_buy_algorithm)
+        return JsonResponse(context)
+    elif request.method == 'POST' and request.POST:
+        raise Exception('UNSUPPORTED HTTP METHOD')
+    else:
+        raise Exception('UNSUPPORTED HTTP METHOD')
 
 
-@user_decorator.login
-def publish(request):
-    user_id = request.session['user_id']
-    context = {
-        'title': '用户中心',
-        'uid': user_id,
-    }
-    return render(request, 'df_user/user_center_seller.html', context)
+# @user_decorator.login
+# def order(request, index):
+#     user_id = request.session['user_id']
+#     orders_list = OrderInfo.objects.filter(user_id=int(user_id)).order_by(
+#         '-odate')
+#     paginator = Paginator(orders_list, 2)
+#     page = paginator.page(int(index))
+#     context = {
+#         'paginator': paginator,
+#         'page': page,
+#         # 'orders_list':orders_list,
+#         'title': "用户中心",
+#         'page_name': 1,
+#     }
+#     return render(request, 'df_user/user_center_order.html', context)
 
 
-@user_decorator.login
-def publish_handle(request):
-    user = UserInfo.objects.get(id=request.session['user_id'])
-    # 解析请求
-    isDelete = request.POST.get('isDelete')
-    if isDelete is None:
-        isDelete = False
-    gname = request.POST.get('gname')
-    gpic = request.POST.get('gpic')
-    gjianjie = request.POST.get('gjianjie')
-    gcontent = request.POST.get('gcontent')
-    gtype = request.POST.get('gtype')
-    typeinfo = TypeInfo.objects.get(ttitle=gtype)
-    gcode = request.POST.get('gcode')
-    gdoc = request.POST.get('gdoc')
-
-    # 创建新商品并与当前卖家关联
-    good = GoodsInfo.objects.create(isDelete=isDelete, gtitle=gname, gpic=gpic,
-                                    gjianjie=gjianjie, gcontent=gcontent,
-                                    gtype=typeinfo, gcode=gcode, gdoc=gdoc,
-                                    guser=user)
-
-    print('user id =', user.id)
-    print('good id =', good.id)
-    # good = GoodsInfo.objects.get()
-    return render(request, 'df_user/user_center_seller.html', None)
-    # return render(request, 'df_user/user_center_seller.html', context)
+# @user_decorator.login
+# def site(request):
+#     user = UserInfo.objects.get(id=request.session['user_id'])
+#     if request.method == "POST":
+#         # user.ushou = request.POST.get('ushou')
+#         # user.uaddress = request.POST.get('uaddress')
+#         # user.uyoubian = request.POST.get('uyoubian')
+#         # user.uphone = request.POST.get('uphone')
+#         user.save()
+#     context = {
+#         'page_name': 1,
+#         'title': '用户中心',
+#         'user': user,
+#     }
+#     return render(request, 'df_user/user_center_site.html', context)
 
 
-@user_decorator.login
-def published(request, index):
-    user_id = request.session['user_id']
-    print('user id =', user_id)
-    goods_list = GoodsInfo.objects.filter(guser=int(user_id)).order_by(
-        '-gmdf_time')
-    print(goods_list)
-    paginator = Paginator(goods_list, 2)
-    page = paginator.page(int(index))
-    context = {
-        'paginator': paginator,
-        'page': page,
-        # 'orders_list':orders_list,
-        'title': "用户中心",
-        'page_name': 1,
-    }
-    print('page =', page)
-    for goodinfo in page:
-        print(goodinfo.id)
-    return render(request, 'df_user/user_center_published.html', context)
+# @user_decorator.login
+# def publish(request):
+#     user_id = request.session['user_id']
+#     context = {
+#         'title': '用户中心',
+#         'uid': user_id,
+#     }
+#     return render(request, 'df_user/user_center_seller.html', context)
+
+
+# @user_decorator.login
+# def publish_handle(request):
+#     user = UserInfo.objects.get(id=request.session['user_id'])
+#     # 解析请求
+#     isDelete = request.POST.get('isDelete')
+#     if isDelete is None:
+#         isDelete = False
+#     gname = request.POST.get('gname')
+#     gpic = request.POST.get('gpic')
+#     gjianjie = request.POST.get('gjianjie')
+#     gcontent = request.POST.get('gcontent')
+#     gtype = request.POST.get('gtype')
+#     typeinfo = TypeInfo.objects.get(ttitle=gtype)
+#     gcode = request.POST.get('gcode')
+#     gdoc = request.POST.get('gdoc')
+#
+#     # 创建新商品并与当前卖家关联
+#     good = GoodsInfo.objects.create(isDelete=isDelete, gtitle=gname, gpic=gpic,
+#                                     gjianjie=gjianjie, gcontent=gcontent,
+#                                     gtype=typeinfo, gcode=gcode, gdoc=gdoc,
+#                                     guser=user)
+#
+#     print('user id =', user.id)
+#     print('good id =', good.id)
+#     # good = GoodsInfo.objects.get()
+#     return render(request, 'df_user/user_center_seller.html', None)
+#     # return render(request, 'df_user/user_center_seller.html', context)
+
+
+# @user_decorator.login
+# def published(request, index):
+#     user_id = request.session['user_id']
+#     print('user id =', user_id)
+#     goods_list = GoodsInfo.objects.filter(guser=int(user_id)).order_by(
+#         '-gmdf_time')
+#     print(goods_list)
+#     paginator = Paginator(goods_list, 2)
+#     page = paginator.page(int(index))
+#     context = {
+#         'paginator': paginator,
+#         'page': page,
+#         # 'orders_list':orders_list,
+#         'title': "用户中心",
+#         'page_name': 1,
+#     }
+#     print('page =', page)
+#     for goodinfo in page:
+#         print(goodinfo.id)
+#     return render(request, 'df_user/user_center_published.html', context)

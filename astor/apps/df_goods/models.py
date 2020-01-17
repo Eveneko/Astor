@@ -20,7 +20,7 @@ class GoodsInfo(models.Model):
     name = models.CharField(max_length=20, verbose_name="商品名称")
     pic_path = models.ImageField(upload_to="df_goods/image/%Y/%m",
                                  verbose_name="图片地址",
-                                 default="image/default.png")
+                                 default="images/default.png")
     cpu_price = models.DecimalField(max_digits=5, decimal_places=2,
                                     verbose_name="CPU核心小时单价", default=0)
     gpu_price = models.DecimalField(max_digits=5, decimal_places=2,

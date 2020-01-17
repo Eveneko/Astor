@@ -68,3 +68,31 @@ class LoginForm(forms.Form):
         elif remember_password == 'True':
             return True
         raise Exception('未知复选结果')
+
+class UserInfoForm(forms.Form):
+    # name = forms.CharField(max_length=32)
+    uemail = forms.EmailField(label='Email')
+    phone = forms.CharField(max_length=20)
+
+    # def clean_name(self):
+    #     name = self.cleaned_data["name"]
+    #     print(name)
+    #     if len(name) < 6:
+    #         # 没通过检测抛出错误,必须用ValidationError
+    #         raise forms.ValidationError("用户名长度不能小于6位")  # 自定义异常
+    #     if name.isdigit():
+    #         raise forms.ValidationError("用户名不能全为数字")
+    #     if UserInfo.objects.filter(uname=name).count() > 0:
+    #         raise forms.ValidationError("Username already exists")
+    #     return name
+
+    def clean_uemail(self):
+        uemail = self.cleaned_data["uemail"]
+        if UserInfo.objects.filter(uemail=uemail).count() > 0:
+            raise forms.ValidationError("Email has already been used")
+        return uemail
+
+    def clean_phone(self):
+        phone = self.cleaned_data["phone"]
+        if not phone.isdigit() or len(phone) != 11:
+            raise forms.ValidationError("手机号码格式不对")

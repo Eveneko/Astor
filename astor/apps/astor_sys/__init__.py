@@ -1,0 +1,1 @@
+default_app_config = "astor_sys.apps.AstorSysConfig"

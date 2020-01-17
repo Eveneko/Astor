@@ -12,6 +12,7 @@ urlpatterns = [
     # url(r'^cart/', include('df_cart.urls', namespace='df_cart')),
     # url(r'^order/', include('df_order.urls', namespace='df_order')),
     url(r'^task/', include('df_task.urls', namespace='df_task')),
-    url(r'^tinymce/', include('tinymce.urls')),  # 使用富文本编辑框配置confurl
+    url(r'^tinymce/', include('tinymce.urls')),  # 使用富文本编辑框配置confure
     url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
+    url(r'', include('astor_sys.urls', namespace='astor_sys'))
 ]
