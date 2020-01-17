@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <title>Veltrix - Admin Dashboard Template | Themesbrand</title>
+        <meta content="Responsive admin theme build on top of Bootstrap 4" name="description" />
+        <meta content="Themesbrand" name="author" />
+        <link rel="shortcut icon" href="../../static/assets/images/favicon.ico">
+
+        <link href="http://cdn.bootstrapmb.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="../../static/assets/css/metismenu.min.css" rel="stylesheet" type="text/css">
+        <link href="../../static/assets/css/icons.css" rel="stylesheet" type="text/css">
+        <link href="../../static/assets/css/style.css" rel="stylesheet" type="text/css">
+
+        <script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+        <script type="text/javascript">
+            $(function(){
+            var error_name = false;
+            var error_password = false;
+            var error_check_password = false;
+            var error_email = false;
+
+
+            $('#user_name').blur(function() {
+                check_user_name();
+            });
+
+            $('#pwd').blur(function() {
+                check_pwd();
+            });
+
+            $('#cpwd').blur(function() {
+                check_cpwd();
+            });
+
+            $('#email').blur(function() {
+                check_email();
+            });
+
+            function check_user_name(){
+                var len = $('#user_name').val().length;
+
+                if(len<5||len>20)
+                {
+                    $('#user_name').next().html('Enter a username of 5-20 characters');
+                    $('#user_name').next().show();
+                    error_name = true;
+
+                }
+                else
+                {
+                    $.get('{% url "df_user:register_exist" %}?uname='+$('#user_name').val(),function(data){
+                        if (data.count >= 1) {
+                            $('#user_name').next().html('Username already exists').show();
+                            error_name = true;
+                        }else{
+                            $('#user_name').next().hide();
+                            error_name = false;
+                        }
+                    });
+                }
+            }
+
+            function check_pwd(){
+                var len = $('#pwd').val().length;
+                if(len<4||len>20)
+                {
+                    $('#pwd').next().html('Password must be at least 4 digits and maximum 20 digits');
+                    $('#pwd').next().show();
+                    error_password = true;
+                }
+                else
+                {
+                    $('#pwd').next().hide();
+                    error_password = false;
+                }
+            }
+
+
+            function check_cpwd(){
+                var pass = $('#pwd').val();
+                var cpass = $('#cpwd').val();
+
+                if(pass!=cpass)
+                {
+                    $('#cpwd').next().html('Passwords entered twice are inconsistent');
+                    $('#cpwd').next().show();
+                    error_check_password = true;
+                }
+                else
+                {
+                    $('#cpwd').next().hide();
+                    error_check_password = false;
+                }
+
+            }
+
+            function check_email(){
+                var re = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+
+                if(re.test($('#email').val()))
+                {
+                    $('#email').next().hide();
+                    error_email = false;
+                }
+                else
+                {
+                    $('#email').next().html('The entered mailbox format is incorrect');
+                    $('#email').next().show();
+                    error_email = true;
+                }
+
+            }
+
+            $("#reg_form").submit(function(){
+                check_user_name();
+                check_pwd();
+                check_cpwd();
+                check_email();
+                if(error_name == false && error_password == false && error_check_password == false && error_email == false)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            });
+            });
+    </script>
+
+    </head>
+
+    <body>
+        <div class="account-page-full-height bg-primary">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-xl-3 bg-white">
+                        <div class="account-page-full-height">
+                            <div class="p-3">
+                                <div>
+                                    <div class="text-center p-0">
+                                        <a href="{% url 'df_task:index' %}" class="logo"><img src="../../static/assets/images/logo-dark.png" height="48" alt="logo"></a>
+                                    </div>
+                                    <div class="text-left p-3">
+                                        <h4 class="font-18 text-center">Free Register</h4>
+                                        <p class="text-muted text-center">Get your free Astor account now..</p>
+
+                                        <form class="form-horizontal mt-0" action="{% url "df_user:register_handle" %}" id='reg_form' method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label for="username">Username</label>
+                                                <input type="text" class="form-control" name="user_name" id="user_name" placeholder="Enter username">
+                                                <span class="error" style="display: none">Tip</span>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="userpassword">Password</label>
+                                                <input type="password" class="form-control" name='pwd' id="pwd" placeholder="Enter password">
+                                                <span class="error" style="display: none">Tip</span>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="userpassword">Confirm Password</label>
+                                                <input type="password" class="form-control" name="cpwd" id="cpwd" placeholder="Enter password again">
+                                                <span class="error" style="display: none">Tip</span>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="useremail">Email</label>
+                                                <input type="email" class="form-control" name="email" id="email" placeholder="Enter email">
+                                                <span class="error" style="display: none">Tip</span>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="col-12 text-right">
+                                                    <input class="btn btn-primary w-md waves-effect waves-light" type="submit" value="Register">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group mt-1 mb-0 row">
+                                                <div class="col-12 mt-3">
+                                                    <p class="mb-0">By registering you agree to the Astor <a href="#" class="text-primary">Terms of Use</a></p>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                    <div class="mt-1 text-center">
+                                        <p>Already have an account ? <a href="{% url 'df_user:login' %}" class="font-500 text-primary"> Login </a> </p>
+                                        <p>© 2019 ASTOR <span class="d-none d-sm-inline-block"> - builded with <i class="mdi mdi-heart text-danger"></i> by <a href="http://www.github.com/Eveneko/">Eveneko</a></span>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-9">
+                        <div class="text-white">
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <div class="text-center account-process p-4">
+                                        <h5 class="mt-0 mb-5 d-inline-block p-3 bg-primary rounded-circle border border-light position-relative" style="color: #fff888">01</h5>
+                                        <div class="mb-4">
+                                            <i class="ti-pencil-alt h1" style="color: #fff888"></i>
+                                        </div>
+                                        <h5 style="color: #fff888">Free register</h5>
+                                        <p style="color: #fff888">You took the right step</p>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4">
+                                    <div class="text-center account-process p-4">
+                                        <h5 class="mt-0 mb-5 d-inline-block p-3 bg-primary rounded-circle border border-light position-relative">02</h5>
+                                        <div class="mb-4">
+                                            <i class="ti-user h1"></i>
+                                        </div>
+                                        <h5>Log in account</h5>
+                                        <p class="text-white-50">Hurry up</p>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4">
+                                    <div class="text-center p-4">
+                                        <h5 class="mt-0 mb-5 d-inline-block p-3 bg-primary rounded-circle border border-light position-relative">03</h5>
+                                        <div class="mb-4">
+                                            <i class="ti-bookmark-alt h1"></i>
+                                        </div>
+                                        <h5>Start Coding</h5>
+                                        <p class="text-white-50">Tomorrow ia another day</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container-fluid -->
+        </div>
+
+        <!-- jQuery  -->
+        <script src="../../static/assets/js/jquery.min.js"></script>
+        <script src="http://cdn.bootstrapmb.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="../../static/assets/js/metismenu.min.js"></script>
+        <script src="../../static/assets/js/jquery.slimscroll.js"></script>
+        <script src="../../static/assets/js/waves.min.js"></script>
+
+        <!-- App js -->
+        <script src="../../static/assets/js/app.js"></script>
+
+    </body>
+
+</html>
