@@ -1,144 +1,194 @@
-{% extends 'base.html' %}
+{% extends 'base_ui.html' %}
 
-{% block head %}
-    <script>
-    $(function () {
-        $('.col07').each(function () {
-            count = $(this).prev().text();
-            price = $(this).prev().prev().text();
-            $(this).html(parseFloat(count,2)*parseFloat(price,2)+'元')
-        })
-    })
-    </script>
+{% block css %}
 
-{% endblock %}
 
-{% block center_body %}
-	
-	<h3 class="common_title">确认收货地址</h3>
 
-	<div class="common_list_con clearfix">
-		<dl>
-			<dt>寄送到：</dt>
-			<span><input type="radio" name="" checked="checked"></span>
-            当前地址：<span class="user_info_check">{{ user.uaddress }}</span>
-            收件人：<span class="user_info_check">{{ user.ushou }} </span>
-            电话：<span class="user_info_check">{{ user.uphone }}</span>
-		</dl>
-		<a href="{% url "df_user:site" %}" class="edit_site">编辑收货地址</a>
+{% endblock css %}
 
-	</div>
-	
-	<h3 class="common_title">支付方式</h3>	
-	<div class="common_list_con clearfix">
-		<div class="pay_style_con clearfix">
-			<!-- <input type="radio" name="pay_style" checked> -->
-			<!-- <label class="cash">货到付款</label> -->
-			<input type="radio" name="pay_style">
-			<label class="weixin">微信支付</label>
-			<input type="radio" name="pay_style">
-			<label class="zhifubao"></label>
-			<input type="radio" name="pay_style">
-			<label class="bank">银行卡支付</label>
-		</div>
-	</div>
 
-	<h3 class="common_title">商品列表</h3>
-	
-	<div class="common_list_con clearfix">
-		<ul class="goods_list_th clearfix">
-			<li class="col01">商品名称</li>
-			<li class="col02">商品单位</li>
-			<li class="col03">商品价格</li>
-			<li class="col04">数量</li>
-			<li class="col05">小计</li>		
-		</ul>
-        {% for cart in carts %}
-        <ul class="goods_list_td clearfix" id="{{ cart.id }}">
-			<li class="col01">{{ forloop.counter }}</li>
-			<!-- <li class="col02"><img src="{{ MEDIA_URL }}{{ cart.goods.gpic }}"></li> -->
-			<script type="text/javascript">
-				document.write("<li class=\"col02\"><img src= /media/" + "{{ cart.goods.gpic }}" + " style=\"width=50px;\"></li>");
-			</script>
-			<li class="col03">{{ cart.goods.gtitle }}</li>
-			{% comment %} <li class="col04">{{ cart.goods.gunit }}</li> {% endcomment %}
-			<li class="col04">1小时</li>
-			<li class="col05">{{ cart.goods.gprice }}元</li>
-			<li class="col06">{{ cart.count }}</li>
-			<li class="col07">25.80元</li>
-        </ul>
-        {% endfor %}
+{% block right %}
 
-	</div>
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="page-title-box">
+                    <div class="row align-items-center">
+                        <div class="col-sm-12">
+                            <h4 class="page-title">Menu</h4>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'df_task:index' %}"><i class="mdi mdi-home-outline"></i></a></li>
+                                <li class="breadcrumb-item active">Invoice</li>
+                            </ol>
+                        </div>
+                    </div> <!-- end row -->
+                </div>
+                <!-- end page-title -->
 
-	<h3 class="common_title">总金额结算</h3>
-{#	<h3 class="common_title">订单提交时间{{ value|time }}</h3>#}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
 
-	<div class="common_list_con clearfix">
-		<div class="settle_con">
-			<div class="total_goods_count">共<em>{{ carts|length }}</em>件商品，总金额<b>{{ total_price }}</b></div>
-{#			<div class="transit">运费：<b>{{ trans_cost }}元</b></div>#}
-			<div class="total_pay">实付款：<b>{{ total_trans_price }}</b></div>
-		</div>
-	</div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="invoice-title">
+                                            <h4 class="mt-0 float-right font-16"><strong>Order # 12345</strong></h4>
+                                            <div class="mb-4">
+                                                <img src="../../static/assets/images/logo-dark.png" alt="logo" height="36"/>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <address>
+                                                    <strong>姓名：</strong><br>
+                                                </address>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <address>
+                                                    test_name{{ user_name }}<br>
+                                                </address>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 m-t-30">
+                                                <address>
+                                                    <strong>电话：</strong><br>
+                                                </address>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <address>
+                                                    test_phone{{ user_phone }}<br>
+                                                </address>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 m-t-30">
+                                                <address>
+                                                    <strong>邮箱：</strong><br>
+                                                </address>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <address>
+                                                    test_email{{ user_email }}<br>
+                                                </address>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <address>
+                                                    <strong>订单时间：</strong><br>
+                                                </address>
+                                            </div>
+                                            <div class="col-6 m-t-30 text-right">
+                                                <address>
+                                                    January 16, 2019{{ order_time }}<br>
+                                                </address>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-	<div class="order_submit clearfix">
-		<a href="javascript:;" id="order_btn">提交订单</a>
-	</div>	
-		<div class="popup_con">
-		<div class="popup">
-			<p>订单提交成功！</p>
-		</div>
-		<div class="mask"></div>
-	</div>
+                                <hr>
 
-	<script type="text/javascript">
-		$('#order_btn').click(function() {
-		    //检查当前收货地址是否正确
-		    {% comment %} $('.user_info_check').each(function () {
-		        text = $(this).text();
-				number = 0;
-		        if (text == ''){
-					number = 1;
-				}
-            });
-			if (number == 1){
-				alert('请填写正确的收货地址');
-				window.location.href = '{% url "df_user:site" %}';
-			} {% endcomment %}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="p-2">
+                                            <h3 class="font-16"><strong>支付方式</strong></h3>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div>
+                                                <div class="custom-control custom-radio mb-2">
+                                                    <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                                                    <label class="custom-control-label" for="customRadio1">微信</label>
+                                                </div>
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" checked>
+                                                    <label class="custom-control-label" for="customRadio2">支付宝</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-		    //获取所有id，拼接成字符串
-            cartids = '';
-            $('.goods_list_td').each(function () {
-               cartids = cartids + $(this).attr('id') +','
-            });
-		    cartids = cartids.substring(0,cartids.length-1);
-		    total = {{ total_trans_price }};
-		    data = {
-		            'cart_ids':cartids,
-                    'total':total,
-                    'csrfmiddlewaretoken':'{{ csrf_token }}'
-		    };
+                                <hr>
 
-		    //先发请求
-            $.post('/order/push/',data,function (data) {
-                //成功
-                console.log(data);
-                if (data.ok == 1){
-                    localStorage.setItem('order_finish',2);
-                    $('.popup_con').fadeIn('fast', function() {
-                        setTimeout(function(){
-                            $('.popup_con').fadeOut('fast',function(){
-                                window.location.href = '{% url "df_user:order" 1 %}';
-                            });
-                        },1000)
-                    });
-                }
-                else {
-                    alert('订单提交失败')
-                }
-            })
-		});
-	</script>
-{% endblock center_body %}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div>
+                                            <div class="p-2">
+                                                <h3 class="font-16"><strong>Order summary</strong></h3>
+                                            </div>
+                                            <div class="">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <td><strong>Algorithm</strong></td>
+                                                            <td class="text-center"><strong>Price</strong></td>
+                                                            <td class="text-center"><strong>Time</strong>
+                                                            </td>
+                                                            <td class="text-right"><strong>Totals</strong></td>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                                        <tr>
+                                                            <td>Quick Sort</td>
+                                                            <td class="text-center">$10.99</td>
+                                                            <td class="text-center">1</td>
+                                                            <td class="text-right">$10.99</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="no-line"></td>
+                                                            <td class="no-line"></td>
+                                                            <td class="no-line text-center">
+                                                                <strong>Total</strong></td>
+                                                            <td class="no-line text-right"><h4 class="m-0">$10.99</h4></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
 
+                                                <div class="d-print-none">
+                                                    <div class="float-right">
+                                                        <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light"><i class="fa fa-print"></i></a>
+                                                        <a href="#" class="btn btn-primary waves-effect waves-light">Send</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div> <!-- end row -->
+
+                            </div>
+                        </div>
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock right %}
+
+
+{% block right_side %}
+
+
+
+{% endblock right_side %}
+
+
+{% block js %}
+
+
+
+{% endblock js %}
