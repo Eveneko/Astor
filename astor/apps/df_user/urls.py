@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^register/$', register, name="register"),
     url(r'^login/$', login, name="login"),
     url(r'^info/$', info, name="info"),
-    url(r'^order/(\d+)$', order, name="order"),
+    # url(r'^order/(\d+)$', order, name="order"),
     url(r'^site/$', site, name="site"),
     # url(r'^place_order/$', views.place_order),
     url(r'^logout/$', logout, name="logout"),

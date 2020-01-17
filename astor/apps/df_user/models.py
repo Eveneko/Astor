@@ -6,6 +6,8 @@ class UserInfo(models.Model):
     uname = models.CharField(max_length=20, verbose_name="用户名", unique=True)
     upwd = models.CharField(max_length=40, verbose_name="用户密码", blank=False)
     uemail = models.EmailField(verbose_name="邮箱", unique=True)
+    phone = models.CharField(max_length=20, verbose_name='手机号码',
+                             blank=True)
 
     class Meta:
         verbose_name = "用户信息表"
