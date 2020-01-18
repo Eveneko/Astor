@@ -3,7 +3,7 @@
 {% block css %}
 
     <!-- datepicker -->
-        <link href="../../static/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="../../static/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
     <!-- jvectormap -->
     <link href="../../static/plugins/jvectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet">
@@ -29,7 +29,9 @@
                         <div class="col-sm-6">
                             <div class="float-right d-none d-md-block">
                                 <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle arrow-none waves-effect waves-light" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="btn btn-primary dropdown-toggle arrow-none waves-effect waves-light"
+                                            type="button" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
                                         <i class="mdi mdi-settings mr-2"></i> Settings
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
@@ -101,36 +103,38 @@
                             <div class="card-body">
                                 <h4 class="mt-0 header-title mb-4">Latest Task</h4>
                                 <div class="table-responsive">
-                                    <table class="table table-nowrap mb-0">
+                                    <table class="table table-striped">
                                         {% if task_set_num == 0 %}
                                             <div class="text-center mt-4">
-                                                <h3>No Data</h3>
+                                                <h1>No Data</h1>
                                             </div>
-                                        {% else%}
-                                        <tbody>
-                                            {% for task in task_set %}
+                                        {% else %}
+                                            <thead>
                                             <tr>
-                                                <td style="width: 60px;">
-                                                    <img src="../../static/assets/images/users/user-2.jpg" alt="" class="thumb-sm rounded-circle">
-                                                </td>
+                                                <th>Algorithm</th>
+                                                {#                            <th>CPU</th>#}
+                                                <th>Detail</th>
+                                                <th>Status</th>
+                                                <th>Last Update Time</th>
+                                                {#                            <th>Result</th>#}
+                                            </tr>
+                                            </thead>
 
-                                                    <td>{{ user }}
-                                                        <p class="m-0 text-muted">{{ task.task_start_time }}</p>
-                                                    </td>
-                                                    <td>{{ task.task_algorithm }}</td>
+                                            {% for task in task_set %}
+                                                <tbody>
+                                                <tr>
+                                                    <td>{{ task.algorithm__name }}</td>
                                                     <td>
-                                                        <i class="mdi mdi-checkbox-blank-circle text-success mr-1"></i> {{ task.task_status }}
+                                                        <a href="{% url 'df_task:task_record' %}">
+                                                        <button type="button" class="btn-secondary">Check</button></a>
                                                     </td>
-
-                                                    <td>
-                                                        <div>
-                                                            <a href="{% url  'df_task:task_record' %}" class="btn btn-primary btn-sm">Detail</a>
-                                                        </div>
+                                                    <td>{{ task.status }}</td>
+                                                    <td>{{ task.update_time }}</td>
                                                     </td>
                                                 </tr>
+                                                </tbody>
                                             {% endfor %}
-                                        </tbody>
-                                    {% endif %}
+                                        {% endif %}
                                     </table>
                                 </div>
 
@@ -144,26 +148,33 @@
                                 <h4 class="mt-0 header-title mb-4">Latest Messages</h4>
                                 <nav>
                                     <div class="nav nav-tabs messages-tabs tab-wid nav-justified" role="tablist">
-                                        <a class="nav-item nav-link active" id="nav-first-tab" data-toggle="tab" href="#nav-first" role="tab" aria-controls="nav-first" aria-selected="true">
+                                        <a class="nav-item nav-link active" id="nav-first-tab" data-toggle="tab"
+                                           href="#nav-first" role="tab" aria-controls="nav-first" aria-selected="true">
                                             <h5 class="mt-0 date">Friend</h5>
                                         </a>
-                                        <a class="nav-item nav-link" id="nav-second-tab" data-toggle="tab" href="#nav-second" role="tab" aria-controls="nav-second" aria-selected="false">
+                                        <a class="nav-item nav-link" id="nav-second-tab" data-toggle="tab"
+                                           href="#nav-second" role="tab" aria-controls="nav-second"
+                                           aria-selected="false">
                                             <h5 class="mt-0 date">System</h5>
                                         </a>
                                     </div>
                                 </nav>
                                 <div class="tab-content">
-                                    <div class="tab-pane fade show active" id="nav-first" role="tabpanel" aria-labelledby="nav-first-tab">
+                                    <div class="tab-pane fade show active" id="nav-first" role="tabpanel"
+                                         aria-labelledby="nav-first-tab">
                                         <div class="p-2 mt-2">
                                             <ul class="list-unstyled latest-message-list mb-0">
                                                 <li class="message-list-item">
                                                     <a href="#">
                                                         <div class="media">
-                                                            <img class="mr-3 thumb-md rounded-circle" src="../../static/assets/images/users/user-2.jpg" alt="">
+                                                            <img class="mr-3 thumb-md rounded-circle"
+                                                                 src="../../static/assets/images/users/user-2.jpg"
+                                                                 alt="">
                                                             <div class="media-body">
                                                                 <p class="float-right font-12 text-muted">Just Now</p>
                                                                 <h6 class="mt-0">Mary Frye</h6>
-                                                                <p class="text-muted mb-0">Hey! I'm a SUSTech students...</p>
+                                                                <p class="text-muted mb-0">Hey! I'm a SUSTech
+                                                                    students...</p>
                                                             </div>
                                                         </div>
                                                     </a>
@@ -174,13 +185,16 @@
                                             <a href="#" class="btn btn-primary btn-sm">Load more</a>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="nav-second" role="tabpanel" aria-labelledby="nav-second-tab">
+                                    <div class="tab-pane fade" id="nav-second" role="tabpanel"
+                                         aria-labelledby="nav-second-tab">
                                         <div class="p-2 mt-2">
                                             <ul class="list-unstyled latest-message-list mb-0">
                                                 <li class="message-list-item">
                                                     <a href="#">
                                                         <div class="media">
-                                                            <img class="mr-3 thumb-md rounded-circle" src="../../static/assets/images/users/user-5.jpg" alt="">
+                                                            <img class="mr-3 thumb-md rounded-circle"
+                                                                 src="../../static/assets/images/users/user-5.jpg"
+                                                                 alt="">
                                                             <div class="media-body">
                                                                 <p class="float-right font-12 text-muted">12:01am</p>
                                                                 <h6 class="mt-0">Admin</h6>
@@ -212,7 +226,8 @@
         <!-- content -->
 
         <footer class="footer">
-            © 2019 ASTOR <span class="d-none d-sm-inline-block"> - builded with <i class="mdi mdi-heart text-danger"></i> by <a href="http://www.github.com/Eveneko/">Eveneko</a></span>.
+            © 2019 ASTOR <span class="d-none d-sm-inline-block"> - builded with <i
+                class="mdi mdi-heart text-danger"></i> by <a href="http://www.github.com/Eveneko/">Eveneko</a></span>.
         </footer>
 
     </div>
@@ -223,36 +238,38 @@
 {% block rightside %}
 
     <div class="right-sidebar d-none d-xl-block">
-    <div class="slimscroll-menu">
-        <div class="px-4 pt-4">
-            <div class="card user-wid text-center overflow-hidden">
-                <div class="p-4 bg-lighten-danger"></div>
-                <div class="mx-3">
-                    <div class="bg-white user-wid-content p-1 rounded">
-                        <div class="user-img">
-                            <img src="../../static/assets/images/users/user-1.jpg" alt="user-img" title="" class="rounded-circle thumb-md img-fluid">
+        <div class="slimscroll-menu">
+            <div class="px-4 pt-4">
+                <div class="card user-wid text-center overflow-hidden">
+                    <div class="p-4 bg-lighten-danger"></div>
+                    <div class="mx-3">
+                        <div class="bg-white user-wid-content p-1 rounded">
+                            <div class="user-img">
+                                <img src="../../static/assets/images/users/user-1.jpg" alt="user-img" title=""
+                                     class="rounded-circle thumb-md img-fluid">
+                            </div>
+                            <h5 class="font-14 mb-1"><a href="javascript: void(0);">{{ request.session.user_name }}</a>
+                            </h5>
+                            <p class="text-muted mb-2"><small>Admin Head</small></p>
                         </div>
-                        <h5 class="font-14 mb-1"><a href="javascript: void(0);">{{ request.session.user_name }}</a> </h5>
-                        <p class="text-muted mb-2"><small>Admin Head</small></p>
                     </div>
                 </div>
+
+                <div class="mb-4">
+                    <h5 class="font-14">Calender</h5>
+
+                    <div class="dashboard-date-pick" id="date-pick-widget" data-provide="datepicker-inline"></div>
+                </div>
+
+                <!-- <div>
+                    <h5 class="font-14">Clients</h5>
+
+                    <div id="world-map-markers" class="dashboard-map-wid"></div>
+                </div> -->
+
             </div>
-
-            <div class="mb-4">
-                <h5 class="font-14">Calender</h5>
-
-                <div class="dashboard-date-pick" id="date-pick-widget" data-provide="datepicker-inline"></div>
-            </div>
-
-            <!-- <div>
-                <h5 class="font-14">Clients</h5>
-
-                <div id="world-map-markers" class="dashboard-map-wid"></div>
-            </div> -->
-
         </div>
     </div>
-</div>
 
 {% endblock rightside %}
 
