@@ -36,7 +36,7 @@ def order(request):
         'total_trans_price': total_trans_price,
         # 'value':value
     }
-    return render(request, 'df_order/place_order.html', context)
+    return render(request, 'df_order/place_task.html', context)
 
 '''
 事务提交：

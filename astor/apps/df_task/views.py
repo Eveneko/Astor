@@ -4,9 +4,11 @@ from django.shortcuts import render, redirect, reverse
 from django.http import JsonResponse, HttpResponse
 
 from apps.df_user import user_decorator
+from df_user.models import UserInfo
 from .models import Task
 from df_user.models import UserInfo, UserBuyAlgorithm
 from df_goods.models import GoodsInfo, TypeInfo
+from django.db import transaction
 
 
 import os
@@ -85,6 +87,7 @@ def creat_task(request):
     return render(request, 'df_task/creat_task.html', context)
 
 @user_decorator.login
+@transaction.atomic
 def upload_config(request):
     """
     用户上传配置文件，校验文件创建配置并计算单价，等待用户执行
@@ -99,20 +102,35 @@ def upload_config(request):
         raise Exception('UNSUPPORTED HTTP METHOD')
     elif request.method == 'POST' and request.POST:
         print(request.POST)
-        # get config
-
-        # validate config
+        algorithm_id = request.POST['algorithm'].split(':')[1]
+        print(algorithm_id)
+        algorithm_config = request.POST['algorithm_config']
+        print(algorithm_config)
+        # TODO: validate config
 
         # create task in database, with name user_tmp
-
+        algorithm = GoodsInfo.objects.get(id=algorithm_id)
+        creator = UserInfo.objects.get(id=request.session['user_id'])
+        task = Task.objects.create(creator=creator,
+                            algorithm=algorithm,
+                            status='Not Started',
+                            config=eval(algorithm_config))
         # calculate price
-
-        price = 0
-        task_id = 0
-        context = {'title:': 'Create Task',
+        algorithm_config = eval(algorithm_config)
+        cpu_core_num = sum(algorithm_config['resources']['cpu_requirement'])
+        gpu_core_num = sum(algorithm_config['resources']['gpu_requirement'])
+        price = algorithm.cpu_price * cpu_core_num + algorithm.gpu_price + gpu_core_num
+        context = {'key':['title', 'price', 'task_id', 'username', 'phone', 'email', 'algorithm_name', 'task_time'],
+                   'title': 'Create Task',
                    'price': price,
-                   'task_id': task_id}
-        return JsonResponse(context)
+                   'task_id': task.id,
+                   'username': creator.uname,
+                   'phone': creator.phone,
+                   'email': creator.uemail,
+                   'algorithm_name': algorithm.name,
+                   'task_time': task.update_time}
+        return render(request, 'df_task/place_task.html', context)
+        # return JsonResponse(context)
     else:
         raise Exception('UNSUPPORTED HTTP METHOD')
 
@@ -132,7 +150,7 @@ def start_task(request):
         # TODO: 验证用户对任务的所有权
         # user_id = request.session['user_id']
         # TODO: 向集群发送启动任务，获取job_name并更新数据库
-        return reverse(redirect('df_task:index'))
+        return redirect(reverse('df_task:index'))
     elif request.method == 'POST' and request.POST:
         raise Exception('UNSUPPORTED HTTP METHOD')
     else:
@@ -154,7 +172,10 @@ def task_record(request):
     # TODO: 向后端集群发送请求更新任务状态
     user_id = request.session['user_id']
     user = UserInfo.objects.get(id=request.session['user_id'])
-    task_set = Task.objects.all().filter(creator=user).order_by("-update_time")
+    task_set = Task.objects.all()\
+        .values("algorithm__name", "status", "update_time", "config")\
+        .filter(creator=user).order_by("-update_time")
+    # print(task_set)
     context = {
         'title': '用户中心',
         'uid': user_id,
@@ -177,30 +198,30 @@ def upload_data(request):
     return render(request, 'df_task/upload_data.html', context)
 
 
-def upload_file(request):
-    if request.method == "POST":  # 请求方法为POST时，进行处理
-        tran_id = transaction.savepoint()  # 保存事务发生点
-        try:
-            user_id = request.session['user_id']
-            user = UserInfo.objects.get(id=request.session['user_id'])
-            File = request.FILES.get("file", None)  # 获取上传的文件，如果没有文件，则默认为None
-            if not File:
-                return HttpResponse("No files for upload!")
-            path = "static/Data/" + str(user_id)
-            file_uuid = str(uuid.uuid4())
-            if not os.path.exists(path):
-                os.mkdir(path)
-            destination = open(os.path.join(path, file_uuid), 'wb+')  # 打开特定的文件进行二进制的写操作
-            for chunk in File.chunks():  # 分块写入文件
-                destination.write(chunk)
-            destination.close()
-
-            return HttpResponse("Upload over!")
-        except Exception as e:
-            print("%s" % e)
-            print('未完成数据上传')
-            transaction.savepoint_rollback(tran_id)  # 事务任何一个环节出错，则事务全部取消
-            return HttpResponse("Upload Fail!")
+# def upload_file(request):
+#     if request.method == "POST":  # 请求方法为POST时，进行处理
+#         tran_id = transaction.savepoint()  # 保存事务发生点
+#         try:
+#             user_id = request.session['user_id']
+#             user = UserInfo.objects.get(id=request.session['user_id'])
+#             File = request.FILES.get("file", None)  # 获取上传的文件，如果没有文件，则默认为None
+#             if not File:
+#                 return HttpResponse("No files for upload!")
+#             path = "static/Data/" + str(user_id)
+#             file_uuid = str(uuid.uuid4())
+#             if not os.path.exists(path):
+#                 os.mkdir(path)
+#             destination = open(os.path.join(path, file_uuid), 'wb+')  # 打开特定的文件进行二进制的写操作
+#             for chunk in File.chunks():  # 分块写入文件
+#                 destination.write(chunk)
+#             destination.close()
+#
+#             return HttpResponse("Upload over!")
+#         except Exception as e:
+#             print("%s" % e)
+#             print('未完成数据上传')
+#             transaction.savepoint_rollback(tran_id)  # 事务任何一个环节出错，则事务全部取消
+#             return HttpResponse("Upload Fail!")
 
 
 def upload_task_config(request):
