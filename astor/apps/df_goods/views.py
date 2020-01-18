@@ -174,36 +174,30 @@ def like(request):
     else:
         raise Exception('UNSUPPORTED HTTP METHOD')
 
-# def ordinary_search(request):
-#     from django.db.models import Q
-#     search_keywords = request.GET.get('q', '')
-#     pindex = request.GET.get('pindex', 1)
-#     search_status = 1
-#     cart_num, guest_cart = 0, 0
-#     try:
-#         user_id = request.session['user_id']
-#     except:
-#         user_id = None
-#
-#     goods_list = GoodsInfo.objects.filter(
-#         Q(gtitle__icontains=search_keywords) |
-#         Q(gcontent__icontains=search_keywords) |
-#         Q(gjianjie__icontains=search_keywords))
-#
-#     if goods_list.count() == 0:
-#         # 商品搜索结果为空，返回推荐商品
-#         search_status = 0
-#         goods_list = GoodsInfo.objects.all().order_by("gclick")[:4]
-#
-#     paginator = Paginator(goods_list, 4)
-#     page = paginator.page(int(pindex))
-#
-#     context = {
-#         'title': '搜索列表',
-#         'search_status': search_status,
-#         'guest_cart': guest_cart,
-#         'cart_num': cart_num,
-#         'page': page,
-#         'paginator': paginator,
-#     }
-#     return render(request, 'df_goods/ordinary_search.html', context)
+
+def ordinary_search(request):
+    from django.db.models import Q
+    search_keywords = request.GET.get('search', '')
+    search_status = 1
+    try:
+        user_id = request.session['user_id']
+    except:
+        user_id = None
+
+    print('search_keywords:', search_keywords)
+
+    goods_list = GoodsInfo.objects.filter(
+        Q(name=search_keywords) |
+        Q(description=search_keywords) |
+        Q(detail=search_keywords))
+
+    if goods_list.count() == 0:
+        search_status = 0
+        goods_list = GoodsInfo.objects.all().order_by("modify_time")[:4]
+
+    context = {
+        'title': '搜索列表',
+        'search_status': search_status,
+        'goods_list': goods_list
+    }
+    return render(request, 'df_goods/ordinary_search.html', context)
