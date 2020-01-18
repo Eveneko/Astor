@@ -84,6 +84,60 @@ def creat_task(request):
     print(user_like_algorithm_list)
     return render(request, 'df_task/creat_task.html', context)
 
+@user_decorator.login
+def upload_config(request):
+    """
+    用户上传配置文件，校验文件创建配置并计算单价，等待用户执行
+    TODO: finish this
+    API:
+    - POST:
+        - /task/upload_config/
+    :param request:
+    :return: JsonResponse
+    """
+    if request.method == 'GET':
+        raise Exception('UNSUPPORTED HTTP METHOD')
+    elif request.method == 'POST' and request.POST:
+        print(request.POST)
+        # get config
+
+        # validate config
+
+        # create task in database, with name user_tmp
+
+        # calculate price
+
+        price = 0
+        task_id = 0
+        context = {'title:': 'Create Task',
+                   'price': price,
+                   'task_id': task_id}
+        return JsonResponse(context)
+    else:
+        raise Exception('UNSUPPORTED HTTP METHOD')
+
+@user_decorator.login
+def start_task(request):
+    """
+    用户上传配置文件，校验文件创建配置并计算单价，等待用户执行
+    TODO: Using Post request to finish this
+    API:
+    - GET:
+        - /task/start_task/?task_id={\d}
+    :param request:
+    :return: JsonResponse
+    """
+    if request.method == 'GET':
+        task_id = request.GET['task_id']
+        # TODO: 验证用户对任务的所有权
+        # user_id = request.session['user_id']
+        # TODO: 向集群发送启动任务，获取job_name并更新数据库
+        return reverse(redirect('df_task:index'))
+    elif request.method == 'POST' and request.POST:
+        raise Exception('UNSUPPORTED HTTP METHOD')
+    else:
+        raise Exception('UNSUPPORTED HTTP METHOD')
+
 
 @user_decorator.login
 def task_record(request):
@@ -92,9 +146,12 @@ def task_record(request):
     API:
     - GET:
         - ^/task/task_record/
+        - ^/task/task_record/?force_update=True
     :param request:
     :return:
     """
+    # TODO: 验证刷新时间，默认每1分钟刷新一次，或强制刷新
+    # TODO: 向后端集群发送请求更新任务状态
     user_id = request.session['user_id']
     user = UserInfo.objects.get(id=request.session['user_id'])
     task_set = Task.objects.all().filter(creator=user).order_by("-update_time")

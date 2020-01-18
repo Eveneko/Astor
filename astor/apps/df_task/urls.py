@@ -13,4 +13,6 @@ urlpatterns = [
     url(r'^upload_data/$', upload_data, name="upload_data"),
     url(r'^upload_file/$', upload_file, name="upload_file"),
     url(r'^upload_task_config/$', upload_task_config, name="upload_task_config"),
+    url(r'^start_task/$', start_task, name="start_task"),
+    url(r'^upload_config/$', upload_config, name="upload_config"),
 ]
