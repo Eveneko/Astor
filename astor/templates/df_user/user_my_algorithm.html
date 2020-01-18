@@ -44,7 +44,7 @@
                         <li class="list-inline-item">
                             {% if good.algorithm__id in user_like_algorithm_list_id %}
                           <a href="/good/like/?good_id={{ good.algorithm__id }}&like=False&user=True" data-toggle="tooltip"
-                             data-placement="top" title="Like" style="color: red"><i class="dripicons-heart"></i></a>
+                             data-placement="top" title="Dislike" style="color: red"><i class="dripicons-heart"></i></a>
                             {% else %}
                             <a href="/good/like/?good_id={{ good.algorithm__id }}&like=True&user=True" data-toggle="tooltip"
                                data-placement="top" title="Like"><i class="dripicons-heart"></i></a>
