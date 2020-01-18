@@ -9,93 +9,120 @@
 
 {% block right %}
 
-  <div class="content-page">
+    <div class="content-page">
     <!-- Start content -->
     <div class="content">
-      <div class="container-fluid">
+    <div class="container-fluid">
         <div class="page-title-box">
-          <div class="row align-items-center">
-            <div class="col-sm-6">
-              <h4 class="page-title">Products</h4>
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'df_task:index' %}"><i
-                        class="mdi mdi-home-outline"></i></a></li>
-                <li class="breadcrumb-item"><a href="#">Market</a></li>
-                <li class="breadcrumb-item active">Products</li>
-              </ol>
-            </div>
-          </div> <!-- end row -->
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Products</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'df_task:index' %}"><i
+                                class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item"><a href="#">Market</a></li>
+                        <li class="breadcrumb-item active">Products</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
         </div>
         <!-- end page-title -->
         <!-- {{ type_list }}
         {{ goods_list }}
         {{ type_id }}
         {{ goods_num }}
-        <p>user_like_algorithm_list{{ user_like_algorithm_list }}</p> -->
-
+        <p>user_like_algorithm_list{{ user_like_algorithm_list }}</p>
+        {{ checked_type_id }} -->
         <div class="row">
-          {% for good in goods_list %}
-            <div class="col-xl-3 col-md-6">
-              <div class="card product-box">
-                <div class="card-body">
-                  <div class="product-img">
-                    <img src="../../static/{{ good.pic_path }}"
-                         class="img-fluid rounded-top mx-auto d-block" alt="work-thumbnail">
-                    <div class="product-overlay">
-                      <ul class="list-inline product-links social-links mb-0">
-                        <li class="list-inline-item">
-                            {% if good.id in user_like_algorithm_list %}
-                          <a href="/good/like/?good_id={{ good.id }}&like=False&user=False" data-toggle="tooltip"
-                             data-placement="top" title="Like" style="color: red"><i class="dripicons-heart"></i></a>
-                            {% else %}
-                            <a href="/good/like/?good_id={{ good.id }}&like=True&user=False" data-toggle="tooltip"
-                               data-placement="top" title="Like"><i class="dripicons-heart"></i></a>
-                            {% endif %}
-                        </li>
-
-                        <!--<li class="list-inline-item">
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="dripicons-shopping-bag"></i></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="dripicons-cart"></i></a>
-                        </li>-->
-                      </ul>
+            <div class="col-md-12">
+                <div class="card product-box">
+                    <div class="card-body">
+                        <h5 class="font-14">应用场景</h5>
+                        <div class="form-check mr-5 mb-1" style="display: inline-block">
+                            <input class="form-check-input mr-5" type="radio" name="type_radio" id="all" value="-1" checked>
+                            <label class="form-check-label mr-5" for="all">
+                                全部
+                            </label>
+                            {% for type in type_list %}
+                                {% if checked_type_id == type.id %}
+                                    <input class="form-check-input mr-5" type="radio" name="type_radio" id="{{ type.name }}" value="{{ type.id }}" checked="checked">
+                                {% else %}
+                                    <input class="form-check-input mr-5" type="radio" name="type_radio" id="{{ type.name }}" value="{{ type.id }}">
+                                {% endif %}
+                                <label class="form-check-label mr-5" for="{{ type.name }}">
+                                        {{ type.name }}
+                                </label>
+                            {% endfor %}
+                        </div>
                     </div>
-                  </div>
-
-                  <div class="detail mt-3">
-                    <p class="text-muted">{{ good.type__name }}</p>
-                    <h4 class="font-16"><a href="/good/good-{{ good.id }}/"
-                                           class="text-dark">{{ good.name }}</a></h4>
-                    <p class="text-muted">
-                      <i class="mdi mdi-star text-warning"></i>
-                      <i class="mdi mdi-star text-warning"></i>
-                      <i class="mdi mdi-star text-warning"></i>
-                      <i class="mdi mdi-star text-warning"></i>
-                      <i class="mdi mdi-star text-warning"></i>
-                    </p>
-                    <!--<h5 class="my-0 font-16 float-right"><span class="text-muted mr-2"><del>$72</del></span> <b>$64</b></h5>-->
-                    <!--<span class="badge badge-soft-primary">24 % Off</span>-->
-                  </div>
                 </div>
-              </div>
-              <!-- end product-box -->
+                <div class="row">
+                    {% for good in goods_list %}
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card product-box">
+                                <div class="card-body">
+                                    <div class="product-img">
+                                        <img src="../../static/{{ good.pic_path }}"
+                                             class="img-fluid rounded-top mx-auto d-block" alt="work-thumbnail">
+                                        <div class="product-overlay">
+                                            <ul class="list-inline product-links social-links mb-0">
+                                                <li class="list-inline-item">
+                                                    {% if good.id in user_like_algorithm_list %}
+                                                        <a href="/good/like/?good_id={{ good.id }}&like=False&user=False"
+                                                           data-toggle="tooltip"
+                                                           data-placement="top" title="Like" style="color: red"><i
+                                                                class="dripicons-heart"></i></a>
+                                                    {% else %}
+                                                        <a href="/good/like/?good_id={{ good.id }}&like=True&user=False"
+                                                           data-toggle="tooltip"
+                                                           data-placement="top" title="Like"><i
+                                                                class="dripicons-heart"></i></a>
+                                                    {% endif %}
+                                                </li>
+
+                                                <!--<li class="list-inline-item">
+                                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="dripicons-shopping-bag"></i></a>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="dripicons-cart"></i></a>
+                                                </li>-->
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="detail mt-3">
+                                        <p class="text-muted">{{ good.type__name }}</p>
+                                        <h4 class="font-16"><a href="/good/good-{{ good.id }}/"
+                                                               class="text-dark">{{ good.name }}</a></h4>
+                                        <p class="text-muted">
+                                            <i class="mdi mdi-star text-warning"></i>
+                                            <i class="mdi mdi-star text-warning"></i>
+                                            <i class="mdi mdi-star text-warning"></i>
+                                            <i class="mdi mdi-star text-warning"></i>
+                                            <i class="mdi mdi-star text-warning"></i>
+                                        </p>
+                                        <!--<h5 class="my-0 font-16 float-right"><span class="text-muted mr-2"><del>$72</del></span> <b>$64</b></h5>-->
+                                        <!--<span class="badge badge-soft-primary">24 % Off</span>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end product-box -->
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- end row -->
             </div>
-          {% endfor %}
+            <!-- container-fluid -->
+
         </div>
-        <!-- end row -->
-      </div>
-      <!-- container-fluid -->
+        <!-- content -->
+
+        <footer class="footer">
+            © 2019 Veltrix <span class="d-none d-sm-inline-block"> - Crafted with <i
+                class="mdi mdi-heart text-danger"></i> by <a href="http://www.bootstrapmb.com/">Themesbrand</a></span>.
+        </footer>
 
     </div>
-    <!-- content -->
-
-    <footer class="footer">
-      © 2019 Veltrix <span class="d-none d-sm-inline-block"> - Crafted with <i
-            class="mdi mdi-heart text-danger"></i> by <a href="http://www.bootstrapmb.com/">Themesbrand</a></span>.
-    </footer>
-
-  </div>
 
 {% endblock right %}
 
@@ -109,6 +136,11 @@
 
 {% block js %}
 
-
+    <script type="text/javascript">
+        $(':radio').click(function () {
+            const checkValue = $(this).val();
+            window.location.href = "?type_id=" + checkValue + "&query_num=100&offset=0"
+        });
+    </script>
 
 {% endblock js %}

@@ -1,0 +1,23 @@
+{
+  "config_name" : "test_tsp_job3",
+  "category" : "tsp",
+  "data_path" : "",
+  "time_out" : 1,
+  "alg_info" : {
+    "optimizer" : "ga",
+    "opt_param" : {
+      "pop_size" : 10,
+      "iteration" : 400,
+      "rand_seed" : 10
+    },
+    "alg_param" : {
+    }
+  },
+  "resources" : {
+    "task_roles" : ["master", "init", "ga_loop", "evaluator"],
+    "task_replicas" : [1, 1, 1, 1],
+    "cpu_requirement" : [1, 1, 1,  3],
+    "gpu_requirement" : [0, 0, 0,  0],
+    "memory_requirement" : [1,  1, 1, 1]
+  }
+}

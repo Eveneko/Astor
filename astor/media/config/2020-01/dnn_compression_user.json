@@ -1,0 +1,37 @@
+{
+"config_name" : "dnn_compression_job",
+"category" : "dnn_compression",
+"data_path" : "",
+"time_out" : 1,
+"alg_info" : {
+	"optimizer" : "ncs",
+	"opt_param" : {
+		"pop_size" : 4,
+		"iteration" : 15000,
+		"rand_seed" : 0,
+		"step_size" : 1000,
+		"f_target" : -1,
+		"ind_min" : 0.0001,
+		"ind_max" : 0.9999
+	},
+    "alg_param" : {
+                "total_itr" :  10000,
+                "prune_stop_itr" : 5000,
+                "caffe_proto_path" : "default",
+                "caffe_weight_path" : "default",
+                "caffe_solver_path" : "default",
+                "acc_constrain" : 0.08
+    }
+},
+"resources" : {
+    "task_roles" : ["test_master", "test_loop1", "test_loop2", "test_main", "test_evaluator"],
+    "task_replicas" : [1, 1, 1, 1, 1],
+    "cpu_requirement" : [1, 1, 1, 1, 1],
+    "gpu_requirement" : [0, 1, 0, 0, 1],
+    "memory_requirement" : [1, 3, 1, 1, 3],
+    "cpu_range": [[1, 10],[1, 10],[1, 10],[1, 10],[1, 10]],
+    "gpu_range": [[0, 0],[1, 1],[0, 0],[0, 0],[1, 2]],
+    "memory_range": [[1, 5],[3, 10],[1, 5],[1, 5],[3, 10]],
+    "replica_range": [[1, 1], [1,1], [1, 1], [1, 1], [1, 10]]
+ }
+}

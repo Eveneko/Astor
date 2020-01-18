@@ -8,7 +8,7 @@ class TaskAdmin(admin.ModelAdmin):
     list_filter = ["creator__uname", "algorithm__name"]
     search_fields = ["creator__uname", "algorithm__name"]
     refresh_times = [3, 5]
-    readonly_fields = ['cfg_file']
+    readonly_fields = ['config']
 
 
 # Register your models here.
