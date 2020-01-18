@@ -134,19 +134,50 @@ def logout(request):  # 用户登出
 
 
 @user_decorator.login
+@transaction.atomic
 def info(request):  # 用户中心
-    username = request.session.get('user_name')
-    user = UserInfo.objects.filter(uname=username).first()
-
+    """
+    用户中心界面
+    # TODO: 将原子性限制加到POST请求限制内
+    :param request:
+    :return:
+    """
+    user = UserInfo.objects.get(id=request.session.get('user_id'))
     context = {
         'title': '用户中心',
-        'page_name': 1,
         'user_name': user.uname,
         'user_email': user.uemail,
         'user_phone': user.phone
-
     }
-    return render(request, 'df_user/user_center_info.html', context)
+
+    if request.method == 'GET':
+        print(context)
+        return render(request, 'df_user/user_center_info.html', context)
+    elif request.method == 'POST' and request.POST:
+        print(request.POST)
+        user_info_form = UserInfoForm(data=request.POST)
+        if user_info_form.is_valid():
+            print('Form Valid')
+            # TODO: 表单异常回显
+            user.uemail = user_info_form.cleaned_data['uemail']
+            user.phone = user_info_form.cleaned_data['phone']
+            print(user.phone)
+            user.save()
+            context['user_email'] = user.uemail
+            context['user_phone'] = user.phone
+            return render(request, 'df_user/user_center_info.html', context)
+        else:
+            print(user_info_form.errors)
+            context['status'] = 'FAIL'
+            error_msg = eval(user_info_form.errors.as_json())
+            if 'uemail' in error_msg.keys():
+                context['email_error_msg'] = error_msg['uemail'][0]['message']
+            if 'phone' in error_msg.keys():
+                context['phone_error_msg'] = error_msg['phone'][0]['message']
+            print(context)
+            return render(request, 'df_user/user_center_info.html', context)
+    else:
+        raise Exception('UNSUPPORTED HTTP METHOD')
 
 
 def revise_info_handle(request):

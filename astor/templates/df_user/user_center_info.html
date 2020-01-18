@@ -39,20 +39,24 @@
               <div class="card mfp-hide w-50 mx-auto" id="test-form">
                 <div class="card-body">
                   <h4 class="mt-0 mb-6">用户信息</h4>
-                  <form id='user_revise_form' action="{% url "df_user:revise_info_handle" %}"
+                  <form id='user_revise_form' action="{% url "df_user:info" %}"
                         method="post">{% csrf_token %}
                     <div class="row">
-                      <!--<div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <label for="name">姓名</label>
-                                                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value= {{ user_name }} >
-                                                        </div>
-                                                    </div>-->
+{#                      <div class="col-lg-6">#}
+{#                        <div class="form-group">#}
+{#                          <label for="name">姓名</label>#}
+{#                          <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name"#}
+{#                                 value={{ user_name }}>#}
+{#                        </div>#}
+{#                      </div>#}
                       <div class="col-lg-6">
                         <div class="form-group">
                           <label for="email">邮箱</label>
                           <input type="email" class="form-control" id="uemail" name="uemail" placeholder="Enter Email"
                                  value={{ user_email }}>
+                          {% if email_error_msg %}
+                            <script type="text/javascript">alert("{{ email_error_msg }}")</script>
+                          {% endif %}
                         </div>
                       </div>
                       <div class="col-lg-6">
@@ -60,6 +64,12 @@
                           <label for="phone">手机号</label>
                           <input type="phone" class="form-control" id="phone" name="phone" placeholder="Enter Phone"
                                  value={{ user_phone }}>
+                          {% if phone_error_msg %}
+                            <span class="error">{{ phone_error_msg }}</span>
+                          {% endif %}
+                          {% if phone_error_msg %}
+                            <script type="text/javascript">alert("{{ phone_error_msg }}")</script>
+                          {% endif %}
                         </div>
                       </div>
                     </div>

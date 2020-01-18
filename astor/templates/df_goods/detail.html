@@ -51,9 +51,23 @@
                       <h3><span class="badge badge-soft-success">GPU</span> : <sup><small>¥</small></sup>{{ good.gpu_price }}/<span class="font-14">Per hour</span></h3>
                     </div>
                     <div>
-                      <button type="button" class="btn btn-success btn-icon mt-5">
-                        <span class="btn-icon-label"><i class="dripicons-heart mr-auto"></i></span>Add to my algorithm
-                      </button>
+                      {% if isLiked %}
+                        <a href="/good/like/?good_id={{ good.id }}&like=False&red_url={{ request.path }}">
+                          <button type="button" class="btn btn-success btn-icon mt-5">
+                            <span class="btn-icon-label">
+                              <i class="dripicons-heart mr-auto" style="color: red"></i></span>
+                            Remove from my algorithm
+                          </button>
+                        </a>
+
+                      {% else %}
+                        <a href="/good/like/?good_id={{ good.id }}&like=True&red_url={{ request.path }}">
+                          <button type="button" class="btn btn-success btn-icon mt-5">
+                            <span class="btn-icon-label"><i class="dripicons-heart mr-auto"></i></span>
+                            Add to my algorithm
+                          </button>
+                        </a>
+                      {% endif %}
                     </div>
                   </div>
                 </div>
