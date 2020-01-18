@@ -87,9 +87,20 @@ def detail(request, good_id):
                     'modify_time', 'type__name')\
             .get(pk=int(good_id))
         context['good'] = good
+        try:
+            user_like_algorithm_list = UserBuyAlgorithm.objects \
+                .all().values('algorithm_id').filter(
+                user__id=request.session['user_id'],
+            )
+            tmp = []
+            for a in user_like_algorithm_list:
+                tmp.append(int(a['algorithm_id']))
+            user_like_algorithm_list = tmp
+        except ObjectDoesNotExist:
+            user_like_algorithm_list = []
+        context['isLiked'] = True if int(good_id) in user_like_algorithm_list else False
         # return JsonResponse(context)
         return render(request, 'df_goods/detail.html', context)
-
     elif request.method == 'POST':
         raise Exception('UNSUPPORTED HTTP METHOD')
     else:
@@ -112,7 +123,7 @@ def like(request):
         print(cururl)
         good_id = int(request.GET['good_id'])
         like = str(request.GET['like'])
-        is_user = str(request.GET['user'])
+        red_url = str(request.GET['red_url'])
         if like == 'True':
             like = True
         elif like == 'False':
@@ -135,11 +146,9 @@ def like(request):
                     algorithm_id=good_id).delete()
             # print("User {} likes {}".format(user_id, good_id))
         context = {'title': 'Astor'}
+        print(red_url)
         # return render(request, 'df_goods/index.html', context)
-        if is_user == 'True':
-            return redirect(reverse("df_user:my_algorithm"))
-        else:
-            return redirect(reverse("df_goods:index"))
+        return redirect(red_url)
 
     elif request.method == 'POST' and request.POST:
         # TODO: Using POST to finish like and dislike action

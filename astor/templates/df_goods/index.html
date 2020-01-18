@@ -68,12 +68,12 @@
                                             <ul class="list-inline product-links social-links mb-0">
                                                 <li class="list-inline-item">
                                                     {% if good.id in user_like_algorithm_list %}
-                                                        <a href="/good/like/?good_id={{ good.id }}&like=False&user=False"
+                                                        <a href="/good/like/?good_id={{ good.id }}&like=False&red_url={{ request.path }}"
                                                            data-toggle="tooltip"
                                                            data-placement="top" title="Dislike" style="color: red"><i
                                                                 class="dripicons-heart"></i></a>
                                                     {% else %}
-                                                        <a href="/good/like/?good_id={{ good.id }}&like=True&user=False"
+                                                        <a href="/good/like/?good_id={{ good.id }}&like=True&red_url={{ request.path }}"
                                                            data-toggle="tooltip"
                                                            data-placement="top" title="Like"><i
                                                                 class="dripicons-heart"></i></a>
