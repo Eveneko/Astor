@@ -187,9 +187,9 @@ def ordinary_search(request):
     print('search_keywords:', search_keywords)
 
     goods_list = GoodsInfo.objects.filter(
-        Q(name=search_keywords) |
-        Q(description=search_keywords) |
-        Q(detail=search_keywords))
+        Q(name__icontains=search_keywords) |
+        Q(description__icontains=search_keywords) |
+        Q(detail__icontains=search_keywords))
 
     if goods_list.count() == 0:
         search_status = 0
