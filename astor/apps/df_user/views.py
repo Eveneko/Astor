@@ -156,11 +156,11 @@ def revise_info_handle(request):
         user.uemail = request.POST.get('uemail')
         user.phone = request.POST.get('phone')
         user.save()
-    context = {
-        'page_name': 1,
-        'title': '用户中心',
-        'user': user,
-    }
+    # context = {
+    #     'page_name': 1,
+    #     'title': '用户中心',
+    #     'user': user,
+    # }
     # return render_to_response('df_user/user_center_info.html',
     #                           context,
     #                           context_instance=RequestContext(request))
