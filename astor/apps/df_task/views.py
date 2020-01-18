@@ -10,7 +10,6 @@ from df_user.models import UserInfo, UserBuyAlgorithm
 from df_goods.models import GoodsInfo, TypeInfo
 from django.db import transaction
 
-
 import os
 import uuid
 import datetime
@@ -44,7 +43,9 @@ def index(request):
     context['user_like_algorithm_count'] = len(user_like_algorithm_list)
     context['user_like_algorithm_list'] = user_like_algorithm_list
     user_num = len(UserInfo.objects.all())
-    task_set = Task.objects.all().filter(creator=user).order_by("-update_time")
+    task_set = Task.objects.all() \
+        .values("algorithm__name", "status", "update_time", "config") \
+        .filter(creator=user).order_by("-update_time")
     task_set_num = len(task_set)
     if task_set_num > 5:
         task_set = task_set[:4]
@@ -86,6 +87,7 @@ def creat_task(request):
     print(user_like_algorithm_list)
     return render(request, 'df_task/creat_task.html', context)
 
+
 @user_decorator.login
 @transaction.atomic
 def upload_config(request):
@@ -112,15 +114,15 @@ def upload_config(request):
         algorithm = GoodsInfo.objects.get(id=algorithm_id)
         creator = UserInfo.objects.get(id=request.session['user_id'])
         task = Task.objects.create(creator=creator,
-                            algorithm=algorithm,
-                            status='Not Started',
-                            config=eval(algorithm_config))
+                                   algorithm=algorithm,
+                                   status='Not Started',
+                                   config=eval(algorithm_config))
         # calculate price
         algorithm_config = eval(algorithm_config)
         cpu_core_num = sum(algorithm_config['resources']['cpu_requirement'])
         gpu_core_num = sum(algorithm_config['resources']['gpu_requirement'])
         price = algorithm.cpu_price * cpu_core_num + algorithm.gpu_price + gpu_core_num
-        context = {'key':['title', 'price', 'task_id', 'username', 'phone', 'email', 'algorithm_name', 'task_time'],
+        context = {'key': ['title', 'price', 'task_id', 'username', 'phone', 'email', 'algorithm_name', 'task_time'],
                    'title': 'Create Task',
                    'price': price,
                    'task_id': task.id,
@@ -133,6 +135,7 @@ def upload_config(request):
         # return JsonResponse(context)
     else:
         raise Exception('UNSUPPORTED HTTP METHOD')
+
 
 @user_decorator.login
 def start_task(request):
@@ -172,8 +175,8 @@ def task_record(request):
     # TODO: 向后端集群发送请求更新任务状态
     user_id = request.session['user_id']
     user = UserInfo.objects.get(id=request.session['user_id'])
-    task_set = Task.objects.all()\
-        .values("algorithm__name", "status", "update_time", "config")\
+    task_set = Task.objects.all() \
+        .values("algorithm__name", "status", "update_time", "config") \
         .filter(creator=user).order_by("-update_time")
     # print(task_set)
     context = {
