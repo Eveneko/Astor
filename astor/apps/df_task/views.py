@@ -59,6 +59,7 @@ def index(request):
         'user_like_algorithm_count': len(user_like_algorithm_list),
         'user_like_algorithm_list': user_like_algorithm_list
     }
+    print("context['user_like_algorithm_count'] =", context['user_like_algorithm_count'])
     return render(request, 'system/index.html', context)
 
 
@@ -84,7 +85,6 @@ def creat_task(request):
         'user_like_algorithm_list': user_like_algorithm_list,
         'user_like_algorithm_count': len(user_like_algorithm_list)
     }
-    print(user_like_algorithm_list)
     return render(request, 'df_task/creat_task.html', context)
 
 
