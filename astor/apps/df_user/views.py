@@ -2,13 +2,13 @@ from django.shortcuts import render, redirect, HttpResponseRedirect, reverse
 from django.core.paginator import Paginator
 from django.db import transaction
 from django.http.response import JsonResponse
-from df_user.models import UserBuyAlgorithm
 from hashlib import sha1
 from django.core.exceptions import ObjectDoesNotExist
 
-from .models import UserInfo
+from .models import UserInfo, UserBuyAlgorithm
 from .forms import RegisterForm, LoginForm, UserInfoForm
 from . import user_decorator
+
 
 def register(request):
     """
@@ -134,57 +134,41 @@ def logout(request):  # 用户登出
 
 
 @user_decorator.login
-@transaction.atomic
 def info(request):  # 用户中心
-    """
-    用户中心界面
-    # TODO: 将原子性限制加到POST请求限制内
-    :param request:
-    :return:
-    """
-    context = {'title': '用户中心'}
-    if request.method == 'GET':
-        user = UserInfo.objects.get(id=request.session.get('user_id'))
-        context = {
-            'title': '用户中心',
-            'name': user.uname,
-        }
-        users = UserInfo.objects.filter(id=request.session.get('user_id'))
-        print('user.phone', user.phone)
-        context['phone'] = user.phone
-        context['email'] = user.uemail
-        print(context)
-        return render(request, 'df_user/user_center_info.html', context)
-    elif request.method == 'POST' and request.POST:
-        print(request.POST)
-        user_info_form = UserInfoForm(data=request.POST)
-        if user_info_form.is_valid():
-            print('Form Valid')
-            # TODO: 表单异常回显
-            # name = user_info_form.clean_name()
-            uemail = user_info_form.cleaned_data['uemail']
-            phone = user_info_form.cleaned_data['phone']
-            # 验证用户
-            users = UserInfo.objects.filter(id=request.session.get('user_id'))
-            if len(users) > 1:
-                raise Exception('出现多个同名用户')
-            elif len(users) == 0:
-                context['status'] = 'FAIL'
-                context['username_error_msg'] = 'USER_NOT_FOUND'
-            else:
-                UserInfo.objects.filter(id=1).update(uemail=uemail,phone=phone)
-            context['phone'] = users[0].phone
-            context['email'] = users[0].uemail
-            print(context)
-            return render(request, 'df_user/user_center_info.html', context)
-        else:
-            print(user_info_form.errors)
-            raise Exception('UNSUPPORTED HTTP METHOD')
-    else:
-        raise Exception('UNSUPPORTED HTTP METHOD')
+    username = request.session.get('user_name')
+    user = UserInfo.objects.filter(uname=username).first()
+
+    context = {
+        'title': '用户中心',
+        'page_name': 1,
+        'user_name': user.uname,
+        'user_email': user.uemail,
+        'user_phone': user.phone
+
+    }
+    return render(request, 'df_user/user_center_info.html', context)
+
+
+def revise_info_handle(request):
+    user = UserInfo.objects.get(id=request.session['user_id'])
+    if request.method == "POST":
+        # user.uname = request.POST.get('name')
+        user.uemail = request.POST.get('uemail')
+        user.phone = request.POST.get('phone')
+        user.save()
+    context = {
+        'page_name': 1,
+        'title': '用户中心',
+        'user': user,
+    }
+    # return render_to_response('df_user/user_center_info.html',
+    #                           context,
+    #                           context_instance=RequestContext(request))
+    return redirect(reverse('df_user:info'))
+
 
 # @user_decorator.login
-def algorithm(request):
+def my_algorithm(request):
     """
     获取用户收藏的算法
     API:
@@ -196,26 +180,43 @@ def algorithm(request):
     if request.method == 'GET':
         user_buy_algorithm = list(UserBuyAlgorithm.objects
                                   .all()
-                                  .values('algorithm__id', 'algorithm__name')
+                                  .values('algorithm__id', 'algorithm__name', 'algorithm__description',
+                                          'algorithm__detail', 'algorithm__cpu_price', 'algorithm__gpu_price',
+                                          'algorithm__pic_path', 'algorithm__cfg_template', 'algorithm__modify_time',
+                                          'algorithm__type__name')
                                   .filter(user_id=request.session['user_id']))
         context = {'title': 'User Like Algorithm'}
         try:
             user_like_algorithm_list = list(
                 UserBuyAlgorithm.objects
                     .all()
-                    .values('algorithm__id', 'algorithm__name')
-                    .filter(user__id=request.session['user_id'],))
+                    .values('algorithm__id', 'algorithm__name', 'algorithm__description', 'algorithm__detail',
+                            'algorithm__cpu_price', 'algorithm__gpu_price', 'algorithm__pic_path',
+                            'algorithm__cfg_template', 'algorithm__modify_time', 'algorithm__type__name')
+                    .filter(user__id=request.session['user_id'], ))
         except ObjectDoesNotExist:
             user_like_algorithm_list = []
         context['count'] = len(user_like_algorithm_list)
         context['user_like_algorithm_list'] = user_like_algorithm_list
+        try:
+            user_like_algorithm_list_id = UserBuyAlgorithm.objects\
+                .all().values('algorithm_id').filter(
+                user__id=request.session['user_id'],
+            )
+            tmp = []
+            for a in user_like_algorithm_list_id:
+                tmp.append(int(a['algorithm_id']))
+            user_like_algorithm_list_id = tmp
+        except ObjectDoesNotExist:
+            user_like_algorithm_list_id = []
+        context['user_like_algorithm_list_id'] = user_like_algorithm_list_id
         print(user_buy_algorithm)
-        return JsonResponse(context)
+        # return JsonResponse(context)
+        return render(request, 'df_user/user_my_algorithm.html', context)
     elif request.method == 'POST' and request.POST:
         raise Exception('UNSUPPORTED HTTP METHOD')
     else:
         raise Exception('UNSUPPORTED HTTP METHOD')
-
 
 # @user_decorator.login
 # def order(request, index):

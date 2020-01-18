@@ -27,45 +27,32 @@
           </div> <!-- end row -->
         </div>
         <!-- end page-title -->
-<<<<<<< HEAD
-        <!-- {{ type_list }}
-        {{ goods_list }}
-        {{ type_id }}
-        {{ goods_num }}
-        <p>user_like_algorithm_list{{ user_like_algorithm_list }}</p> -->
 
-=======
-        {{ type_list }}
-        {{ goods_list }}
-        {{ type_id }}
-        {{ goods_num }}
->>>>>>> a1e76ea2ec4b5f3e5590b46e26afac8db1029215
+        <!-- {{ user_like_algorithm_list }}
+      {{ user_like_algorithm_list_id }} -->
+
         <div class="row">
-          {% for good in goods_list %}
+          {% for good in user_like_algorithm_list %}
             <div class="col-xl-3 col-md-6">
               <div class="card product-box">
                 <div class="card-body">
                   <div class="product-img">
-                    <img src="../../static/{{ good.pic_path }}"
+                    <img src="../../static/{{ good.algorithm__pic_path }}"
                          class="img-fluid rounded-top mx-auto d-block" alt="work-thumbnail">
                     <div class="product-overlay">
                       <ul class="list-inline product-links social-links mb-0">
                         <li class="list-inline-item">
-<<<<<<< HEAD
-                            {% if good.id in user_like_algorithm_list %}
-                          <a href="/good/like/?good_id={{ good.id }}&like=False&user=False" data-toggle="tooltip"
+                            {% if good.algorithm__id in user_like_algorithm_list_id %}
+                          <a href="/good/like/?good_id={{ good.algorithm__id }}&like=False&user=True" data-toggle="tooltip"
                              data-placement="top" title="Like" style="color: red"><i class="dripicons-heart"></i></a>
                             {% else %}
-                            <a href="/good/like/?good_id={{ good.id }}&like=True&user=False" data-toggle="tooltip"
+                            <a href="/good/like/?good_id={{ good.algorithm__id }}&like=True&user=True" data-toggle="tooltip"
                                data-placement="top" title="Like"><i class="dripicons-heart"></i></a>
                             {% endif %}
                         </li>
 
-=======
-                          <a href="/good/like?good_id={{ good.id }}" data-toggle="tooltip"
-                             data-placement="top" title="Like"><i class="dripicons-heart"></i></a>
-                        </li>
->>>>>>> a1e76ea2ec4b5f3e5590b46e26afac8db1029215
+
+
                         <!--<li class="list-inline-item">
                             <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="dripicons-shopping-bag"></i></a>
                         </li>
@@ -77,12 +64,8 @@
                   </div>
 
                   <div class="detail mt-3">
-<<<<<<< HEAD
-                    <p class="text-muted">{{ good.type__name }}</p>
-=======
->>>>>>> a1e76ea2ec4b5f3e5590b46e26afac8db1029215
-                    <h4 class="font-16"><a href="/good/good-{{ good.id }}/"
-                                           class="text-dark">{{ good.name }}</a></h4>
+                    <h4 class="font-16"><a href="/good/good-{{ good.algorithm__id }}/"
+                                           class="text-dark">{{ good.algorithm__name }}</a></h4>
                     <p class="text-muted">
                       <i class="mdi mdi-star text-warning"></i>
                       <i class="mdi mdi-star text-warning"></i>

@@ -166,17 +166,27 @@
                             <li>
                                 <a href="{% url 'df_task:creat_task' %}" class="waves-effect waves-light"><i class="ion ion-md-clipboard"></i><span> Creat Task </span></a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="{% url 'df_task:upload_data' %}" class="waves-effect waves-light"><i class="ion ion-md-book"></i><span> Upload Data </span></a>
                             </li>
                             <li>
                                 <a href="{% url 'df_task:task_record' %}" class="waves-effect waves-light"><i class="ion ion-md-list"></i><span> Task Record </span></a>
+                            </li> -->
+
+                            <li class="menu-title">User Center</li>
+
+                            <li>
+                                <a href="{% url 'df_user:info' %}" class="waves-effect waves-light"><i class="ion ion-md-person"></i><span>个人信息 </span></a>
                             </li>
 
                             <li class="menu-title">Test</li>
 
                             <li>
+<<<<<<< HEAD
+                                <a href="{% url 'df_user:my_algorithm' %}" class="waves-effect waves-light"><i class="ion ion-md-person"></i><span>我的算法 </span></a>
+=======
                                 <a href="{% url 'df_user:info' %}" class="waves-effect waves-light"><i class="ion ion-md-person"></i><span>个人信息 </span></a>
+>>>>>>> a1e76ea2ec4b5f3e5590b46e26afac8db1029215
                             </li>
                         </ul>
 

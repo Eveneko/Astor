@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.shortcuts import render, redirect, reverse
 from django.http import JsonResponse, HttpResponse
@@ -25,7 +26,21 @@ def index(request):
     """
     user_id = request.session['user_id']
     user = UserInfo.objects.get(id=request.session['user_id'])
-    algorithm_num = len(GoodsInfo.objects.all())
+    user_buy_algorithm = list(UserBuyAlgorithm.objects
+                              .all()
+                              .values('algorithm__id', 'algorithm__name')
+                              .filter(user_id=request.session['user_id']))
+    context = {'title': 'User Like Algorithm'}
+    try:
+        user_like_algorithm_list = list(
+            UserBuyAlgorithm.objects
+                .all()
+                .values('algorithm__id', 'algorithm__name')
+                .filter(user__id=request.session['user_id'], ))
+    except ObjectDoesNotExist:
+        user_like_algorithm_list = []
+    context['user_like_algorithm_count'] = len(user_like_algorithm_list)
+    context['user_like_algorithm_list'] = user_like_algorithm_list
     user_num = len(UserInfo.objects.all())
     task_set = Task.objects.all().filter(creator=user).order_by("-update_time")
     task_set_num = len(task_set)
@@ -35,10 +50,11 @@ def index(request):
         'title': '用户中心',
         'uid': user_id,
         'user': user,
-        'algorithm_num': algorithm_num,
         'user_num': user_num,
         'task_set': task_set,
-        'task_set_num': task_set_num
+        'task_set_num': task_set_num,
+        'user_like_algorithm_count': len(user_like_algorithm_list),
+        'user_like_algorithm_list': user_like_algorithm_list
     }
     return render(request, 'system/index.html', context)
 
@@ -48,19 +64,33 @@ def creat_task(request):
     user_id = request.session['user_id']
     user = UserInfo.objects.get(id=request.session['user_id'])
 
-    user_buy_algorithm = UserBuyAlgorithm.objects.filter(user_id=user_id)
-    ua_set = set()
-    for ua in user_buy_algorithm:
-        ua_set.add(GoodsInfo.objects.get(id=ua.algorithm_id))
-    algorithm_info = ua_set
+    user_buy_algorithm = list(UserBuyAlgorithm.objects
+                              .all()
+                              .values('algorithm__id', 'algorithm__name', 'algorithm__description',
+                                      'algorithm__detail', 'algorithm__cpu_price', 'algorithm__gpu_price',
+                                      'algorithm__pic_path', 'algorithm__cfg_template', 'algorithm__modify_time',
+                                      'algorithm__type__name')
+                              .filter(user_id=request.session['user_id']))
+    context = {'title': 'User Like Algorithm'}
+    try:
+        user_like_algorithm_list = list(
+            UserBuyAlgorithm.objects
+                .all()
+                .values('algorithm__id', 'algorithm__name', 'algorithm__description', 'algorithm__detail',
+                        'algorithm__cpu_price', 'algorithm__gpu_price', 'algorithm__pic_path',
+                        'algorithm__cfg_template', 'algorithm__modify_time', 'algorithm__type__name')
+                .filter(user__id=request.session['user_id'], ))
+    except ObjectDoesNotExist:
+        user_like_algorithm_list = []
 
     context = {
         'title': 'creat_task',
         'uid': user_id,
         'user': user,
-        'algorithm_info': algorithm_info,
+        'user_like_algorithm_list': user_like_algorithm_list,
+        'user_like_algorithm_count': len(user_like_algorithm_list)
     }
-    print(algorithm_info)
+    print(user_like_algorithm_list)
     return render(request, 'df_task/creat_task.html', context)
 
 
@@ -137,21 +167,21 @@ def upload_task_config(request):
         }
         try:
             algorithm = request.POST.get("algorithm")
-            cpu = request.POST.get("cpu").split(' ')[0]
-            mem = request.POST.get("mem").split(' ')[0]
-            dataset = request.POST.get("dataset").split(',')[1]
-            time = datetime.time()
-            # out_uuid = run_sh.run(user_id, algorithm, dataset, cpu, mem)
-
-            task = Task()
-            task.task_user = user
-            task.task_algorithm = GoodsInfo.objects.get(gtitle=algorithm)
-            task.cpu = cpu
-            task.memory = mem
-            # task.task_start_time = time
-            task.output = out_uuid
-            task.task_data_url = dataset
-            task.save()
+            config = request.POST.get("algorithm_config")
+            print("config:", config)
+            # dataset = request.POST.get("dataset").split(',')[1]
+            # time = datetime.time()
+            # # out_uuid = run_sh.run(user_id, algorithm, dataset, cpu, mem)
+            #
+            # task = Task()
+            # task.task_user = user
+            # task.task_algorithm = GoodsInfo.objects.get(gtitle=algorithm)
+            # task.cpu = cpu
+            # task.memory = mem
+            # # task.task_start_time = time
+            # task.output = out_uuid
+            # task.task_data_url = dataset
+            # task.save()
 
             return render(request, 'df_task/task_record.html', context)
         except Exception as e:
