@@ -43,7 +43,6 @@ def index(request):
         context['type_id'] = -1 if type_id is None else type_id
         context['goods_num'] = len(goods_list)
         context['goods_list'] = goods_list[offset:offset+query_num]
-<<<<<<< HEAD
         context['like_form'] = LikeForm()
         # 添加用户收藏的算法
         try:
@@ -60,9 +59,6 @@ def index(request):
         context['user_like_algorithm_list'] = user_like_algorithm_list
         if request.is_ajax():
             return JsonResponse(context)
-=======
-        # return JsonResponse(context)
->>>>>>> a1e76ea2ec4b5f3e5590b46e26afac8db1029215
         return render(request, 'df_goods/index.html', context)
     elif request.method == 'POST':
         raise Exception('UNSUPPORTED HTTP METHOD')
