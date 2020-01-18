@@ -90,7 +90,7 @@
                         <select class="form-control" name="algorithm" id="algorithm" onchange="getConfig()">
 {#                          <option value="" style="display: none" selected></option>#}
                           {% for i in user_like_algorithm_list %}
-                            <option value={{ i.algorithm__cfg_template }}> {{ i.algorithm__name }} </option>
+                            <option value={{ i.algorithm__cfg_template }} name={{ i.algorithm__id }}> {{ i.algorithm__name }} </option>
                           {% endfor %}
                         </select>
                       </div>

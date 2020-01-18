@@ -2,7 +2,17 @@
 
 {% block css %}
 
-
+  <script type="text/javascript">
+  {#function type_filler() {#}
+  {#    var type = ;#}
+  {#    alert(type.value);#}
+  {#}#}
+  $(".form-check-input").change(
+		function() {
+		var id = $("input[name='type_radio']:checked").val();
+		alert(id)
+	});
+  </script>
 
 {% endblock css %}
 
@@ -32,7 +42,28 @@
         {{ type_id }}
         {{ goods_num }}
         <p>user_like_algorithm_list{{ user_like_algorithm_list }}</p> -->
-
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card product-box">
+              <div class="card-body">
+                <h5 class="font-14">应用场景</h5>
+                <div class="form-check mr-5 mb-1" style="display: inline-block"">
+                <input class="form-check-input" type="radio" name="type_radio" id="all" value="-1" checked>
+                <label class="form-check-label" for="all">
+                    全部
+                </label>
+                </div>
+                {% for type in type_list %}
+                  <div class="form-check mr-5" style="display: inline-block">
+                  <input class="form-check-input" type="radio" name="type_radio" id="{{ type.name }}" value="{{ type.id }}">
+                  <label class="form-check-label" for="{{ type.name }}">
+                      {{ type.name }}
+                  </label>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
         <div class="row">
           {% for good in goods_list %}
             <div class="col-xl-3 col-md-6">
