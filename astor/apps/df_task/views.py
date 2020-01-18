@@ -63,15 +63,6 @@ def index(request):
 def creat_task(request):
     user_id = request.session['user_id']
     user = UserInfo.objects.get(id=request.session['user_id'])
-
-    user_buy_algorithm = list(UserBuyAlgorithm.objects
-                              .all()
-                              .values('algorithm__id', 'algorithm__name', 'algorithm__description',
-                                      'algorithm__detail', 'algorithm__cpu_price', 'algorithm__gpu_price',
-                                      'algorithm__pic_path', 'algorithm__cfg_template', 'algorithm__modify_time',
-                                      'algorithm__type__name')
-                              .filter(user_id=request.session['user_id']))
-    context = {'title': 'User Like Algorithm'}
     try:
         user_like_algorithm_list = list(
             UserBuyAlgorithm.objects
