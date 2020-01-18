@@ -1,70 +1,85 @@
 {% extends 'base_ui.html' %}
 
 {% block css %}
-        <!-- Magnific popup -->
-        <link href="../../static/plugins/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css">
+  <!-- Magnific popup -->
+  <link href="../../static/plugins/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css">
 
 {% endblock css %}
 
 
 {% block right %}
 
-        <div class="content-page">
-            <div class="content">
-                <div class="container-fluid">
-                    <div class="page-title-box">
-                         <div class="row">
-                            <div class="col-lg-6">
-                                <div class="card">
-                                        <div class="card-body">
-                                            <h4 class="mt-0 header-title mb-4">用户信息</h4>
-                                            <p class="card-text">姓名：{{ user_name }}</p>
-                                            <p class="card-text">邮箱：{{ user_email }}</p>
-                                            <p class="card-text">手机号：{{ user_phone }} </p>
-                                                <a class="popup-form btn btn-primary" href="#test-form">修改信息</a>
-                                        </div>
-                                        <div class="card mfp-hide w-50 mx-auto" id="test-form">
-                                            <div class="card-body">
-                                                <h4 class="mt-0 mb-6">用户信息</h4>
-                                                <form id='user_revise_form' action="{% url "df_user:revise_info_handle" %}" method="post">{% csrf_token %}
-                                                    <div class="row">
-                                                        <!--<div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <label for="name">姓名</label>
-                                                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value= {{ user_name }} >
-                                                            </div>
-                                                        </div>-->
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <label for="email">邮箱</label>
-                                                                <input type="email" class="form-control" id="uemail" name="uemail" placeholder="Enter Email" value= {{ user_email }} >
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <label for="phone">手机号</label>
-                                                                <input type="phone" class="form-control" id="phone" name="phone" placeholder="Enter Phone" value= {{ user_phone }} >
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <div class="text-right">
-{#                                                                <button type="submit" class="btn btn-primary">取消</button>#}
-                                                                <input type="submit" class="btn btn-primary" value="提交">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                </div>
-                            </div>
-                         </div> <!-- end row -->
-                    </div>
-                 </div>
+  <div class="content-page">
+    <div class="content">
+      <div class="container-fluid">
+        <div class="page-title-box">
+          <div class="row align-items-center">
+            <div class="col-sm-6">
+              <h4 class="page-title">Products</h4>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'df_task:index' %}"><i
+                        class="mdi mdi-home-outline"></i></a></li>
+                <li class="breadcrumb-item"><a href="#">User Center</a></li>
+                <li class="breadcrumb-item active">My Information</li>
+              </ol>
             </div>
+          </div> <!-- end row -->
         </div>
+        <!-- end page-title -->
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="mt-0 header-title mb-4">用户信息</h4>
+                <p class="card-text">姓名：{{ user_name }}</p>
+                <p class="card-text">邮箱：{{ user_email }}</p>
+                <p class="card-text">手机号：{{ user_phone }} </p>
+                <a class="popup-form btn btn-primary" href="#test-form">修改信息</a>
+              </div>
+              <div class="card mfp-hide w-50 mx-auto" id="test-form">
+                <div class="card-body">
+                  <h4 class="mt-0 mb-6">用户信息</h4>
+                  <form id='user_revise_form' action="{% url "df_user:revise_info_handle" %}"
+                        method="post">{% csrf_token %}
+                    <div class="row">
+                      <!--<div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label for="name">姓名</label>
+                                                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value= {{ user_name }} >
+                                                        </div>
+                                                    </div>-->
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label for="email">邮箱</label>
+                          <input type="email" class="form-control" id="uemail" name="uemail" placeholder="Enter Email"
+                                 value={{ user_email }}>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label for="phone">手机号</label>
+                          <input type="phone" class="form-control" id="phone" name="phone" placeholder="Enter Phone"
+                                 value={{ user_phone }}>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="text-right">
+                          {#                                                                <button type="submit" class="btn btn-primary">取消</button>#}
+                          <input type="submit" class="btn btn-primary" value="提交">
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> <!-- end row -->
+      </div>
+    </div>
+  </div>
 
 
 {% endblock right %}
@@ -78,81 +93,72 @@
 
 
 {% block js %}
-    <!-- Magnific popup -->
-        <script src="../../static/plugins/magnific-popup/jquery.magnific-popup.min.js"></script>
-        <script src="../../static/assets/pages/lightbox.js"></script>
-        <script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
-        <script type="text/javascript">
-            $(function(){
-            var error_name = false;
-            var error_email = false;
+  <!-- Magnific popup -->
+  <script src="../../static/plugins/magnific-popup/jquery.magnific-popup.min.js"></script>
+  <script src="../../static/assets/pages/lightbox.js"></script>
+  <script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+  <script type="text/javascript">
+      $(function () {
+          var error_name = false;
+          var error_email = false;
 
 
-            $('#name').blur(function() {
-                check_user_name();
-            });
+          $('#name').blur(function () {
+              check_user_name();
+          });
 
-            $('#uemail').blur(function() {
-                check_email();
-            });
+          $('#uemail').blur(function () {
+              check_email();
+          });
 
-            function check_user_name(){
-                var len = $('#name').val().length;
+          function check_user_name() {
+              var len = $('#name').val().length;
 
-                if(len<5||len>20)
-                {
-                    $('#name').next().html('Enter a username of 5-20 characters');
-                    $('#name').next().show();
-                    error_name = true;
+              if (len < 5 || len > 20) {
+                  $('#name').next().html('Enter a username of 5-20 characters');
+                  $('#name').next().show();
+                  error_name = true;
 
-                }
-                else
-                {
-                    $.get('{% url "df_user:revise_info_handle" %}?uname='+$('#name').val(),function(data){
-                        if (data.count >= 1) {
-                            $('#name').next().html('Username already exists').show();
-                            error_name = true;
-                        }else{
-                            $('#name').next().hide();
-                            error_name = false;
-                        }
-                    });
-                }
-            }
+              } else {
+                  $.get('{% url "df_user:revise_info_handle" %}?uname=' + $('#name').val(), function (data) {
+                      if (data.count >= 1) {
+                          $('#name').next().html('Username already exists').show();
+                          error_name = true;
+                      } else {
+                          $('#name').next().hide();
+                          error_name = false;
+                      }
+                  });
+              }
+          }
 
 
-            function check_email(){
-                var re = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+          function check_email() {
+              var re = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
 
-                if(re.test($('#uemail').val()))
-                {
-                    $('#uemail').next().hide();
-                    error_email = false;
-                }
-                else
-                {
-                    $('#uemail').next().html('The entered mailbox format is incorrect');
-                    $('#uemail').next().show();
-                    error_email = true;
-                }
+              if (re.test($('#uemail').val())) {
+                  $('#uemail').next().hide();
+                  error_email = false;
+              } else {
+                  $('#uemail').next().html('The entered mailbox format is incorrect');
+                  $('#uemail').next().show();
+                  error_email = true;
+              }
 
-            }
+          }
 
-            $("#user_revise_form").submit(function(){
-                check_user_name();
-                check_email();
+          $("#user_revise_form").submit(function () {
+              check_user_name();
+              check_email();
 
-                if(error_name == false && error_email == false)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            });
-            });
-    </script>
+              if (error_name == false && error_email == false) {
+                  return true;
+              } else {
+                  return false;
+              }
+          });
+      });
+  </script>
 
 
 {% endblock js %}

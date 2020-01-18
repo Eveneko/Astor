@@ -66,15 +66,10 @@
         <tbody>
         <tr>
           <td>{{ task.algorithm__name }}</td>
-{#          <div class="col-sm-6 col-md-4 col-xl-3">#}
-{#            <div class="my-4 text-center">#}
-{#              <p class="text-muted">Center modal</p>#}
-{#              <!-- Small modal -->#}
-              <button type="button" class="btn-primary" data-toggle="modal"
-                      data-target=".bs-example-modal-center">Config
-              </button>
-{#            </div>#}
-
+          <td>
+            <button type="button" class="btn-primary" data-toggle="modal"
+                    data-target=".bs-example-modal-center">Config
+            </button>
             <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog"
                  aria-labelledby="mySmallModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
@@ -91,12 +86,9 @@
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-{#          </div>#}
+          </td>
           <td>{{ task.status }}</td>
           <td>{{ task.update_time }}</td>
-          <td>
-            <button class="btn-primary"><a href="/static/Data/{{ uid }}/{{ task.task_data_url }}"
-                                           download=dataset>fresh</a></button>
           </td>
         </tr>
         </tbody>

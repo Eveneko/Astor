@@ -35,15 +35,17 @@ def index(request):
             if 'type_id' in request.GET.keys() else None
         goods_list = GoodsInfo.objects.all()\
             .values('id', 'name', 'type', 'type__name', 'description', 'pic_path')
-        if type_id is not None:
+        if type_id is not None and type_id != '-1':
             good_type = TypeInfo.objects.get(pk=int(type_id))
             goods_list = list(goods_list.filter(type=good_type))
         # return JsonResponse(context)
         context['type_list'] = list(TypeInfo.objects.all().values('id', 'name'))
-        context['type_id'] = -1 if type_id is None else type_id
+        context['type_id'] = -1 if type_id is None else int(type_id)
         context['goods_num'] = len(goods_list)
         context['goods_list'] = goods_list[offset:offset+query_num]
         context['like_form'] = LikeForm()
+        context['checked_type_id'] = int(type_id) if type_id is not None else -1
+        print(context)
         # 添加用户收藏的算法
         try:
             user_like_algorithm_list = UserBuyAlgorithm.objects\
