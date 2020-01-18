@@ -88,7 +88,8 @@ class UserInfoForm(forms.Form):
 
     def clean_uemail(self):
         uemail = self.cleaned_data["uemail"]
-        if UserInfo.objects.filter(uemail=uemail).count() > 0:
+        # 需要排除本人已经使用的
+        if UserInfo.objects.filter(uemail=uemail).count() > 1:
             raise forms.ValidationError("Email has already been used")
         return uemail
 
@@ -96,3 +97,4 @@ class UserInfoForm(forms.Form):
         phone = self.cleaned_data["phone"]
         if not phone.isdigit() or len(phone) != 11:
             raise forms.ValidationError("手机号码格式不对")
+        return phone
