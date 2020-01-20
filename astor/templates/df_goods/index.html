@@ -1,4 +1,4 @@
-{% extends 'base_ui.html' %}
+{% extends 'base.html' %}
 
 {% block css %}
 
@@ -39,18 +39,21 @@
                     <div class="card-body">
                         <h5 class="font-14">应用场景</h5>
                         <div class="form-check mr-5 mb-1" style="display: inline-block">
-                            <input class="form-check-input mr-5" type="radio" name="type_radio" id="all" value="-1" checked>
+                            <input class="form-check-input mr-5" type="radio" name="type_radio" id="all" value="-1"
+                                   checked>
                             <label class="form-check-label mr-5" for="all">
                                 全部
                             </label>
                             {% for type in type_list %}
                                 {% if checked_type_id == type.id %}
-                                    <input class="form-check-input mr-5" type="radio" name="type_radio" id="{{ type.name }}" value="{{ type.id }}" checked="checked">
+                                    <input class="form-check-input mr-5" type="radio" name="type_radio"
+                                           id="{{ type.name }}" value="{{ type.id }}" checked="checked">
                                 {% else %}
-                                    <input class="form-check-input mr-5" type="radio" name="type_radio" id="{{ type.name }}" value="{{ type.id }}">
+                                    <input class="form-check-input mr-5" type="radio" name="type_radio"
+                                           id="{{ type.name }}" value="{{ type.id }}">
                                 {% endif %}
                                 <label class="form-check-label mr-5" for="{{ type.name }}">
-                                        {{ type.name }}
+                                    {{ type.name }}
                                 </label>
                             {% endfor %}
                         </div>
@@ -79,13 +82,6 @@
                                                                 class="dripicons-heart"></i></a>
                                                     {% endif %}
                                                 </li>
-
-                                                <!--<li class="list-inline-item">
-                                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="dripicons-shopping-bag"></i></a>
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="dripicons-cart"></i></a>
-                                                </li>-->
                                             </ul>
                                         </div>
                                     </div>
@@ -116,11 +112,6 @@
 
         </div>
         <!-- content -->
-
-        <footer class="footer">
-            © 2019 Veltrix <span class="d-none d-sm-inline-block"> - Crafted with <i
-                class="mdi mdi-heart text-danger"></i> by <a href="http://www.bootstrapmb.com/">Themesbrand</a></span>.
-        </footer>
 
     </div>
 

@@ -1,4 +1,4 @@
-{% extends 'base_ui.html' %}
+{% extends 'base.html' %}
 
 {% block css %}
 
@@ -9,92 +9,81 @@
 
 {% block right %}
 
-  <div class="content-page">
-    <!-- Start content -->
-    <div class="content">
-      <div class="container-fluid">
-        <div class="page-title-box">
-          <div class="row align-items-center">
-            <div class="col-sm-6">
-              <h4 class="page-title">Products</h4>
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'df_task:index' %}"><i
-                        class="mdi mdi-home-outline"></i></a></li>
-                <li class="breadcrumb-item"><a href="{% url 'df_user:info' %}">User Center</a></li>
-                <li class="breadcrumb-item active">My Algorithm</li>
-              </ol>
-            </div>
-          </div> <!-- end row -->
-        </div>
-        <!-- end page-title -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="page-title-box">
+                    <div class="row align-items-center">
+                        <div class="col-sm-6">
+                            <h4 class="page-title">Products</h4>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'df_task:index' %}"><i
+                                        class="mdi mdi-home-outline"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'df_user:info' %}">User Center</a></li>
+                                <li class="breadcrumb-item active">My Algorithm</li>
+                            </ol>
+                        </div>
+                    </div> <!-- end row -->
+                </div>
+                <!-- end page-title -->
 
-        <!-- {{ user_like_algorithm_list }}
+                <!-- {{ user_like_algorithm_list }}
       {{ user_like_algorithm_list_id }} -->
 
-        <div class="row">
-          {% for good in user_like_algorithm_list %}
-            <div class="col-xl-3 col-md-6">
-              <div class="card product-box">
-                <div class="card-body">
-                  <div class="product-img">
-                    <img src="../../static/{{ good.algorithm__pic_path }}"
-                         class="img-fluid rounded-top mx-auto d-block" alt="work-thumbnail">
-                    <div class="product-overlay">
-                      <ul class="list-inline product-links social-links mb-0">
-                        <li class="list-inline-item">
-                            {% if good.algorithm__id in user_like_algorithm_list_id %}
-                          <a href="/good/like/?good_id={{ good.algorithm__id }}&like=False&red_url={{ request.path }}" data-toggle="tooltip"
-                             data-placement="top" title="Dislike" style="color: red"><i class="dripicons-heart"></i></a>
-                            {% else %}
-                            <a href="/good/like/?good_id={{ good.algorithm__id }}&like=True&red_url={{ request.path }}" data-toggle="tooltip"
-                               data-placement="top" title="Like"><i class="dripicons-heart"></i></a>
-                            {% endif %}
-                        </li>
+                <div class="row">
+                    {% for good in user_like_algorithm_list %}
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card product-box">
+                                <div class="card-body">
+                                    <div class="product-img">
+                                        <img src="../../static/{{ good.algorithm__pic_path }}"
+                                             class="img-fluid rounded-top mx-auto d-block" alt="work-thumbnail">
+                                        <div class="product-overlay">
+                                            <ul class="list-inline product-links social-links mb-0">
+                                                <li class="list-inline-item">
+                                                    {% if good.algorithm__id in user_like_algorithm_list_id %}
+                                                        <a href="/good/like/?good_id={{ good.algorithm__id }}&like=False&red_url={{ request.path }}"
+                                                           data-toggle="tooltip"
+                                                           data-placement="top" title="Dislike" style="color: red"><i
+                                                                class="dripicons-heart"></i></a>
+                                                    {% else %}
+                                                        <a href="/good/like/?good_id={{ good.algorithm__id }}&like=True&red_url={{ request.path }}"
+                                                           data-toggle="tooltip"
+                                                           data-placement="top" title="Like"><i
+                                                                class="dripicons-heart"></i></a>
+                                                    {% endif %}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
 
-
-
-                        <!--<li class="list-inline-item">
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="dripicons-shopping-bag"></i></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="dripicons-cart"></i></a>
-                        </li>-->
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div class="detail mt-3">
-                    <h4 class="font-16"><a href="/good/good-{{ good.algorithm__id }}/"
-                                           class="text-dark">{{ good.algorithm__name }}</a></h4>
-                    <p class="text-muted">
-                      <i class="mdi mdi-star text-warning"></i>
-                      <i class="mdi mdi-star text-warning"></i>
-                      <i class="mdi mdi-star text-warning"></i>
-                      <i class="mdi mdi-star text-warning"></i>
-                      <i class="mdi mdi-star text-warning"></i>
-                    </p>
-                    <!--<h5 class="my-0 font-16 float-right"><span class="text-muted mr-2"><del>$72</del></span> <b>$64</b></h5>-->
-                    <!--<span class="badge badge-soft-primary">24 % Off</span>-->
-                  </div>
+                                    <div class="detail mt-3">
+                                        <h4 class="font-16"><a href="/good/good-{{ good.algorithm__id }}/"
+                                                               class="text-dark">{{ good.algorithm__name }}</a></h4>
+                                        <p class="text-muted">
+                                            <i class="mdi mdi-star text-warning"></i>
+                                            <i class="mdi mdi-star text-warning"></i>
+                                            <i class="mdi mdi-star text-warning"></i>
+                                            <i class="mdi mdi-star text-warning"></i>
+                                            <i class="mdi mdi-star text-warning"></i>
+                                        </p>
+                                        <!--<h5 class="my-0 font-16 float-right"><span class="text-muted mr-2"><del>$72</del></span> <b>$64</b></h5>-->
+                                        <!--<span class="badge badge-soft-primary">24 % Off</span>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end product-box -->
+                        </div>
+                    {% endfor %}
                 </div>
-              </div>
-              <!-- end product-box -->
+                <!-- end row -->
             </div>
-          {% endfor %}
+            <!-- container-fluid -->
+
         </div>
-        <!-- end row -->
-      </div>
-      <!-- container-fluid -->
-
+        <!-- content -->
     </div>
-    <!-- content -->
-
-    <footer class="footer">
-      © 2019 Veltrix <span class="d-none d-sm-inline-block"> - Crafted with <i
-            class="mdi mdi-heart text-danger"></i> by <a href="http://www.bootstrapmb.com/">Themesbrand</a></span>.
-    </footer>
-
-  </div>
 
 {% endblock right %}
 
