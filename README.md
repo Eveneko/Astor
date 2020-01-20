@@ -1,6 +1,6 @@
 # ASTOR
 
-**Astor**：基于`Python3.x`和`Django2.x`
+**Astor**：基于`Python3.x`和`Django3.x`
 
 项目尽量使用Django内部提供的API，后台管理为Django自带的管理系统django-admin。
 
@@ -67,17 +67,12 @@
     - 检查数据合法性（给出error report）
 
 - UI
-    - 全部迁移到新模版
-    - 基于base
+    - [x] 全部迁移到新模版
     - 当大量数据的时候，显示分页/显示较新的部分+完整的自己下载
 
-- Function
-    - 上传算法，包括图片，代码(main.py)，check代码（check.py)，说明文档（document.pdf）
-    - 测试各种鲁棒性，表单提交很多地方没有做限制
-
 - 增加算法
-    - 复杂的
+    - 复杂的，分布式算法
     - 如果要可视化的也可以（matplotlib这个可视化包挺方便的）
 
 - 数据库
-    - 配合调用方法改进
+    - 使用高并发的Mysql
