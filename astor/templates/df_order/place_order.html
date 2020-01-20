@@ -1,4 +1,4 @@
-{% extends 'base_ui.html' %}
+{% extends 'base.html' %}
 
 {% block css %}
 
@@ -18,7 +18,8 @@
                         <div class="col-sm-12">
                             <h4 class="page-title">Menu</h4>
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{% url 'df_task:index' %}"><i class="mdi mdi-home-outline"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'df_task:index' %}"><i
+                                        class="mdi mdi-home-outline"></i></a></li>
                                 <li class="breadcrumb-item active">Invoice</li>
                             </ol>
                         </div>
@@ -36,7 +37,8 @@
                                         <div class="invoice-title">
                                             <h4 class="mt-0 float-right font-16"><strong>Order # 12345</strong></h4>
                                             <div class="mb-4">
-                                                <img src="../../static/assets/images/logo-dark.png" alt="logo" height="36"/>
+                                                <img src="../../static/images/logo-dark.png" alt="logo"
+                                                     height="36"/>
                                             </div>
                                         </div>
                                         <hr>
@@ -101,11 +103,13 @@
                                         <div class="col-md-12">
                                             <div>
                                                 <div class="custom-control custom-radio mb-2">
-                                                    <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                                                    <input type="radio" id="customRadio1" name="customRadio"
+                                                           class="custom-control-input">
                                                     <label class="custom-control-label" for="customRadio1">微信</label>
                                                 </div>
                                                 <div class="custom-control custom-radio">
-                                                    <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" checked>
+                                                    <input type="radio" id="customRadio2" name="customRadio"
+                                                           class="custom-control-input" checked>
                                                     <label class="custom-control-label" for="customRadio2">支付宝</label>
                                                 </div>
                                             </div>
@@ -146,7 +150,8 @@
                                                             <td class="no-line"></td>
                                                             <td class="no-line text-center">
                                                                 <strong>Total</strong></td>
-                                                            <td class="no-line text-right"><h4 class="m-0">$10.99</h4></td>
+                                                            <td class="no-line text-right"><h4 class="m-0">$10.99</h4>
+                                                            </td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -154,7 +159,9 @@
 
                                                 <div class="d-print-none">
                                                     <div class="float-right">
-                                                        <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light"><i class="fa fa-print"></i></a>
+                                                        <a href="javascript:window.print()"
+                                                           class="btn btn-success waves-effect waves-light"><i
+                                                                class="fa fa-print"></i></a>
                                                         <a href="#" class="btn btn-primary waves-effect waves-light">Send</a>
                                                     </div>
                                                 </div>
@@ -171,8 +178,6 @@
                 <!-- end row -->
 
 
-                    </div>
-                </div>
             </div>
         </div>
     </div>
