@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../../static/plugins/summernote/summernote-bs4.css">
 
     <script type="text/javascript">
+        window.onload = getConfig;
         function getConfig() {
             var algorithm = document.getElementById('algorithm');
             var config_path = "../../media/" + algorithm.value.split(':')[0];
@@ -22,13 +23,13 @@
                 if (httpRequest.readyState == 4 && httpRequest.status == 200) {
                     var json = httpRequest.responseText;
                     document.getElementById("algorithm_config").innerHTML = json;
+                    document.getElementById("confirm_config").innerHTML = json;
                 }
             };
         }
 
         function confirmConfig() {
             var config = document.getElementById("algorithm_config").innerHTML;
-            alert(config);
             document.getElementById("confirm_config").innerHTML = config;
         }
     </script>
@@ -92,8 +93,8 @@
                                             <label class="col-md-1 col-form-label">Select</label>
                                             <div class="col-md-11">
                                                 <select class="form-control" name="algorithm" id="algorithm"
-                                                        onchange="getConfig()">
-                                                    <option value="" style="display: none" selected></option>
+                                                        onload="getConfig();">
+{#                                                    <option value="" style="display: none" selected></option>#}
                                                     {% for i in user_like_algorithm_list %}
                                                         <option value={{ i.algorithm__cfg_template }}:{{ i.algorithm__id }}> {{ i.algorithm__name }} </option>
                                                     {% endfor %}
@@ -128,9 +129,8 @@
                                                 <div class="card">
                                                     <div class="card-body">
                                                         <h4 class="mt-0 header-title">Confirm</h4>
-                                                        <p class="text-muted mb-4">Confirm the config and the cost</p>
-                                                        <input type="text" id="confirm_config" value=""
-                                                               readonly="readonly">
+                                                        <p class="text-muted mb-4">Confirm the config</p>
+                                                        <p id="confirm_config"></p>
                                                     </div>
                                                 </div>
                                             </div> <!-- end col -->
@@ -175,12 +175,12 @@
     <script src="../../static/plugins/summernote/summernote-bs4.min.js"></script>
 
     <!-- form editors init -->
-    <script src="../../static/assets/pages/form-editors.int.js"></script>
+    <script src="../../static/pages/form-editors.int.js"></script>
 
     <!-- form wizard -->
     <script src="../../static/plugins/jquery-steps/jquery.steps.min.js"></script>
 
     <!-- form wizard init -->
-    <script src="../../static/assets/pages/form-wizard.init.js"></script>
+    <script src="../../static/pages/form-wizard.init.js"></script>
 
 {% endblock js %}
