@@ -1,4 +1,4 @@
-{% extends 'base_ui.html' %}
+{% extends 'base.html' %}
 
 {% block css %}
 
@@ -9,86 +9,93 @@
 
 {% block right %}
 
-  <div class="content-page">
-    <!-- Start content -->
-    <div class="content">
-      <div class="container-fluid">
-        <div class="page-title-box">
-          <div class="row align-items-center">
-            <div class="col-sm-6">
-              <h4 class="page-title">Products</h4>
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'df_task:index' %}"><i
-                        class="mdi mdi-home-outline"></i></a></li>
-                <li class="breadcrumb-item"><a href="{% url 'df_goods:index' %}">Market</a></li>
-                <li class="breadcrumb-item active">{{ good.name }}</li>
-              </ol>
-            </div>
-          </div> <!-- end row -->
-        </div>
-        <!-- end page-title -->
-        <!-- {{ good }} -->
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="page-title-box">
+                    <div class="row align-items-center">
+                        <div class="col-sm-6">
+                            <h4 class="page-title">Products</h4>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'df_task:index' %}"><i
+                                        class="mdi mdi-home-outline"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'df_goods:index' %}">Market</a></li>
+                                <li class="breadcrumb-item active">{{ good.name }}</li>
+                            </ol>
+                        </div>
+                    </div> <!-- end row -->
+                </div>
+                <!-- end page-title -->
+                <!-- {{ good }} -->
                 <div class="row">
-                  <div class="col-sm-4">
-                    <div class="">
-                    <img src="../../static/{{ good.pic_path }}" class="rounded mr-2" alt="300x300" width="300">
-                    </div>
-                  </div>
-                  <div class="col-sm-8">
-                    <div class="form-group mb-5">
-                      <h3>{{ good.name }}</h3>
-                      <p class="text-muted mb-4">分类：{{ good.type__name }} ｜ 时间：{{ good.modify_time }}</p>
-                    </div>
-                    <div>
-                      <p class="text-muted mb-4"><strong>简介</strong>：{{ good.description }}</p>
-                    </div>
-                    <div class="py-4 mt-5">
-                      <h3><span class="badge badge-soft-primary">CPU</span> : <sup><small>¥</small></sup>{{ good.cpu_price }}/<span class="font-14">Per hour</span></h3>
-                      <h3><span class="badge badge-soft-success">GPU</span> : <sup><small>¥</small></sup>{{ good.gpu_price }}/<span class="font-14">Per hour</span></h3>
-                    </div>
-                    <div>
-                      {% if isLiked %}
-                        <a href="/good/like/?good_id={{ good.id }}&like=False&red_url={{ request.path }}">
-                          <button type="button" class="btn btn-success btn-icon mt-5">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="">
+                                            <img src="../../static/{{ good.pic_path }}" class="rounded mr-2"
+                                                 alt="300x300" width="300">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <div class="form-group mb-5">
+                                            <h3>{{ good.name }}</h3>
+                                            <p class="text-muted mb-4">分类：{{ good.type__name }} ｜
+                                                时间：{{ good.modify_time }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-muted mb-4"><strong>简介</strong>：{{ good.description }}</p>
+                                        </div>
+                                        <div class="py-4 mt-5">
+                                            <h3><span class="badge badge-soft-primary">CPU</span> :
+                                                <sup><small>¥</small></sup>{{ good.cpu_price }}/<span class="font-14">Per hour</span>
+                                            </h3>
+                                            <h3><span class="badge badge-soft-success">GPU</span> :
+                                                <sup><small>¥</small></sup>{{ good.gpu_price }}/<span class="font-14">Per hour</span>
+                                            </h3>
+                                        </div>
+                                        <div>
+                                            {% if isLiked %}
+                                                <a href="/good/like/?good_id={{ good.id }}&like=False&red_url={{ request.path }}">
+                                                    <button type="button" class="btn btn-success btn-icon mt-5">
                             <span class="btn-icon-label">
-                              <i class="dripicons-heart mr-auto" style="color: red"></i></span>
-                            Remove from my algorithm
-                          </button>
-                        </a>
+                                <i class="dripicons-heart mr-auto" style="color: red"></i></span>
+                                                        Remove from my algorithm
+                                                    </button>
+                                                </a>
 
-                      {% else %}
-                        <a href="/good/like/?good_id={{ good.id }}&like=True&red_url={{ request.path }}">
-                          <button type="button" class="btn btn-success btn-icon mt-5">
-                            <span class="btn-icon-label"><i class="dripicons-heart mr-auto"></i></span>
-                            Add to my algorithm
-                          </button>
-                        </a>
-                      {% endif %}
+                                            {% else %}
+                                                <a href="/good/like/?good_id={{ good.id }}&like=True&red_url={{ request.path }}">
+                                                    <button type="button" class="btn btn-success btn-icon mt-5">
+                                                        <span class="btn-icon-label"><i
+                                                                class="dripicons-heart mr-auto"></i></span>
+                                                        Add to my algorithm
+                                                    </button>
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row mt-5">
+                                    <div class="col-sm-4">
+                                        <h5>算法描述</h5>
+                                        <p>{{ good.detail }}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-                <hr>
-                <div class="row mt-5">
-                  <div class="col-sm-4">
-                    <h5>算法描述</h5>
-                    <p>{{ good.detail }}</p>
-                  </div>
-                </div>
-                <hr>
-              </div>
-            </div>
-          </div>
-        </div>
 
-      </div>
-      <!-- container-fluid -->
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- content -->
     </div>
-    <!-- content -->
-  </div>
 
 {% endblock right %}
 
