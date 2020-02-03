@@ -1,4 +1,4 @@
-{% extends 'base_ui.html' %}
+{% extends 'base.html' %}
 
 {% block css %}
 
@@ -27,9 +27,11 @@
             </div> <!-- end row -->
         </div>
         <!-- end page-title -->
-{#        {{ goods_list }}#}
+        {#        {{ goods_list }}#}
         <script type="text/javascript">
-            if ({{ search_status }}==0){
+            if ({{ search_status }}==0
+            )
+            {
                 alert("您的查询结果为空，为您推荐以下商品");
             }
         </script>
@@ -38,9 +40,9 @@
                 <div class="card product-box">
                     <div class="card-body">
                         {% if search_status == 0 %}
-                        <h5 class="font-14">为您推荐以下算法：</h5>
+                            <h5 class="font-14">为您推荐以下算法：</h5>
                         {% else %}
-                        <h5 class="font-14">为您搜到以下相关算法：</h5>
+                            <h5 class="font-14">为您搜到以下相关算法：</h5>
                         {% endif %}
                     </div>
                 </div>
@@ -67,13 +69,6 @@
                                                                 class="dripicons-heart"></i></a>
                                                     {% endif %}
                                                 </li>
-
-                                                <!--<li class="list-inline-item">
-                                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="dripicons-shopping-bag"></i></a>
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="dripicons-cart"></i></a>
-                                                </li>-->
                                             </ul>
                                         </div>
                                     </div>
@@ -104,11 +99,6 @@
 
         </div>
         <!-- content -->
-
-        <footer class="footer">
-            © 2019 Veltrix <span class="d-none d-sm-inline-block"> - Crafted with <i
-                class="mdi mdi-heart text-danger"></i> by <a href="http://www.bootstrapmb.com/">Themesbrand</a></span>.
-        </footer>
 
     </div>
 
