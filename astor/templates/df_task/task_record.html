@@ -1,4 +1,4 @@
-{% extends 'base_ui.html' %}
+{% extends 'base.html' %}
 
 {% block css %}
 
@@ -56,11 +56,9 @@
             <thead>
             <tr>
                 <th>Algorithm</th>
-                {#                            <th>CPU</th>#}
                 <th>Config</th>
                 <th>Status</th>
                 <th>Last Update Time</th>
-                {#                            <th>Result</th>#}
             </tr>
             </thead>
 
@@ -91,7 +89,6 @@
                     </td>
                     <td>{{ task.status }}</td>
                     <td>{{ task.update_time }}</td>
-                    </td>
                 </tr>
                 </tbody>
             {% endfor %}

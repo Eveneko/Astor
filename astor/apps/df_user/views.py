@@ -230,7 +230,7 @@ def my_algorithm(request):
         context['count'] = len(user_like_algorithm_list)
         context['user_like_algorithm_list'] = user_like_algorithm_list
         try:
-            user_like_algorithm_list_id = UserBuyAlgorithm.objects\
+            user_like_algorithm_list_id = UserBuyAlgorithm.objects \
                 .all().values('algorithm_id').filter(
                 user__id=request.session['user_id'],
             )
@@ -248,97 +248,3 @@ def my_algorithm(request):
         raise Exception('UNSUPPORTED HTTP METHOD')
     else:
         raise Exception('UNSUPPORTED HTTP METHOD')
-
-# @user_decorator.login
-# def order(request, index):
-#     user_id = request.session['user_id']
-#     orders_list = OrderInfo.objects.filter(user_id=int(user_id)).order_by(
-#         '-odate')
-#     paginator = Paginator(orders_list, 2)
-#     page = paginator.page(int(index))
-#     context = {
-#         'paginator': paginator,
-#         'page': page,
-#         # 'orders_list':orders_list,
-#         'title': "用户中心",
-#         'page_name': 1,
-#     }
-#     return render(request, 'df_user/user_center_order.html', context)
-
-
-# @user_decorator.login
-# def site(request):
-#     user = UserInfo.objects.get(id=request.session['user_id'])
-#     if request.method == "POST":
-#         # user.ushou = request.POST.get('ushou')
-#         # user.uaddress = request.POST.get('uaddress')
-#         # user.uyoubian = request.POST.get('uyoubian')
-#         # user.uphone = request.POST.get('uphone')
-#         user.save()
-#     context = {
-#         'page_name': 1,
-#         'title': '用户中心',
-#         'user': user,
-#     }
-#     return render(request, 'df_user/user_center_site.html', context)
-
-
-# @user_decorator.login
-# def publish(request):
-#     user_id = request.session['user_id']
-#     context = {
-#         'title': '用户中心',
-#         'uid': user_id,
-#     }
-#     return render(request, 'df_user/user_center_seller.html', context)
-
-
-# @user_decorator.login
-# def publish_handle(request):
-#     user = UserInfo.objects.get(id=request.session['user_id'])
-#     # 解析请求
-#     isDelete = request.POST.get('isDelete')
-#     if isDelete is None:
-#         isDelete = False
-#     gname = request.POST.get('gname')
-#     gpic = request.POST.get('gpic')
-#     gjianjie = request.POST.get('gjianjie')
-#     gcontent = request.POST.get('gcontent')
-#     gtype = request.POST.get('gtype')
-#     typeinfo = TypeInfo.objects.get(ttitle=gtype)
-#     gcode = request.POST.get('gcode')
-#     gdoc = request.POST.get('gdoc')
-#
-#     # 创建新商品并与当前卖家关联
-#     good = GoodsInfo.objects.create(isDelete=isDelete, gtitle=gname, gpic=gpic,
-#                                     gjianjie=gjianjie, gcontent=gcontent,
-#                                     gtype=typeinfo, gcode=gcode, gdoc=gdoc,
-#                                     guser=user)
-#
-#     print('user id =', user.id)
-#     print('good id =', good.id)
-#     # good = GoodsInfo.objects.get()
-#     return render(request, 'df_user/user_center_seller.html', None)
-#     # return render(request, 'df_user/user_center_seller.html', context)
-
-
-# @user_decorator.login
-# def published(request, index):
-#     user_id = request.session['user_id']
-#     print('user id =', user_id)
-#     goods_list = GoodsInfo.objects.filter(guser=int(user_id)).order_by(
-#         '-gmdf_time')
-#     print(goods_list)
-#     paginator = Paginator(goods_list, 2)
-#     page = paginator.page(int(index))
-#     context = {
-#         'paginator': paginator,
-#         'page': page,
-#         # 'orders_list':orders_list,
-#         'title': "用户中心",
-#         'page_name': 1,
-#     }
-#     print('page =', page)
-#     for goodinfo in page:
-#         print(goodinfo.id)
-#     return render(request, 'df_user/user_center_published.html', context)
