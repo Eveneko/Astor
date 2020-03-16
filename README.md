@@ -8,19 +8,19 @@
 
 ### 在线地址
 
-[http://astor.eveneko.com](http://astor.eveneko.com)
+[https://astor.eveneko.com](https://astor.eveneko.com)
 
-账号：eveneko
+账号：student
 
-密码：241106
+密码：student
 
 ### 管理人员入口
 
-[http://astor.eveneko.com/admin](http://astor.eveneko.com/admin)
+[https://astor.eveneko.com/admin](https://astor.eveneko.com/admin)
 
-账号：eveneko
+账号：student
 
-密码：rootroot
+密码：student
 
 
 ## 预览：
